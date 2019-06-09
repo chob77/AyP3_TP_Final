@@ -1,29 +1,16 @@
 /*
- * funciones_archivo.h
+ * MATERIA: ALGORITMOS Y PROGRAMACIÓN 3
+ * UNTREF 2019.
  *
- *  Created on: 27 abr. 2019
- *      Author: chob
+ * TRABAJO PRÁCTICO FINAL INTEGRADOR: SISTEMA DE CRÉDITOS.
+ * FILE: funciones_archivo.h
+ *
+ *  CREATED ON: 3 jun. 2019
+ *      AUTHOR: chob
  */
 
-#include <stdlib.h>
-#include <string.h>
 
-void clrscr()
-{
-    system("@cls||clear");
-}
-
-
-
-void pause()
-{
-    printf("\n\n");
-	system("@pause");
-}
-
-
-
-FILE *abrirArchivoLectura( const char *filename )
+ FILE *abrirArchivoLectura( const char *filename )
 {
 	FILE *file = fopen( filename, "r" );
 	return file;
@@ -53,7 +40,7 @@ int obtenerTotalLineasArchivo( FILE *file )
 {
 	char c;
 	int nl = 0;
-	
+
 	while( (c = fgetc( file )) != EOF )
 	{
 		if( c == '\n' ) nl++;
@@ -66,7 +53,8 @@ int obtenerTotalLineasArchivo( FILE *file )
 
 Lista *crearNodo()
 {
-	return ( Nodo *) malloc(sizeof( struct Nodo ));
+	//return ( Nodo *) malloc(sizeof( struct Nodo ));
+	return malloc(sizeof( struct Nodo ));
 }
 
 

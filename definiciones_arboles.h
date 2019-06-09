@@ -1,13 +1,14 @@
 /*
  * MATERIA: ALGORITMOS Y PROGRAMACIÓN 3
- * UNTREF 2019. 
+ * UNTREF 2019.
  *
- * TRABAJO PRÁCTICO: ÁRBOLES BINARIOS DE BÚSQUEDA.
+ * TRABAJO PRÁCTICO FINAL INTEGRADOR: SISTEMA DE CRÉDITOS.
  * FILE: definiciones_arboles.c
  *
- *  CREATED ON: 26 may. 2019
+ *  CREATED ON: 3 jun. 2019
  *      AUTHOR: chob
  */
+
 
 enum {IZQUIERDO, DERECHO};
 
@@ -22,16 +23,19 @@ typedef struct nodo_arbol
    struct nodo_arbol *derecho;
    struct nodo_arbol *izquierdo;
    struct nodo_arbol *padre;
-} tipoNodo;
+} nodoArbol;
 
-typedef tipoNodo *pNodo;
-typedef tipoNodo *Arbol;
+
+typedef nodoArbol *pNodo;
+typedef nodoArbol *Arbol;
 
 Arbol ArbolInt = NULL;
+
 
 // Funciones con árboles:
 // Insertar en árbol ordenado:
 void Insertar(Arbol *a, int dat);
+
 
 // Borrar un elemento:
 void Borrar(Arbol *a, int dat);
@@ -40,10 +44,11 @@ void Borrar(Arbol *a, int dat);
 int Buscar(Arbol a, int dat);
 
 // Comprobar si el árbol está vacío:
-int Vacio(Arbol r);
+int Vacio(Arbol nodo);
+
 
 // Comprobar si es un nodo hoja:
-int EsHoja(pNodo r);
+int EsHoja(pNodo nodo);
 
 // Contar número de nodos:
 int NumeroNodos(Arbol a, int* c);

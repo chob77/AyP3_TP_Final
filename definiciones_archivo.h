@@ -1,8 +1,12 @@
 /*
- * definiciones_Lista_doble.h
+ * MATERIA: ALGORITMOS Y PROGRAMACIÓN 3
+ * UNTREF 2019.
  *
- *  Created on: 27 abr. 2019
- *      Author: chob
+ * TRABAJO PRÁCTICO FINAL INTEGRADOR: SISTEMA DE CRÉDITOS.
+ * FILE: definiciones_archivo.h
+ *
+ *  CREATED ON: 3 jun. 2019
+ *      AUTHOR: chob
  */
 
 
@@ -18,11 +22,9 @@ typedef struct Nodo {
 	struct Nodo *siguiente;
 }Lista;
 
-Lista aux_temp;
-Lista *aux = &aux_temp;
-
-const char *archivoPersonas = "personas.csv";
-
+const char *archivoPersonas = "clientes.csv";
+const char *archivoCreditos = "creditos.csv";
+const char *archivoPagos = "pagos.csv";
 
 /*
 	PUNTEROS

@@ -1,20 +1,18 @@
 /*
- * funciones_personas.h
+ * MATERIA: ALGORITMOS Y PROGRAMACIÓN 3
+ * UNTREF 2019.
  *
- *  Created on: 27 abr. 2019
- *      Author: chob
+ * TRABAJO PRÁCTICO FINAL INTEGRADOR: SISTEMA DE CRÉDITOS.
+ * FILE: funciones_persona.h
+ *
+ *  CREATED ON: 3 jun. 2019
+ *      AUTHOR: chob
  */
-
-#include <stdlib.h>
-#include <string.h>
 
 
 Persona inicializarPersona();
-Persona ingresarDatosPersona( int indice );
-Persona cargarPersonaEnPosicion();
-
+Persona ingresarDatosPersona();
 int existenPersonasAlmacenadas();
-int obtenerTotalPersonas( Persona *plistaPersonas );
 void parcerarLineaArchivo( char *linea, Persona *listaPersonas, int pos_persona );
 void parcerarLineaArchivoPorAmigo( char *linea, Persona *listaPersonas, int pos_persona );
 
@@ -30,93 +28,152 @@ int existenPersonasAlmacenadas()
 
 
 
-int obtenerTotalPersonas( Persona *listaPersonas )
+int obtenerTotalPersonas( ArbolPersonas *arbol )
 {
 	int retorno = 0;
 	int i;
 	for ( i=0; i<=9; i++)
 	{
-		if ( (*listaPersonas).dni != NULL ) retorno++;
-		listaPersonas++;
+		//if ( (*listaPersonas).dni != NULL ) retorno++;
+		//listaPersonas++;
 	}
 
 	return retorno;
 }
 
 
-void mostrar_menu_ingresos()
-{
-    printf("\nELIJA UNA OPCION");
-    printf("\n\t1.INGRESAR LISTA PERSONAS CORRELATIVOS (10 en total)");
-    printf("\n\t2.INGRESAR PERSONA EN UNA UBICACION (sobre 10 posibles)");
 
-    if ( obtenerTotalPersonas( plistaPersonas ) > 0 )
+/**
+*	MUESTRA EL MANÚ PARA MANEJAR LAS UTILIDADES CON LAS PERSONAS
+*/
+void mostrar_menu_personas()
+{
+    clrscr();
+    SetColores( COLOR_PERSONAS );
+	printf( "\n\nSISTEMA DE GESTI%cN DE CR%cDITOS.",acento_O ,acento_E );
+    printf( "\n\nOPCIONES DISPONIBLES PARA EL LA GESTI%cN DE CLIENTES:", acento_O );
+
+    printf( "\n\n\t1.CARGAR NUEVO CLIENTE");
+
+    if ( existenPersonasAlmacenadas() == 1 )
+    {
+        printf( "\n\n\t2.CARGAR CLIENTES ALMACENADOS");
+        //gTotalClientes = obtenerTotalPersonas( &ArbolClientes );
+    }
+
+    if ( gTotalClientes > 0 )
 	{
-		printf("\n\t3.VER NOMINA DE PERSONAS");
-		printf("\n\t4.BUSCAR PERSONA POR DNI");
-		printf("\n\t5.BUSCAR PERSONA POR NOMBRE");
-		printf("\n\t6.ASIGNAR AMIGO");
-		printf("\n\t7.ALMACENAR INFORMACI%cN INGRESADA", acento_O );
+		printf( "\n\n\t2.LISTAR CLIENTES EXISTENTES" );
+		printf( "\n\n\t3.BUSCAR PERSONA POR DNI");
+		printf( "\n\n\t4.BUSCAR PERSONA POR NOMBRE");
+		printf( "\n\n\t5.LISTAR CLIENTES POR RANGO DE EDAD" );
+		printf( "\n\n\t6.ASIGNAR AMIGO REFERIDO");
 	}
 
-    if ( existenPersonasAlmacenadas() == 1 ) printf("\n\t8.CARGAR PERSONAS ALMACENADAS");
-    printf("\n\t0.SALIR");
+    printf( "\n\n\t0.VOLVER\n" );
 }
 
+
+/** ADMINISTRA LA GESTIÓN DE CLIENTES */
+void opcionesMenuPersonas()
+{
+    int opcion;
+
+    do
+    {
+        mostrar_menu_personas();
+        opcion = OpcionElegida();
+
+        switch ( opcion )
+        {
+            case 1: //OPCION 1 INGRESAR CLIENTE
+                cargarNuevoCliente( &ArbolClientes );
+                break;
+
+            case 2: //OPCION 2 CARGAR CLIENTES ALMACENADOS
+                mostrar_menu_personas( );
+                break;
+
+            case 3: //OPCION 3 BUSCAR CLIENTE POR NOMBRE
+                mostrar_menu_personas( );
+                break;
+
+            case 4: //OPCION 4 BUSCAR CLIENTE POR RANGO DE EDAD
+                mostrar_menu_personas( );
+                break;
+
+            default:
+                clrscr();
+                break;
+        }
+    }while( opcion !=0 );
+}
 
 
 void menuElegido( int valor )
 {
-    printf("\nSe escogio la opcion: %d\n", valor);
+    printf( "\nSe escogio la opcion: %d\n", valor);
 }
 
 
 
-
-void cargarDiezPersonas( Persona *listaPersonas )
+/** CARGA UN NUEVO CLIENTE EN EL ÁRBOL DE CLIENTES*/
+void cargarNuevoCliente( ArbolPersonas *arbol )
 {
-	int opcion=1;
-	int i=0;
+	int i = 1, opcion=1;
 	Persona persona_temp;
 
 	do {
-        persona_temp = ingresarDatosPersona( i+1 );
+        persona_temp = ingresarDatosPersona( );
 	    if( persona_temp.dni == 0 )
         {
             opcion = 0; //SI EL DNI ES CERO SALE
-			i++;
         }
-	    else
+	    else    //CARGA EL NUEVO CLIENTE EN EL ÁRBOL DE CLIENTES
         {
-            (*listaPersonas) = persona_temp;
-            listaPersonas++;
-			i++;
+            int res = InsertarPersonaArbol( arbol, &persona_temp.dni, persona_temp );
+            if ( res == 0 )
+            {
+                printf( "\nEL NUEVO CLIENTE SE CARG%c CON %cXITO!\n", acento_O, acento_E );
+                i++;
+            }
+            else
+            {
+                printf( "\nHUBO UN ERROR AL CARGAR EL NUEVO CLIENTE!\n", acento_O, acento_E );
+                opcion = 0; //SI EL DNI ES CERO SALE
+            }
         }
-    } while( opcion !=0 && i < 10 );
+    } while( opcion !=0 );
 
-	if ( i == 10 ) i++;
-	clrscr();
-	printf("\nFINALIZO LA CARGA DE PERSONAS. SE CARGARON %d PERSONA/S\n", --i);
+	//clrscr();
+	InOrdenPersona( arbol, Mostrar );
+	printf( "\nSE CARG%c la PERSONA: %d\n", &persona_temp.dni);
+	printf( "\nFINALIZO LA CARGA DE PERSONAS. SE CARGARON %d PERSONA/S\n", --i);
+	pause();
 }
 
 
 
 
-Persona ingresarDatosPersona( int indice )
+Persona ingresarDatosPersona( )
 {
 	clrscr();
 	Persona persona = inicializarPersona();
 
-	printf("\nINGRESO DE PERSONAS (%02d de 10)", indice);
-	printf("\n---------------------------------");
-	printf("\nIngrese el dni (cero para finalizar): ");
-    scanf("%d", &persona.dni );
+	printf( "\nINGRESO DE NUEVOS CLIENTES" );
+	printf( "\n---------------------------------");
+	printf( "\nIngrese el dni (cero para finalizar): ");
+    scanf( "%d", &persona.dni );
 
     if( persona.dni == 0 ){//SI EL DNI ES CERO SALE
 		return persona;
     }else{
-		printf("Ingrese nombre y apellido: " );
-		scanf("%s %s", persona.nombre, persona.apellido );
+		printf( "Ingrese NOMBRE y APELLIDO: " );
+		scanf( "%s %s", persona.nombre, persona.apellido );
+		printf( "Ingrese la EDAD: " );
+		scanf( "%d", &persona.edad );
+		printf( "Ingrese el monto de INGRESOS: " );
+		scanf( "%d", &persona.ingresos );
     }
     return persona;
 }
@@ -128,10 +185,10 @@ Persona cargarPersonaEnPosicion()
 {
 	Persona persona = inicializarPersona();
 
-	printf("\nIngrese el dni: ");
-    scanf("%d", &persona.dni );
-	printf("Ingrese nombre y apellido: " );
-	scanf("%s %s", persona.nombre, persona.apellido );
+	printf( "\nIngrese el dni: ");
+    scanf( "%d", &persona.dni );
+	printf( "Ingrese nombre y apellido: " );
+	scanf( "%s %s", persona.nombre, persona.apellido );
 
 	return persona;
 }
@@ -143,32 +200,32 @@ void mostrarListaPersonas( Persona *listaPersonas )
 {
 	int i = 0;
 	clrscr();
-	printf("\nNOMINA DE PERSONAS");
-	printf("\n-------------------------");
-	printf("\n##\tDNI   \tNombre\tApellido\tAmigo" );
+	printf( "\nNOMINA DE PERSONAS");
+	printf( "\n-------------------------");
+	printf( "\n##\tDNI   \tNombre\tApellido\tAmigo" );
 	for ( i=0; i<=9; i++)
 	{
-		printf("\n%02d\t%d\t%s\t%s", i+1, (*listaPersonas).dni, (*listaPersonas).nombre, (*listaPersonas).apellido );
+		printf( "\n%02d\t%d\t%s\t%s", i+1, (*listaPersonas).dni, (*listaPersonas).nombre, (*listaPersonas).apellido );
 
 		if ( (*listaPersonas).amigo != NULL )
         {
-            printf("\t\t%s", (*listaPersonas).amigo->nombre );
+            printf( "\t\t%s", (*listaPersonas).amigo->nombre );
         }
 		else
         {
-            printf("\t\t----" );
+            printf( "\t\t----" );
         }
 
 		listaPersonas++;
 	}
 
-	printf("\nLista Completa\n");
+	printf( "\nLista Completa\n");
 }
 
 
 
 /**
-	DEVUELVE UN STRUCT VACÍO
+	DEVUELVE UN STRUCT DE PERSONA VACÍO
 */
 Persona inicializarPersona()
 {
@@ -176,23 +233,12 @@ Persona inicializarPersona()
 	persona.dni = 0;
 	strcpy( persona.nombre, "-----" );
     strcpy( persona.apellido, "-----" );
+	persona.edad = 0;
+	persona.ingresos = 0;
+	persona.creditosActivos[0] = 0;
+	persona.creditosActivos[1] = 0;
     persona.amigo = NULL;
     return persona;
-}
-
-
-
-int seleccionarUbicacion(){
-
-	int ubicacion;
-	do{
-		printf("\nElija la ubicacion a ingresar entre 1 y 10");
-		printf("\nIngrese un numero entre 1 y 10: ");
-		scanf("%d", &ubicacion );
-	} while ( ubicacion <=1 && ubicacion >= 10);
-
-    return --ubicacion;
-
 }
 
 
@@ -201,19 +247,19 @@ void buscarPersonaDNI( Persona *listaPersonas )
 {
 	int dni=0;
 	clrscr();
-	printf("BUSCAR PERSONA POR DNI ");
-	printf("\nIngrese el dni a buscar: ");
-    scanf("%d", &dni );
+	printf( "BUSCAR PERSONA POR DNI ");
+	printf( "\nIngrese el dni a buscar: ");
+    scanf( "%d", &dni );
     int i=0;
 
     do
     {
         if( (*listaPersonas).dni == dni )
     	{
-    		printf("\nDNI HALLADO:");
-    		printf("\n-------------------------");
-    		printf("\nLegajo\tNombre\tapellido" );
-    		printf("\n%d\t%s\t%s\n", (*listaPersonas).dni, (*listaPersonas).nombre, (*listaPersonas).apellido );
+    		printf( "\nDNI HALLADO:");
+    		printf( "\n-------------------------");
+    		printf( "\nLegajo\tNombre\tapellido" );
+    		printf( "\n%d\t%s\t%s\n", (*listaPersonas).dni, (*listaPersonas).nombre, (*listaPersonas).apellido );
 
     		i=10;
     	}
@@ -221,7 +267,7 @@ void buscarPersonaDNI( Persona *listaPersonas )
         listaPersonas++;
     } while( i < 10 );
 
-    if ( i == 10) printf("\nDNI NO HALLADO.\n");
+    if ( i == 10) printf( "\nDNI NO HALLADO.\n");
 }
 
 
@@ -231,19 +277,19 @@ void buscarPersonaNombre( Persona *listaPersonas )
 {
 	char nombre[20];
 	clrscr();
-	printf("BUSCAR PERSONA POR NOMBRE");
-	printf("\nIngrese el nombre a buscar: ");
-    scanf("%s", nombre );
+	printf( "BUSCAR PERSONA POR NOMBRE");
+	printf( "\nIngrese el nombre a buscar: ");
+    scanf( "%s", nombre );
     int i=0;
 
     do
     {
     	if( strncmp( (*listaPersonas).nombre, nombre, 20 ) == 0 )
     	{
-    		printf("\nNOMBRE HALLADO:");
-    		printf("\n-------------------------");
-    		printf("\nLegajo\tNombre\tapellido" );
-    		printf("\n%d\t%s\t%s\n", (*listaPersonas).dni, (*listaPersonas).nombre, (*listaPersonas).apellido );
+    		printf( "\nNOMBRE HALLADO:");
+    		printf( "\n-------------------------");
+    		printf( "\nLegajo\tNombre\tapellido" );
+    		printf( "\n%d\t%s\t%s\n", (*listaPersonas).dni, (*listaPersonas).nombre, (*listaPersonas).apellido );
 
     		i=10;
     	}
@@ -251,7 +297,7 @@ void buscarPersonaNombre( Persona *listaPersonas )
         listaPersonas++;
     } while( i < 10 );
 
-    if ( i == 10) printf("\nNOMBRE NO HALLADO.\n");
+    if ( i == 10) printf( "\nNOMBRE NO HALLADO.\n");
 }
 
 
@@ -260,8 +306,8 @@ void buscarPersonaNombre( Persona *listaPersonas )
 int seleccionarPersona()
 {
     int nroPersona=0;
-    printf("\nIngrese el numero de la persona (1-10): ");
-    scanf("%d", &nroPersona );
+    printf( "\nIngrese el numero de la persona (1-10): ");
+    scanf( "%d", &nroPersona );
     return --nroPersona;
 }
 
@@ -270,17 +316,17 @@ int seleccionarPersona()
 void asignarAmigoPersona( Persona *listaPersonas  )
 {
     clrscr();
-    printf("ASIGNAR AMIGO A PERSONA");
-    printf("\n-------------------------");
+    printf( "ASIGNAR AMIGO A PERSONA");
+    printf( "\n-------------------------");
     mostrarListaPersonas( listaPersonas );
 
-    printf("\nSELECCIONE LA PERSONA A ASIGNARLE UN AMIGO");
+    printf( "\nSELECCIONE LA PERSONA A ASIGNARLE UN AMIGO");
     int nroPersonaAAsignarleAmigo;
     nroPersonaAAsignarleAmigo = seleccionarPersona();
 
     mostrarListaPersonas( listaPersonas );
 
-    printf("\nSELECCIONE UN AMIGO PARA LA PERSONA: %d", (nroPersonaAAsignarleAmigo+1) );
+    printf( "\nSELECCIONE UN AMIGO PARA LA PERSONA: %d", (nroPersonaAAsignarleAmigo+1) );
     int nroPersonaAmigo;
     nroPersonaAmigo = seleccionarPersona();
 
@@ -291,7 +337,7 @@ void asignarAmigoPersona( Persona *listaPersonas  )
 
     persona->amigo = amigo;
 
-    printf("\nLa persona es: %s --> su amigo es: %s\n", (*persona).nombre, (*amigo).nombre );
+    printf( "\nLa persona es: %s --> su amigo es: %s\n", (*persona).nombre, (*amigo).nombre );
 }
 
 
@@ -327,11 +373,11 @@ void almacenarPersonas( Persona *listaPersonas )
 		}
 
 		clrscr();
-		printf("\n\tLA INFORMACI%cN SE ALMACEN%c CORRECTAMENTE.\n", acento_O, acento_O );
+		printf( "\n\tLA INFORMACI%cN SE ALMACEN%c CORRECTAMENTE.\n", acento_O, acento_O );
 	}
 	else
 	{
-		printf("\nERROR AL ABRBIR EL ARCHIVO!!\n");
+		printf( "\nERROR AL ABRBIR EL ARCHIVO!!\n");
 	}
 	fclose( file );
 }
@@ -343,7 +389,7 @@ void verificarAmigos( Persona *listaPersonas )
 {
 	FILE *file = abrirArchivoLectura( archivoPersonas );
 
-	// printf("\nVERIFICACI%cN DE AMIGOS\n", acento_O );
+	// printf( "\nVERIFICACI%cN DE AMIGOS\n", acento_O );
 
 	if ( file != NULL )
 	{
@@ -367,7 +413,7 @@ void verificarAmigos( Persona *listaPersonas )
 		}
 		else
 		{
-			printf("\nEL ARCHIVO DE PERSONAS EST%c VAC%cO.\n", acento_A, acento_I );
+			printf( "\nEL ARCHIVO DE PERSONAS EST%c VAC%cO.\n", acento_A, acento_I );
 		}
 
 	}
@@ -379,8 +425,8 @@ void verificarAmigos( Persona *listaPersonas )
 void recuperarPersonas( Persona *listaPersonas )
 {
 	clrscr();
-    printf("LEER ALMACEN DE PERSONAS\n");
-    printf("-------------------------\n");
+    printf( "LEER ALMACEN DE PERSONAS\n");
+    printf( "-------------------------\n");
 
 	FILE *file = abrirArchivoLectura( archivoPersonas );
 
@@ -406,13 +452,13 @@ void recuperarPersonas( Persona *listaPersonas )
 		}
 		else
 		{
-			printf("\nEL ARCHIVO DE PERSONAS EST%c VAC%cO.\n", acento_A, acento_I );
+			printf( "\nEL ARCHIVO DE PERSONAS EST%c VAC%cO.\n", acento_A, acento_I );
 		}
 
 	}
 	else
 	{
-		printf("\nEL ARCHIVO NO SE PUDO ABRIR.\n");
+		printf( "\nEL ARCHIVO NO SE PUDO ABRIR.\n");
 	}
 
 	verificarAmigos( listaPersonas );
@@ -423,7 +469,7 @@ void recuperarPersonas( Persona *listaPersonas )
 
 void parcerarLineaArchivo( char linea[1024], Persona *listaPersonas, int pos_persona )
 {
-	//printf("\nL%cnea obtenida: %s\n", acento_i, linea );
+	//printf( "\nL%cnea obtenida: %s\n", acento_i, linea );
 	int ln = strlen( linea );
 	int cuentaDato = 0;
 	char dato[ 100 ];
@@ -450,24 +496,24 @@ void parcerarLineaArchivo( char linea[1024], Persona *listaPersonas, int pos_per
 		{
 			j = 0;
 			cuentaDato++;
-			//printf ("CUENTADATO:%d. ", cuentaDato );
+			//printf ( "CUENTADATO:%d. ", cuentaDato );
 
 			switch ( cuentaDato )
 			{
-				// case 1: printf("EL DNI es: %s\n", dato); persona.dni = atoi( dato );  break;
+				// case 1: printf( "EL DNI es: %s\n", dato); persona.dni = atoi( dato );  break;
 				case 1: persona.dni = atoi( dato );  break;
-				// case 2: printf("EL NOMBRE es: %s\n", dato); strcpy( persona.nombre, dato ); break;
+				// case 2: printf( "EL NOMBRE es: %s\n", dato); strcpy( persona.nombre, dato ); break;
 				case 2: strcpy( persona.nombre, dato ); break;
-				// case 3: printf("EL APELLIDO es: %s\n", dato); strcpy( persona.apellido, dato ); break;
+				// case 3: printf( "EL APELLIDO es: %s\n", dato); strcpy( persona.apellido, dato ); break;
 				case 3: strcpy( persona.apellido, dato ); break;
-				// case 4: printf("EL AMIGO es: %s\n", dato ); break;
+				// case 4: printf( "EL AMIGO es: %s\n", dato ); break;
 				case 4: listaPersonas[ pos_persona ] = persona; cuentaDato = 0; break;
 			}
 			strcpy( dato, "" );
 		}
 
 		/*if ( cuentaDato == 4 ) {
-			// printf("%02d, %d\t%s\t%s\t%s\n", pos_persona, persona.dni, persona.nombre, persona.apellido, persona.amigo );
+			// printf( "%02d, %d\t%s\t%s\t%s\n", pos_persona, persona.dni, persona.nombre, persona.apellido, persona.amigo );
 			listaPersonas[ pos_persona ] = persona;
 			cuentaDato = 0;
 		}*/
@@ -488,10 +534,10 @@ int buscarAmigoNombre( Persona *listaPersonas, char nombre[20] )
     {
     	if( strncmp( (*listaPersonas).nombre, nombre, 20 ) == 0 )
     	{
-    		// printf("\nAMIGO HALLADO:");
-    		// printf("-------------------------\n");
-    		// printf("\nLegajo\tNombre\tapellido" );
-    		// printf("\n%d\t%s\t%s\n", (*listaPersonas).dni, (*listaPersonas).nombre, (*listaPersonas).apellido );
+    		// printf( "\nAMIGO HALLADO:");
+    		// printf( "-------------------------\n");
+    		// printf( "\nLegajo\tNombre\tapellido" );
+    		// printf( "\n%d\t%s\t%s\n", (*listaPersonas).dni, (*listaPersonas).nombre, (*listaPersonas).apellido );
 			// retorno = listaPersonas;
 			retorno++;
 
@@ -501,8 +547,8 @@ int buscarAmigoNombre( Persona *listaPersonas, char nombre[20] )
         listaPersonas++;
     } while( i < 10 );
 
-    if ( i == 10) printf("\nNOMBRE NO HALLADO.\n");
-	
+    if ( i == 10) printf( "\nNOMBRE NO HALLADO.\n");
+
 	return retorno;
 }
 
@@ -510,7 +556,7 @@ int buscarAmigoNombre( Persona *listaPersonas, char nombre[20] )
 
 void parcerarLineaArchivoPorAmigo( char linea[1024], Persona *listaPersonas, int pos_persona )
 {
-	//printf("\nL%cnea obtenida: %s\n", acento_i, linea );
+	//printf( "\nL%cnea obtenida: %s\n", acento_i, linea );
 	int ln = strlen( linea );
 	int cuentaDato = 0;
 	char dato[ 100 ];
@@ -538,7 +584,7 @@ void parcerarLineaArchivoPorAmigo( char linea[1024], Persona *listaPersonas, int
 		{
 			j = 0;
 			cuentaDato++;
-			//printf ("CUENTADATO:%d. ", cuentaDato );
+			//printf ( "CUENTADATO:%d. ", cuentaDato );
 
 			switch ( cuentaDato )
 			{
@@ -548,11 +594,11 @@ void parcerarLineaArchivoPorAmigo( char linea[1024], Persona *listaPersonas, int
 				case 4:
 					a = strcmp( "----", dato );
 					persona = listaPersonas + pos_persona;
-					// printf("EL AMIGO de %s es: %s (%d) \n", persona->nombre, dato, a );
+					// printf( "EL AMIGO de %s es: %s (%d) \n", persona->nombre, dato, a );
 					if ( a != 0 )
 					{
 						amigo = listaPersonas + buscarAmigoNombre( listaPersonas, dato );
-						// printf("%02d, %d\t%s\t%s\t%s\n", pos_persona, amigo->dni, amigo->nombre, amigo->apellido, amigo->amigo );
+						// printf( "%02d, %d\t%s\t%s\t%s\n", pos_persona, amigo->dni, amigo->nombre, amigo->apellido, amigo->amigo );
 						persona->amigo = amigo;
 						cuentaDato = 0;
 					}

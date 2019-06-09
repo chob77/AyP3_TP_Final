@@ -2,28 +2,31 @@
  * MATERIA: ALGORITMOS Y PROGRAMACIÓN 3
  * UNTREF 2019.
  *
- * TRABAJO PRÁCTICO: ÁRBOLES BINARIOS DE BÚSQUEDA.
- * FILE: TP_arboles.c
+ * TRABAJO PRÁCTICO FINAL INTEGRADOR: SISTEMA DE CRÉDITOS.
+ * FILE: main.c
  *
- *  CREATED ON: 26 may. 2019
+ *  CREATED ON: 3 jun. 2019
  *      AUTHOR: chob
  */
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 #include "definiciones_empresa.h"
-#include "definiciones_creditos.h"
-#include "definiciones_personas.h"
 #include "definiciones_arboles.h"
-#include "definiciones_lista_doble.h"
-#include "definiciones_tp_final.h"
+#include "definiciones_personas.h"
+#include "definiciones_archivo.h"
+#include "definiciones_creditos.h"
+#include "definiciones_main.h"
+//#include "definiciones_lista_doble.h"
 
-#include "funciones_arboles.h"
 #include "funciones_archivo.h"
+#include "funciones_arboles.h"
 #include "funciones_persona.h"
-#include "funciones_tp_final.h"
+#include "funciones_main.h"
 
 
 /**
@@ -33,7 +36,8 @@
 
  * Desarrollar un sistema de créditos.
  * Debe permitir:
- * 	-Dar de alta y listar clientes
+ * 	-Dar de alta
+ * 	-Listar clientes
  * 	-Buscar clientes por nombre
  * 	-Buscar clientes por rango de edad
  * 	-Cada cliente tiene una referencia que puede ser otro cliente
@@ -56,6 +60,7 @@
 	Si los requerimientos planteados son cumplidos, el ejercicio está aprobado.
 	Puede pasar que en situaciones en la que la cantidad de datos sea muy grande, el sistema sea inmanejable.
 	En ese caso, detallar las limitaciones de la solución propuesta (si las limitaciones son reconocidas no se considera desaprobado el punto).
+
 	Ideas no-obligatorias de implentar pero que podrían mejorar el sistema:
 		calculadora de préstamos,
 		generar clientes de prueba y créditos aleatorios de forma masiva,
@@ -67,31 +72,36 @@
 
 
 int main(){
+    SetColores( COLOR_PRINCIPAL );
 	clrscr();
-
     int opcion;
-	int dato=0;
 
 	do
 	{
-    	mostrar_menu_principal();
-
-    	printf("\nElija una Opcion: ");
-        scanf("%d", &opcion);
+		mostrar_menu_principal();
+        opcion = OpcionElegida();
 
         switch ( opcion )
         {
             case 1: //OPCION 1 GESTIÓN DE CLIENTES
-				mostrar_menu_personas( );
+				opcionesMenuPersonas( );
             	break;
 
             case 2: //OPCION 2 GESTIÓN DE CRÉDITOS
-            	mostrar_menu_creditos( );
+            	opcionesMenuCreditos( );
+            	break;
+
+            case 3: //OPCION 3 GENERAR 1000 CLIENTES AL AZAR
+            	generar_clientes_al_azar( );
+            	break;
+
+            case 4: //OPCION 4 GENERAR 100 CRÉDITOS AL AZAR
+            	generar_creditos_al_azar( );
             	break;
 
             default:
                 clrscr();
-                printf("\n\nFIN DEL PROGRAMA\n");
+                printf( "\n\nFIN DEL PROGRAMA\n");
                 break;
         }
     }while( opcion !=0 );
