@@ -3,74 +3,28 @@
  * UNTREF 2019.
  *
  * TRABAJO PRÁCTICO FINAL INTEGRADOR: SISTEMA DE CRÉDITOS.
- * FILE: funcioines_arboles.c
+ * FILE: funciones_arbol_persona.c
  *
  *  CREATED ON: 3 jun. 2019
  *      AUTHOR: chob
  */
 
 
-/** DETERMINA SI UN STRING ES NUMÉRICO */
-int isNumero( char * st )
-{
-	int len = strlen( st );//obtiene el largo del string
-    int i;
-    for ( i = 0; i < len; i++ ) {
-        if ( (( int ) st[i])< 48 || (( int ) st[i]) > 57 ) {//verifica si alguno de los caracteres del string no es un número de la tabla ASCII
-            return FALSE;
-        }
-    }
-    return TRUE;
-}
-
-
-/** CARGA REPETITIVAMENTE UN VALOR NUMÉRICO EN EL ÁRBOL. */
-void cargarArbol( Arbol *arbol )
-{
-	char nro_entero[ 10 ];
-	int i=0;
-	int opcion=0;
-
-	clrscr( );
-
-	printf( "\nINGRESAR ELEMENTOS AL %cRBOL", acento_A );
-	printf( "\n---------------------------------------" );
-
-	do {
-		printf( "\nIngrese un n%cmero entero ( %02d ingresados ): ", acento_u, i );
-		scanf( "%s", nro_entero );
-
-	    if ( isNumero( nro_entero ) )
-		{
-			opcion = 1;
-			Insertar( arbol, atoi( nro_entero ) );
-			i++;
-		}
-		else opcion = 0;
-
-    } while( opcion == 1 );
-
-	clrscr( );
-	printf( "\nFINALIZO LA CARGA DEL %cRBOL. SE CARGARON %d ELEMENTO/S\n", acento_A, i );
-}
-
-
-
 
 /** ELIMINA UN ELEMENTO DEL ÁRBOL */
-void eliminarElemento( Arbol *arbol )
+void eliminarElementoPersona( ArbolPersonas *arbol )
 {
-	int dato;
+	int dni;
 	clrscr();
 	printf("\nELIMINAR UN ELEMENTO DEL %cRBOL: ", acento_A );
 	printf( "\n---------------------------------------" );
 	printf("\nELEMENTOS DEL %cRBOL: ", acento_A );
 	InOrden( *arbol, Mostrar );
 	printf("\n\nINGRESA EL ELEMENTO A ELIMINAR DEL %cRBOL: ", acento_A );
-	scanf( "%d", &dato );
+	scanf( "%d", &dni );
 
-	printf("\nSE VA A ELIMINAR EL ELEMENTO %d: \n", dato );
-	Borrar( arbol, dato );
+	printf("\nSE VA A ELIMINAR EL ELEMENTO %d: \n", dni );
+	Borrar( arbol, dni );
 
 	printf("\n%cRBOL RESULTANTE: ", acento_A );
 	InOrden( *arbol, Mostrar );
@@ -80,57 +34,61 @@ void eliminarElemento( Arbol *arbol )
 
 
 /** INSERTAR UN DATO EN EL ÁRBOL ABB */
-void Insertar( Arbol *arbol, int dato )
+int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona )
 {
-   pNodo padre = NULL;
-   pNodo actual = *arbol;
+   pNodoPersonas padre = NULL;
+   pNodoPersonas actual = *arbol;
 
-   // Buscar el dato en el árbol, manteniendo un puntero al nodo padre
-   while( !Vacio( actual ) && dato != actual->dato ) {
+   // Buscar el dni en el árbol, manteniendo un puntero al nodo padre
+   while( !VacioPersonas( actual ) && dni != actual->dni ) {
       padre = actual;
-      if( dato < actual->dato ) actual = actual->izquierdo;
-      else if( dato > actual->dato ) actual = actual->derecho;
+      if( dni < actual->dni ) actual = actual->izquierdo;
+      else if( dni > actual->dni ) actual = actual->derecho;
    }
 
    // Si se ha encontrado el elemento, regresar sin insertar
-   if( !Vacio( actual ) ) return;
+   if( !VacioPersonas( actual ) ) return 1;
 
    // Si padre es NULL, entonces el árbol estaba vacío, el nuevo nodo será el nodo raiz
-   if( Vacio( padre ) ) {
-      *arbol = ( Arbol )malloc( sizeof( nodoArbol ) );
-      ( *arbol )->dato = dato;
+   if( VacioPersonas( padre ) ) {
+      *arbol = malloc( sizeof( nodoArbolPersona ) );
+      ( *arbol )->dni = dni;
       ( *arbol )->izquierdo = ( *arbol )->derecho = NULL;
       ( *arbol )->padre = NULL;
       ( *arbol )->Fac_equ = 0;
+      ( *arbol )->persona = persona;
    }
 
-   // Si el dato es menor que el que contiene el nodo padre, lo insertamos en la rama izquierda
-   else if( dato < padre->dato ) {
-      actual = ( Arbol )malloc( sizeof( nodoArbol ) );
+   // Si el dni es menor que el que contiene el nodo padre, lo insertamos en la rama izquierda
+   else if( dni < padre->dni ) {
+      actual = ( ArbolPersonas )malloc( sizeof( nodoArbolPersona ) );
       padre->izquierdo = actual;
-      actual->dato = dato;
+      actual->dni = dni;
       actual->izquierdo = actual->derecho = NULL;
       actual->padre = padre;
       actual->Fac_equ = 0;
-      Equilibrar( arbol, padre, IZQUIERDO, TRUE );
+      actual->persona = persona;
+      EquilibrarArbolPersona( arbol, padre, IZQUIERDO, TRUE );
    }
 
-   // Si el dato es mayor que el que contiene el nodo padre, lo insertamos en la rama derecha
-   else if( dato > padre->dato ) {
-      actual = ( Arbol )malloc( sizeof( nodoArbol ) );
+   // Si el dni es mayor que el que contiene el nodo padre, lo insertamos en la rama derecha
+   else if( dni > padre->dni ) {
+      actual = ( ArbolPersonas )malloc( sizeof( nodoArbolPersona ) );
       padre->derecho = actual;
-      actual->dato = dato;
+      actual->dni = dni;
       actual->izquierdo = actual->derecho = NULL;
       actual->padre = padre;
       actual->Fac_equ = 0;
-      Equilibrar( arbol, padre, DERECHO, TRUE );
+      actual->persona = persona;
+      EquilibrarArbolPersona( arbol, padre, DERECHO, TRUE );
   }
+  return 0;
 }
 
 
 
 /** EQUILIBRAR ÁRBOL AVL PARTIENDO DEL NODO NUEVO */
-void Equilibrar( Arbol *arbol, pNodo nodo, int rama, int nuevo )
+void EquilibrarArbolPersona( ArbolPersonas *arbol, pNodoPersonas nodo, int rama, int nuevo )
 {
    int salir = FALSE;
 
@@ -148,14 +106,14 @@ void Equilibrar( Arbol *arbol, pNodo nodo, int rama, int nuevo )
 	  if( nodo->Fac_equ == 0 ) salir = TRUE; // La altura de las rama que empieza en nodo no ha variado, salir de Equilibrar
 
       else if( nodo->Fac_equ == -2 ) { // Rotar a derecha y salir:
-		 if( nodo->izquierdo->Fac_equ == 1 ) RDD( arbol, nodo ); // Rotación doble
-         else RSD( arbol, nodo );                         // Rotación simple
+		 if( nodo->izquierdo->Fac_equ == 1 ) RDD_persona( arbol, nodo ); // Rotación doble
+         else RSD_persona( arbol, nodo );                         // Rotación simple
          salir = TRUE;
       }
 
       else if( nodo->Fac_equ == 2 ) {  // Rotar a izquierda y salir:
-         if( nodo->derecho->Fac_equ == -1 ) RDI( arbol, nodo ); // Rotación doble
-         else RSI( arbol, nodo );                        // Rotación simple
+         if( nodo->derecho->Fac_equ == -1 ) RDI_persona( arbol, nodo ); // Rotación doble
+         else RSI_persona( arbol, nodo );                        // Rotación simple
          salir = TRUE;
       }
 
@@ -169,14 +127,14 @@ void Equilibrar( Arbol *arbol, pNodo nodo, int rama, int nuevo )
 
 
 /** ROTACIÓN DOBLE A LA DERECHA */
-void RDD( Arbol *raiz, Arbol nodo )
+void RDD_persona( ArbolPersonas *raiz, ArbolPersonas nodo )
 {
-   pNodo Padre = nodo->padre;
-   pNodo P = nodo;
-   pNodo Q = P->izquierdo;
-   pNodo R = Q->derecho;
-   pNodo B = R->izquierdo;
-   pNodo C = R->derecho;
+   pNodoPersonas Padre = nodo->padre;
+   pNodoPersonas P = nodo;
+   pNodoPersonas Q = P->izquierdo;
+   pNodoPersonas R = Q->derecho;
+   pNodoPersonas B = R->izquierdo;
+   pNodoPersonas C = R->derecho;
 
    if( Padre )
      if( Padre->derecho == nodo ) Padre->derecho = R;
@@ -207,14 +165,14 @@ void RDD( Arbol *raiz, Arbol nodo )
 
 
 /** ROTACIÓN DOBLE A LA IZQUIERDA */
-void RDI( Arbol *arbol, pNodo nodo )
+void RDI_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 {
-   pNodo Padre = nodo->padre;
-   pNodo P = nodo;
-   pNodo Q = P->derecho;
-   pNodo R = Q->izquierdo;
-   pNodo B = R->izquierdo;
-   pNodo C = R->derecho;
+   pNodoPersonas Padre = nodo->padre;
+   pNodoPersonas P = nodo;
+   pNodoPersonas Q = P->derecho;
+   pNodoPersonas R = Q->izquierdo;
+   pNodoPersonas B = R->izquierdo;
+   pNodoPersonas C = R->derecho;
 
    if( Padre )
      if( Padre->derecho == nodo ) Padre->derecho = R;
@@ -245,12 +203,12 @@ void RDI( Arbol *arbol, pNodo nodo )
 
 
 /** ROTACIÓN SIMPLE A LA DERECHA */
-void RSD( Arbol *arbol, pNodo nodo )
+void RSD_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 {
-   pNodo Padre = nodo->padre;
-   pNodo P = nodo;
-   pNodo Q = P->izquierdo;
-   pNodo B = Q->derecho;
+   pNodoPersonas Padre = nodo->padre;
+   pNodoPersonas P = nodo;
+   pNodoPersonas Q = P->izquierdo;
+   pNodoPersonas B = Q->derecho;
 
    if( Padre )
      if( Padre->derecho == P ) Padre->derecho = Q;
@@ -274,12 +232,12 @@ void RSD( Arbol *arbol, pNodo nodo )
 
 
 /** ROTACIÓN SIMPLE A LA IZQUIERDA */
-void RSI( Arbol *arbol, pNodo nodo )
+void RSI_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 {
-   pNodo Padre = nodo->padre;
-   pNodo P = nodo;
-   pNodo Q = P->derecho;
-   pNodo B = Q->izquierdo;
+   pNodoPersonas Padre = nodo->padre;
+   pNodoPersonas P = nodo;
+   pNodoPersonas Q = P->derecho;
+   pNodoPersonas B = Q->izquierdo;
 
    if( Padre )
      if( Padre->derecho == P ) Padre->derecho = Q;
@@ -303,18 +261,18 @@ void RSI( Arbol *arbol, pNodo nodo )
 
 
 /** ELIMINAR UN ELEMENTO DE UN ÁRBOL ABB */
-void Borrar( Arbol *arbol, int dato )
+void BorrarPersona( ArbolPersonas *arbol, int dni )
 {
-   pNodo padre = NULL;
-   pNodo actual;
-   pNodo nodo;
+   pNodoPersonas padre = NULL;
+   pNodoPersonas actual;
+   pNodoPersonas nodo;
    int aux;
 
    actual = *arbol;
    // Mientras sea posible que el valor esté en el árbol
    while( !Vacio( actual ) ) {
-      if( dato == actual->dato ) { // Si el valor está en el nodo actual
-         if( EsHoja( actual ) ) { // Y si además es un nodo hoja: lo borramos
+      if( dni == actual->dni ) { // Si el valor está en el nodo actual
+         if( EsHojaPersona( actual ) ) { // Y si además es un nodo hoja: lo borramos
             if( padre ) // Si tiene padre ( no es el nodo raiz )
                // Anulamos el puntero que le hace referencia
                if( padre->derecho == actual ) padre->derecho = NULL;
@@ -355,40 +313,38 @@ void Borrar( Arbol *arbol, int dato )
             }
             /* Intercambiar valores de no a borrar u nodo encontrado y continuar, cerrando el bucle. El nodo encontrado no tiene
                por qué ser un nodo hoja, cerrando el bucle nos aseguramos de que sólo se eliminan nodos hoja. */
-            aux = actual->dato;
-            actual->dato = nodo->dato;
-            nodo->dato = aux;
+            aux = actual->dni;
+            actual->dni = nodo->dni;
+            nodo->dni = aux;
             actual = nodo;
          }
       }
       else { // Todavía no hemos encontrado el valor, seguir buscándolo
          padre = actual;
-         if( dato > actual->dato ) actual = actual->derecho;
-         else if( dato < actual->dato ) actual = actual->izquierdo;
+         if( dni > actual->dni ) actual = actual->derecho;
+         else if( dni < actual->dni ) actual = actual->izquierdo;
       }
    }
 }
 
 
-
 /** RECORRIDO DE ÁRBOL EN INORDEN,
 	APLICAMOS LA FUNCIÓN FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
 */
-void InOrden( Arbol arbol, void ( *func )( int* ) )
+void InOrdenPersona( ArbolPersonas arbol, void ( *func )( int*, char* ) )
 {
-   if( arbol->izquierdo ) InOrden( arbol->izquierdo, func );
-   func( &( arbol->dato ) );
-   if( arbol->derecho ) InOrden( arbol->derecho, func );
+   if( arbol->izquierdo ) InOrdenPersona( arbol->izquierdo, func );
+   func( &( arbol->dni ), arbol->persona.nombre );
+   if( arbol->derecho ) InOrdenPersona( arbol->derecho, func );
 }
-
 
 
 /** RECORRIDO DE ÁRBOL EN PREORDEN,
 	APLICAMOS LA FUNCIÓN FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
 */
-void PreOrden( Arbol arbol, void ( *func )( int* ) )
+void PreOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 {
-   func( &arbol->dato );
+   func( &arbol->dni );
    if( arbol->izquierdo ) PreOrden( arbol->izquierdo, func );
    if( arbol->derecho ) PreOrden( arbol->derecho, func );
 }
@@ -398,48 +354,46 @@ void PreOrden( Arbol arbol, void ( *func )( int* ) )
 /** RECORRIDO DE ÁRBOL EN POSTORDEN,
 	APLICAMOS LA FUNCIÓN FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
 */
-void PostOrden( Arbol arbol, void ( *func )( int* ) )
+void PostOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 {
    if( arbol->izquierdo ) PostOrden( arbol->izquierdo, func );
    if( arbol->derecho ) PostOrden( arbol->derecho, func );
-   func( &arbol->dato );
+   func( &arbol->dni );
 }
 
 
 
 /** BUSCAR UN VALOR EN EL ÁRBOL */
-int Buscar( Arbol arbol, int dato )
+int BuscarPersona( ArbolPersonas arbol, int dni )
 {
-   pNodo actual = arbol;
+   pNodoPersonas actual = arbol;
 
    // Todavía puede aparecer, ya que quedan nodos por mirar
    while( !Vacio( actual ) ) {
-      if( dato == actual->dato ) return TRUE; // dato encontrado
-      else if( dato < actual->dato ) actual = actual->izquierdo; // Seguir
-      else if( dato > actual->dato ) actual = actual->derecho;
+      if( dni == actual->dni ) return TRUE; // dni encontrado
+      else if( dni < actual->dni ) actual = actual->izquierdo; // Seguir
+      else if( dni > actual->dni ) actual = actual->derecho;
    }
    return FALSE; // No está en árbol
 }
 
 
-
 /** COMPROBAR SI UN ÁRBOL ESTA VACÍO */
-int Vacio( Arbol nodo )
+int VacioPersonas( ArbolPersonas arbol )
 {
-   return nodo==NULL;
+   return arbol==NULL;
 }
 
 
 /** COMPROBAR SI UN NODO ES HOJA */
-int EsHoja( pNodo nodo )
+int EsHojaPersona( pNodoPersonas nodo )
 {
    return !nodo->derecho && !nodo->izquierdo;
 }
 
 
-
 /** FUNCIÓN PARA RECORRIDOS DEL ÁRBOL */
-void Mostrar( int *d )
+void MostrarPersona( int *d, char *c )
 {
-   printf( "%d, ", *d );
+   printf( "%d (%s), ", *d, c );
 }

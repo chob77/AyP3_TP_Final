@@ -46,7 +46,6 @@ int Buscar(Arbol a, int dat);
 // Comprobar si el árbol está vacío:
 int Vacio(Arbol nodo);
 
-
 // Comprobar si es un nodo hoja:
 int EsHoja(pNodo nodo);
 
@@ -54,12 +53,16 @@ int EsHoja(pNodo nodo);
 int NumeroNodos(Arbol a, int* c);
 
 // Aplicar una función a cada elemento del árbol:
-void InOrden(Arbol, void (*func)(int*));
+void InOrden(Arbol arbol, void (*func)(int*));
+void InOrdenPersona( ArbolPersonas arbol , void (*func)(int*, char*));
+
 void PreOrden(Arbol, void (*func)(int*));
 void PostOrden(Arbol, void (*func)(int*));
 
 // Funciones de equilibrado:
 void Equilibrar(Arbol *raiz, pNodo nodo, int, int);
+void EquilibrarArbolPersonas( ArbolPersonas *arbol, pNodoPersonas nodo, int, int );
+
 void RSI(Arbol *raiz, pNodo nodo);
 void RSD(Arbol *raiz, pNodo nodo);
 void RDI(Arbol *raiz, pNodo nodo);

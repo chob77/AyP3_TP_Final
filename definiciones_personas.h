@@ -10,6 +10,17 @@
  */
 
 
+ /* PERSONAS:
+	DNI	(clave)
+	NOMBRE
+	APELLIDO
+	EDAD
+	INGRESOS
+	CRÉDITOS
+	REFERIDOS	//ARRAY DE PERSONAS REFERIDAS
+
+*/
+
 typedef struct structPersona
 {
 	unsigned int dni;
@@ -26,30 +37,21 @@ typedef struct structPersonaArbol
 {
 	int dni;        //IDENTIFICADOR DE PERSONA
 	int Fac_equ;    //FACTOR DE EQUILIBRIO
-	struct structPersona *persona;
+	struct structPersona persona;
 	struct structPersonaArbol *derecho;
 	struct structPersonaArbol *izquierdo;
 	struct structPersonaArbol *padre;
-}	nodo_arbol_Persona;
+}	nodoArbolPersona;
 
 
-/*typedef struct structPersonaArbol   //IMPLEMETA UN ÁRBOL DE PERSONAS
-{
-	Arbol nodo;        //HEREDA UN NODO DE ÁRBOL
-	Persona *persona;  //AGREGA UN PUNTERO A UNA PERSONA
-
-}	nodo_arbol_Persona;*/
-
-
-typedef nodo_arbol_Persona *pNodoPersonas;
-typedef nodo_arbol_Persona *ArbolPersonas;
+typedef nodoArbolPersona *pNodoPersonas;
+typedef nodoArbolPersona *ArbolPersonas;
 ArbolPersonas ArbolClientes = NULL;
 
 int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona );
 int VacioPersonas( ArbolPersonas arbol );
 
 /*
-
 typedef struct
 {
     // base members
@@ -78,13 +80,4 @@ Base *b = (Base *)d;
 // struct st *mySt = malloc(sizeof(struct st) + len * sizeof(mySt->arr[0]));
 // struct st *mySt = malloc(sizeof(struct structPersona) + len * sizeof(mySt->creditosActivos[0]));
 
-/* PERSONAS:
-	DNI	(clave)
-	NOMBRE
-	APELLIDO
-	EDAD
-	INGRESOS
-	CRÉDITOS
-	REFERIDOS	//ARRAY DE PERSONAS REFERIDAS
 
-*/

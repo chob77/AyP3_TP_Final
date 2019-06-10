@@ -43,9 +43,7 @@ int obtenerTotalPersonas( ArbolPersonas *arbol )
 
 
 
-/**
-*	MUESTRA EL MANÚ PARA MANEJAR LAS UTILIDADES CON LAS PERSONAS
-*/
+/** MUESTRA EL MANÚ PARA MANEJAR LAS UTILIDADES CON LAS PERSONAS */
 void mostrar_menu_personas()
 {
     clrscr();
@@ -74,6 +72,7 @@ void mostrar_menu_personas()
 }
 
 
+
 /** ADMINISTRA LA GESTIÓN DE CLIENTES */
 void opcionesMenuPersonas()
 {
@@ -88,6 +87,8 @@ void opcionesMenuPersonas()
         {
             case 1: //OPCION 1 INGRESAR CLIENTE
                 cargarNuevoCliente( &ArbolClientes );
+				InOrdenPersona( ArbolClientes, MostrarPersona );
+                pause();
                 break;
 
             case 2: //OPCION 2 CARGAR CLIENTES ALMACENADOS
@@ -110,28 +111,21 @@ void opcionesMenuPersonas()
 }
 
 
-void menuElegido( int valor )
-{
-    printf( "\nSe escogio la opcion: %d\n", valor);
-}
-
-
 
 /** CARGA UN NUEVO CLIENTE EN EL ÁRBOL DE CLIENTES*/
 void cargarNuevoCliente( ArbolPersonas *arbol )
 {
 	int i = 1, opcion=1;
-	Persona persona_temp;
 
 	do {
-        persona_temp = ingresarDatosPersona( );
-	    if( persona_temp.dni == 0 )
+        Persona persona = ingresarDatosPersona( );
+	    if( persona.dni == 0 )
         {
             opcion = 0; //SI EL DNI ES CERO SALE
         }
 	    else    //CARGA EL NUEVO CLIENTE EN EL ÁRBOL DE CLIENTES
         {
-            int res = InsertarPersonaArbol( arbol, &persona_temp.dni, persona_temp );
+            int res = InsertarPersonaArbol( arbol, persona.dni, persona );
             if ( res == 0 )
             {
                 printf( "\nEL NUEVO CLIENTE SE CARG%c CON %cXITO!\n", acento_O, acento_E );
@@ -146,10 +140,7 @@ void cargarNuevoCliente( ArbolPersonas *arbol )
     } while( opcion !=0 );
 
 	//clrscr();
-	InOrdenPersona( arbol, Mostrar );
-	printf( "\nSE CARG%c la PERSONA: %d\n", &persona_temp.dni);
 	printf( "\nFINALIZO LA CARGA DE PERSONAS. SE CARGARON %d PERSONA/S\n", --i);
-	pause();
 }
 
 
@@ -170,7 +161,7 @@ Persona ingresarDatosPersona( )
     }else{
 		printf( "Ingrese NOMBRE y APELLIDO: " );
 		scanf( "%s %s", persona.nombre, persona.apellido );
-		printf( "Ingrese la EDAD: " );
+		printf( "Ingrese la EDAD (>18 a%cos): ", enie );
 		scanf( "%d", &persona.edad );
 		printf( "Ingrese el monto de INGRESOS: " );
 		scanf( "%d", &persona.ingresos );
@@ -231,8 +222,8 @@ Persona inicializarPersona()
 {
 	Persona persona;
 	persona.dni = 0;
-	strcpy( persona.nombre, "-----" );
-    strcpy( persona.apellido, "-----" );
+	strcpy( persona.nombre, "------------------------------" );
+    strcpy( persona.apellido, "------------------------------" );
 	persona.edad = 0;
 	persona.ingresos = 0;
 	persona.creditosActivos[0] = 0;

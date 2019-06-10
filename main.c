@@ -16,14 +16,15 @@
 #include <windows.h>
 
 #include "definiciones_empresa.h"
-#include "definiciones_arboles.h"
 #include "definiciones_personas.h"
+#include "definiciones_arboles.h"
 #include "definiciones_archivo.h"
 #include "definiciones_creditos.h"
 #include "definiciones_main.h"
 //#include "definiciones_lista_doble.h"
 
 #include "funciones_archivo.h"
+#include "funciones_arbol_personas.h"
 #include "funciones_arboles.h"
 #include "funciones_persona.h"
 #include "funciones_main.h"
