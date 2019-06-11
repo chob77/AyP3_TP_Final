@@ -130,21 +130,22 @@ void mostrar_menu_creditos( )
 
 
 
+/** FUNCIÓN QUE GENERA 1000 CLIENTES AL AZAR */
 void generar_clientes_al_azar( )
 {
 	int i = 0, edad = 0, ingresos = 0, creditos = 0, referidos = 0;
 
 	FILE *file = abrirArchivoEscritura( archivoPersonas );
 
-	//fprintf( file, "DNI;NOMBRE;APELLIDO;EDAD;INGRESOS;CRÉDITOS;REFERIDOS");
+	//fprintf( file, "DNI;NOMBRE;APELLIDO;EDAD;INGRESOS;CRÉDITOS;REFERIDOS;ESTADO");
 
 	for ( i = 0; i <= 999; i++)
 	{
 		edad = rand () % ( 0-56+1 ) + 18;
 		ingresos = rand () % ( 0-170000+1 ) + 10000;
 		creditos = rand () % ( 0-4+1 ) + 1;
-		referidos = rand () % ( 0-3+1 ) ;
-		fprintf( file, "%03d;NOMBRE_CLTE%d;APELLIDO_CLTE%d;%d;%d;%d;%d\n", i+1, i+1, i+1, edad, ingresos, creditos, referidos );
+		referidos = rand () % ( 0-3+1 ) ;			//ENTRE 0 Y 1
+		fprintf( file, "%03d;NOMBRE_CLTE%d;APELLIDO_CLTE%d;%d;%d;%d;%d\n", i+1, i+1, i+1, edad, ingresos, creditos, referidos, referidos );
 	}
 
 	close( file );
@@ -154,6 +155,7 @@ void generar_clientes_al_azar( )
 
 
 
+/** FUNCIÓN QUE GENERA 100 CRÉDITOS AL AZAR */
 void generar_creditos_al_azar( )
 {
 	int i = 0, dia = 0, mes = 0, anio = 0, monto = 0, moneda = 0, cuotas = 0;

@@ -18,7 +18,7 @@
 	INGRESOS
 	CRÉDITOS
 	REFERIDOS	//ARRAY DE PERSONAS REFERIDAS
-
+	ESTADO
 */
 
 typedef struct structPersona

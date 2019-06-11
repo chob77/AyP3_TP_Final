@@ -36,6 +36,7 @@ void leerArchivo( FILE *file )
 }
 
 
+/** OBTIENE EL TOTAL DE LÍNEAS DE UN ARCHIVO DE TEXTO*/
 int obtenerTotalLineasArchivo( FILE *file )
 {
 	char c;
@@ -51,14 +52,6 @@ int obtenerTotalLineasArchivo( FILE *file )
 
 
 
-Lista *crearNodo()
-{
-	//return ( Nodo *) malloc(sizeof( struct Nodo ));
-	return malloc(sizeof( struct Nodo ));
-}
-
-
-
 void guardarArchivo( Lista *miLista, FILE *p )
 {
 	while( miLista->siguiente != NULL )
@@ -67,17 +60,4 @@ void guardarArchivo( Lista *miLista, FILE *p )
 		miLista = miLista->siguiente;
 	}
 }
-
-
-
-void recorrerLista ( Lista *miLista)
-{
-	while( miLista->siguiente != NULL )
-	{
-		printf("%d", miLista->valor);
-		miLista = miLista->siguiente;
-	}
-	printf("\n");
-}
-
 

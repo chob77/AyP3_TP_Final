@@ -328,6 +328,7 @@ void BorrarPersona( ArbolPersonas *arbol, int dni )
 }
 
 
+
 /** RECORRIDO DE ÁRBOL EN INORDEN,
 	APLICAMOS LA FUNCIÓN FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
 */
@@ -337,6 +338,7 @@ void InOrdenPersona( ArbolPersonas arbol, void ( *func )( int*, char* ) )
    func( &( arbol->dni ), arbol->persona.nombre );
    if( arbol->derecho ) InOrdenPersona( arbol->derecho, func );
 }
+
 
 
 /** RECORRIDO DE ÁRBOL EN PREORDEN,
@@ -378,6 +380,7 @@ int BuscarPersona( ArbolPersonas arbol, int dni )
 }
 
 
+
 /** COMPROBAR SI UN ÁRBOL ESTA VACÍO */
 int VacioPersonas( ArbolPersonas arbol )
 {
@@ -385,11 +388,13 @@ int VacioPersonas( ArbolPersonas arbol )
 }
 
 
+
 /** COMPROBAR SI UN NODO ES HOJA */
 int EsHojaPersona( pNodoPersonas nodo )
 {
    return !nodo->derecho && !nodo->izquierdo;
 }
+
 
 
 /** FUNCIÓN PARA RECORRIDOS DEL ÁRBOL */

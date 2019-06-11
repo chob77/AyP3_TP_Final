@@ -26,7 +26,7 @@ const int Enie     = 165; //Ñ: 165
 # define COLOR_PERSONAS 244
 # define COLOR_CREDITOS 241
 
-int *gTotalClientes = 0;
+int gTotalClientes = 0;
 
 /*
 #include <windows.h>

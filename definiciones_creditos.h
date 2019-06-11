@@ -35,7 +35,7 @@ typedef struct structPagos
 }	Pago;
 
 enum {PESOS, DOLARES};
-enum {ACTIVO, CANCELADO, MORA, INCOBRABLE};
+enum {ACTIVO, DESACTIVO, CANCELADO, MORA, INCOBRABLE};
 enum {EFECTIVO, TARJETA, CHEQUE};
 
 /* CRÉDITOS:
