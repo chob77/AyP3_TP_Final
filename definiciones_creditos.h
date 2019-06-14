@@ -9,7 +9,6 @@
  *      AUTHOR: chob
  */
 
-
 typedef struct structCredito
 {
 	unsigned int id;
@@ -34,9 +33,6 @@ typedef struct structPagos
 	unsigned int tipo_pago;
 }	Pago;
 
-enum {PESOS, DOLARES};
-enum {ACTIVO, DESACTIVO, CANCELADO, MORA, INCOBRABLE};
-enum {EFECTIVO, TARJETA, CHEQUE};
 
 /* CRÉDITOS:
 	DNI	(clave)	//IDENTIFICACIÓN DEL PROPIETARIO. UN CLIENTE PUEDE TENER MÁS DE UN CRÉDITO

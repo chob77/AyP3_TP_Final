@@ -16,8 +16,8 @@
 	APELLIDO
 	EDAD
 	INGRESOS
-	CRÉDITOS
-	REFERIDOS	//ARRAY DE PERSONAS REFERIDAS
+	CRÉDITOS    //ARRAY DE CRÉDITOS
+	REFERIDOS
 	ESTADO
 */
 
@@ -30,6 +30,7 @@ typedef struct structPersona
 	unsigned int ingresos;
 	struct structCredito *creditosActivos[ LIMITE_CREDITO_POR_PERSONA_SIMULTANEOS ];
 	struct structPersona *amigo;
+	unsigned int estado;
 }Persona;
 
 
@@ -47,6 +48,9 @@ typedef struct structPersonaArbol
 typedef nodoArbolPersona *pNodoPersonas;
 typedef nodoArbolPersona *ArbolPersonas;
 ArbolPersonas ArbolClientes = NULL;
+ArbolPersonas ArbolClientesInactivos = NULL;
+
+int arrayDNIClientes[ 1000 ];//INTENTA SER UNA ESTRUCTURA DE BUSQUEDA RÁPIDA DE LA EXISTENCIA DE UN CLIENTE
 
 int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona );
 int VacioPersonas( ArbolPersonas arbol );
@@ -70,10 +74,6 @@ Como Derivado comienza con una copia de Base, puede hacer esto:
 Base *b = (Base *)d;
 
 */
-
-
-
-
 
 
 

@@ -28,6 +28,10 @@ const int Enie     = 165; //Ñ: 165
 
 int gTotalClientes = 0;
 
+enum {PESOS, DOLARES};
+enum {INACTIVO, ACTIVO, CANCELADO, MORA, INCOBRABLE};
+enum {EFECTIVO, TARJETA, CHEQUE};
+
 /*
 #include <windows.h>
 

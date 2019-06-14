@@ -25,6 +25,14 @@ FILE *abrirArchivoEscritura( const char *filename )
 }
 
 
+
+FILE *abrirArchivoEscrituraContinua( const char *filename )
+{
+	FILE *file = fopen( filename, "a" );
+	return file;
+}
+
+
 void leerArchivo( FILE *file )
 {
 	char c;
@@ -37,16 +45,25 @@ void leerArchivo( FILE *file )
 
 
 /** OBTIENE EL TOTAL DE LÍNEAS DE UN ARCHIVO DE TEXTO*/
-int obtenerTotalLineasArchivo( FILE *file )
+//int obtenerTotalLineasArchivo( FILE *file )
+int obtenerTotalLineasArchivo( const char *filename )
 {
-	char c;
-	int nl = 0;
-
-	while( (c = fgetc( file )) != EOF )
+	FILE *file = abrirArchivoLectura( filename );
+    int nl = 0;
+	if ( file != NULL )
 	{
-		if( c == '\n' ) nl++;
+        char c;
+
+        while( (c = fgetc( file )) != EOF )
+        {
+            if( c == '\n' ) nl++;
+        }
+        fclose( file );
+    }
+	else
+	{
+		printf( "\t\n\nEL ARCHIVO NO SE PUDO ABRIR.\n");
 	}
-	fclose( file );
 	return nl;
 }
 
@@ -61,3 +78,12 @@ void guardarArchivo( Lista *miLista, FILE *p )
 	}
 }
 
+
+
+/** ALMACENA LOS CLIENTES ACTIVOS EN UN ARCHIVO DE ACCESO RÁPIDO */
+void cargarArchivoTemporalClientes( char *linea, const char *filename )
+{
+    FILE *file = abrirArchivoEscrituraContinua( filename );//AGREGAR CADA LINEA
+    fprintf( file, "%s\n", linea );
+    fclose( file );
+}

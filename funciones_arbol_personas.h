@@ -19,7 +19,7 @@ void eliminarElementoPersona( ArbolPersonas *arbol )
 	printf("\nELIMINAR UN ELEMENTO DEL %cRBOL: ", acento_A );
 	printf( "\n---------------------------------------" );
 	printf("\nELEMENTOS DEL %cRBOL: ", acento_A );
-	InOrden( *arbol, Mostrar );
+	InOrden( arbol, Mostrar );
 	printf("\n\nINGRESA EL ELEMENTO A ELIMINAR DEL %cRBOL: ", acento_A );
 	scanf( "%d", &dni );
 
@@ -27,7 +27,7 @@ void eliminarElementoPersona( ArbolPersonas *arbol )
 	Borrar( arbol, dni );
 
 	printf("\n%cRBOL RESULTANTE: ", acento_A );
-	InOrden( *arbol, Mostrar );
+	InOrden( arbol, Mostrar );
 	printf("\n\n" );
 }
 
@@ -47,7 +47,7 @@ int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona )
    }
 
    // Si se ha encontrado el elemento, regresar sin insertar
-   if( !VacioPersonas( actual ) ) return 1;
+   if( !VacioPersonas( actual ) ) return FALSE;
 
    // Si padre es NULL, entonces el árbol estaba vacío, el nuevo nodo será el nodo raiz
    if( VacioPersonas( padre ) ) {
@@ -82,7 +82,7 @@ int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona )
       actual->persona = persona;
       EquilibrarArbolPersona( arbol, padre, DERECHO, TRUE );
   }
-  return 0;
+  return TRUE;
 }
 
 
@@ -270,7 +270,7 @@ void BorrarPersona( ArbolPersonas *arbol, int dni )
 
    actual = *arbol;
    // Mientras sea posible que el valor esté en el árbol
-   while( !Vacio( actual ) ) {
+   while( !VacioPersonas( actual ) ) {
       if( dni == actual->dni ) { // Si el valor está en el nodo actual
          if( EsHojaPersona( actual ) ) { // Y si además es un nodo hoja: lo borramos
             if( padre ) // Si tiene padre ( no es el nodo raiz )
@@ -339,6 +339,27 @@ void InOrdenPersona( ArbolPersonas arbol, void ( *func )( int*, char* ) )
    if( arbol->derecho ) InOrdenPersona( arbol->derecho, func );
 }
 
+int countInOrder=0;
+void InOrdenPersonaTabulada( ArbolPersonas arbol, void ( *func )( int*, char*, char*, int*, int* ) )
+{
+/* PERSONAS:
+	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CRÉDITOS, REFERIDOS, ESTADO
+*/
+   if( arbol->izquierdo ) InOrdenPersonaTabulada( arbol->izquierdo, func );
+   if ( countInOrder == 20 )
+   {
+       printf( "\n(contin%ca.....) ", acento_u );
+       pause();
+       countInOrder = 0;
+       clrscr();
+       printf( "\n\n\t\tLISTA DE CLIENTES ALMACENADOS.\n" );
+       printf( "\n\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS." );
+   }
+   func( &( arbol->dni ), arbol->persona.nombre, arbol->persona.apellido, &( arbol->persona.edad ), &( arbol->persona.ingresos ));
+   countInOrder++;
+   if( arbol->derecho ) InOrdenPersonaTabulada( arbol->derecho, func );
+}
+
 
 
 /** RECORRIDO DE ÁRBOL EN PREORDEN,
@@ -365,13 +386,14 @@ void PostOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 
 
 
-/** BUSCAR UN VALOR EN EL ÁRBOL */
-int BuscarPersona( ArbolPersonas arbol, int dni )
+/** BUSCAR UN VALOR EN EL ÁRBOL DE PERSONAS*/
+int BuscarPersona( ArbolPersonas *arbol, int dni )
 {
-   pNodoPersonas actual = arbol;
+   pNodoPersonas actual = *arbol;
 
    // Todavía puede aparecer, ya que quedan nodos por mirar
-   while( !Vacio( actual ) ) {
+   while( !VacioPersonas( actual ) )
+   {
       if( dni == actual->dni ) return TRUE; // dni encontrado
       else if( dni < actual->dni ) actual = actual->izquierdo; // Seguir
       else if( dni > actual->dni ) actual = actual->derecho;
@@ -397,8 +419,18 @@ int EsHojaPersona( pNodoPersonas nodo )
 
 
 
-/** FUNCIÓN PARA RECORRIDOS DEL ÁRBOL */
+/** FUNCIÓN PARA MOSTRAR LA INFO EN RECORRIDOS DEL ÁRBOL */
 void MostrarPersona( int *d, char *c )
 {
    printf( "%d (%s), ", *d, c );
+}
+
+
+/** FUNCIÓN PARA MOSTRAR LA INFO EN RECORRIDOS DEL ÁRBOL */
+void MostrarPersonasTabuladas( int *dni, char *nom, char *ape, int *edad, int *ing )
+{
+/* PERSONAS:
+	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CRÉDITOS, REFERIDOS, ESTADO
+*/
+   printf( "\n\t%d\t%s\t%s\t%d\t%d", *dni, nom, ape, *edad, *ing );
 }

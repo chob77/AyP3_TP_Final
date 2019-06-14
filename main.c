@@ -15,13 +15,12 @@
 #include <string.h>
 #include <windows.h>
 
+#include "definiciones_main.h"
 #include "definiciones_empresa.h"
 #include "definiciones_personas.h"
 #include "definiciones_arboles.h"
 #include "definiciones_archivo.h"
 #include "definiciones_creditos.h"
-#include "definiciones_main.h"
-//#include "definiciones_lista_doble.h"
 
 #include "funciones_archivo.h"
 #include "funciones_arbol_personas.h"
@@ -37,7 +36,7 @@
 
  * Desarrollar un sistema de créditos.
  * Debe permitir:
- * 	-Dar de alta
+ * 	Dar de alta
  * 	-Listar clientes
  * 	-Buscar clientes por nombre
  * 	-Buscar clientes por rango de edad
@@ -71,6 +70,8 @@
 		estadísticas de los clientes y créditos, etc.
 */
 
+void clrscr();
+void pause();
 
 int main(){
     SetColores( COLOR_PRINCIPAL );
