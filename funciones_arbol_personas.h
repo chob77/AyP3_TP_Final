@@ -1,8 +1,8 @@
 /*
- * MATERIA: ALGORITMOS Y PROGRAMACI”N 3
+ * MATERIA: ALGORITMOS Y PROGRAMACI√ìN 3
  * UNTREF 2019.
  *
- * TRABAJO PR¡CTICO FINAL INTEGRADOR: SISTEMA DE CR…DITOS.
+ * TRABAJO PR√ÅCTICO FINAL INTEGRADOR: SISTEMA DE CR√âDITOS.
  * FILE: funciones_arbol_persona.c
  *
  *  CREATED ON: 3 jun. 2019
@@ -11,7 +11,7 @@
 
 
 
-/** ELIMINA UN ELEMENTO DEL ¡RBOL */
+/** ELIMINA UN ELEMENTO DEL √ÅRBOL */
 void eliminarElementoPersona( ArbolPersonas *arbol )
 {
 	int dni;
@@ -33,13 +33,13 @@ void eliminarElementoPersona( ArbolPersonas *arbol )
 
 
 
-/** INSERTAR UN DATO EN EL ¡RBOL ABB */
+/** INSERTAR UN DATO EN EL √ÅRBOL ABB */
 int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona )
 {
    pNodoPersonas padre = NULL;
    pNodoPersonas actual = *arbol;
 
-   // Buscar el dni en el ·rbol, manteniendo un puntero al nodo padre
+   // Buscar el dni en el √°rbol, manteniendo un puntero al nodo padre
    while( !VacioPersonas( actual ) && dni != actual->dni ) {
       padre = actual;
       if( dni < actual->dni ) actual = actual->izquierdo;
@@ -49,7 +49,7 @@ int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona )
    // Si se ha encontrado el elemento, regresar sin insertar
    if( !VacioPersonas( actual ) ) return FALSE;
 
-   // Si padre es NULL, entonces el ·rbol estaba vacÌo, el nuevo nodo ser· el nodo raiz
+   // Si padre es NULL, entonces el √°rbol estaba vac√≠o, el nuevo nodo ser√° el nodo raiz
    if( VacioPersonas( padre ) ) {
       *arbol = malloc( sizeof( nodoArbolPersona ) );
       ( *arbol )->dni = dni;
@@ -87,7 +87,7 @@ int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona )
 
 
 
-/** EQUILIBRAR ¡RBOL AVL PARTIENDO DEL NODO NUEVO */
+/** EQUILIBRAR √ÅRBOL AVL PARTIENDO DEL NODO NUEVO */
 void EquilibrarArbolPersona( ArbolPersonas *arbol, pNodoPersonas nodo, int rama, int nuevo )
 {
    int salir = FALSE;
@@ -96,7 +96,7 @@ void EquilibrarArbolPersona( ArbolPersonas *arbol, pNodoPersonas nodo, int rama,
    while( nodo && !salir ) {
 
 	  if( nuevo )
-         if( rama == IZQUIERDO ) nodo->Fac_equ--; // Depende de si aÒadimos ...
+         if( rama == IZQUIERDO ) nodo->Fac_equ--; // Depende de si a√±adimos ...
          else                    nodo->Fac_equ++;
 
 	  else
@@ -106,14 +106,14 @@ void EquilibrarArbolPersona( ArbolPersonas *arbol, pNodoPersonas nodo, int rama,
 	  if( nodo->Fac_equ == 0 ) salir = TRUE; // La altura de las rama que empieza en nodo no ha variado, salir de Equilibrar
 
       else if( nodo->Fac_equ == -2 ) { // Rotar a derecha y salir:
-		 if( nodo->izquierdo->Fac_equ == 1 ) RDD_persona( arbol, nodo ); // RotaciÛn doble
-         else RSD_persona( arbol, nodo );                         // RotaciÛn simple
+		 if( nodo->izquierdo->Fac_equ == 1 ) RDD_persona( arbol, nodo ); // Rotaci√≥n doble
+         else RSD_persona( arbol, nodo );                         // Rotaci√≥n simple
          salir = TRUE;
       }
 
       else if( nodo->Fac_equ == 2 ) {  // Rotar a izquierda y salir:
-         if( nodo->derecho->Fac_equ == -1 ) RDI_persona( arbol, nodo ); // RotaciÛn doble
-         else RSI_persona( arbol, nodo );                        // RotaciÛn simple
+         if( nodo->derecho->Fac_equ == -1 ) RDI_persona( arbol, nodo ); // Rotaci√≥n doble
+         else RSI_persona( arbol, nodo );                        // Rotaci√≥n simple
          salir = TRUE;
       }
 
@@ -126,7 +126,7 @@ void EquilibrarArbolPersona( ArbolPersonas *arbol, pNodoPersonas nodo, int rama,
 
 
 
-/** ROTACI”N DOBLE A LA DERECHA */
+/** ROTACI√ìN DOBLE A LA DERECHA */
 void RDD_persona( ArbolPersonas *raiz, ArbolPersonas nodo )
 {
    pNodoPersonas Padre = nodo->padre;
@@ -141,7 +141,7 @@ void RDD_persona( ArbolPersonas *raiz, ArbolPersonas nodo )
      else Padre->izquierdo = R;
    else *raiz = R;
 
-   // Reconstruir ·rbol:
+   // Reconstruir √°rbol:
    Q->derecho = B;
    P->izquierdo = C;
    R->izquierdo = Q;
@@ -164,7 +164,7 @@ void RDD_persona( ArbolPersonas *raiz, ArbolPersonas nodo )
 
 
 
-/** ROTACI”N DOBLE A LA IZQUIERDA */
+/** ROTACI√ìN DOBLE A LA IZQUIERDA */
 void RDI_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 {
    pNodoPersonas Padre = nodo->padre;
@@ -179,7 +179,7 @@ void RDI_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
      else Padre->izquierdo = R;
    else *arbol = R;
 
-   // Reconstruir ·rbol:
+   // Reconstruir √°rbol:
    P->derecho = B;
    Q->izquierdo = C;
    R->izquierdo = P;
@@ -202,7 +202,7 @@ void RDI_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 
 
 
-/** ROTACI”N SIMPLE A LA DERECHA */
+/** ROTACI√ìN SIMPLE A LA DERECHA */
 void RSD_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 {
    pNodoPersonas Padre = nodo->padre;
@@ -215,7 +215,7 @@ void RSD_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
      else Padre->izquierdo = Q;
    else *arbol = Q;
 
-   // Reconstruir ·rbol:
+   // Reconstruir √°rbol:
    P->izquierdo = B;
    Q->derecho = P;
 
@@ -231,7 +231,7 @@ void RSD_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 
 
 
-/** ROTACI”N SIMPLE A LA IZQUIERDA */
+/** ROTACI√ìN SIMPLE A LA IZQUIERDA */
 void RSI_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 {
    pNodoPersonas Padre = nodo->padre;
@@ -244,7 +244,7 @@ void RSI_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
      else Padre->izquierdo = Q;
    else *arbol = Q;
 
-   // Reconstruir ·rbol:
+   // Reconstruir √°rbol:
    P->derecho = B;
    Q->izquierdo = P;
 
@@ -260,7 +260,7 @@ void RSI_persona( ArbolPersonas *arbol, pNodoPersonas nodo )
 
 
 
-/** ELIMINAR UN ELEMENTO DE UN ¡RBOL ABB */
+/** ELIMINAR UN ELEMENTO DE UN √ÅRBOL ABB */
 void BorrarPersona( ArbolPersonas *arbol, int dni )
 {
    pNodoPersonas padre = NULL;
@@ -269,10 +269,10 @@ void BorrarPersona( ArbolPersonas *arbol, int dni )
    int aux;
 
    actual = *arbol;
-   // Mientras sea posible que el valor estÈ en el ·rbol
+   // Mientras sea posible que el valor est√© en el √°rbol
    while( !VacioPersonas( actual ) ) {
-      if( dni == actual->dni ) { // Si el valor est· en el nodo actual
-         if( EsHojaPersona( actual ) ) { // Y si adem·s es un nodo hoja: lo borramos
+      if( dni == actual->dni ) { // Si el valor est√° en el nodo actual
+         if( EsHojaPersona( actual ) ) { // Y si adem√°s es un nodo hoja: lo borramos
             if( padre ) // Si tiene padre ( no es el nodo raiz )
                // Anulamos el puntero que le hace referencia
                if( padre->derecho == actual ) padre->derecho = NULL;
@@ -293,9 +293,9 @@ void BorrarPersona( ArbolPersonas *arbol, int dni )
                else                         	Equilibrar( arbol, padre, IZQUIERDO, FALSE );
             return;
          }
-         else { // Si el valor est· en el nodo actual, pero no es hoja
+         else { // Si el valor est√° en el nodo actual, pero no es hoja
             padre = actual;
-            // Buscar nodo m·s izquierdo de rama derecha
+            // Buscar nodo m√°s izquierdo de rama derecha
             if( actual->derecho ) {
                nodo = actual->derecho;
                while( nodo->izquierdo ) {
@@ -303,7 +303,7 @@ void BorrarPersona( ArbolPersonas *arbol, int dni )
                   nodo = nodo->izquierdo;
                }
             }
-            // O buscar nodo m·s derecho de rama izquierda
+            // O buscar nodo m√°s derecho de rama izquierda
             else {
                nodo = actual->izquierdo;
                while( nodo->derecho ) {
@@ -312,14 +312,14 @@ void BorrarPersona( ArbolPersonas *arbol, int dni )
                }
             }
             /* Intercambiar valores de no a borrar u nodo encontrado y continuar, cerrando el bucle. El nodo encontrado no tiene
-               por quÈ ser un nodo hoja, cerrando el bucle nos aseguramos de que sÛlo se eliminan nodos hoja. */
+               por qu√© ser un nodo hoja, cerrando el bucle nos aseguramos de que s√≥lo se eliminan nodos hoja. */
             aux = actual->dni;
             actual->dni = nodo->dni;
             nodo->dni = aux;
             actual = nodo;
          }
       }
-      else { // TodavÌa no hemos encontrado el valor, seguir busc·ndolo
+      else { // Todav√≠a no hemos encontrado el valor, seguir busc√°ndolo
          padre = actual;
          if( dni > actual->dni ) actual = actual->derecho;
          else if( dni < actual->dni ) actual = actual->izquierdo;
@@ -329,8 +329,8 @@ void BorrarPersona( ArbolPersonas *arbol, int dni )
 
 
 
-/** RECORRIDO DE ¡RBOL EN INORDEN,
-	APLICAMOS LA FUNCI”N FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
+/** RECORRIDO DE √ÅRBOL EN INORDEN,
+	APLICAMOS LA FUNCI√ìN FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
 */
 void InOrdenPersona( ArbolPersonas arbol, void ( *func )( int*, char* ) )
 {
@@ -345,7 +345,7 @@ int countInOrder=0;
 void InOrdenPersonaTabulada( ArbolPersonas arbol, void ( *func )( int*, char*, char*, int*, int*, char* ) )
 {
 /* PERSONAS:
-	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CR…DITOS, REFERIDOS, ESTADO
+	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CR√âDITOS, REFERIDOS, ESTADO
 */
    if( arbol->izquierdo ) InOrdenPersonaTabulada( arbol->izquierdo, func );
    if ( countInOrder == 20 )
@@ -364,8 +364,8 @@ void InOrdenPersonaTabulada( ArbolPersonas arbol, void ( *func )( int*, char*, c
 
 
 
-/** RECORRIDO DE ¡RBOL EN PREORDEN,
-	APLICAMOS LA FUNCI”N FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
+/** RECORRIDO DE √ÅRBOL EN PREORDEN,
+	APLICAMOS LA FUNCI√ìN FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
 */
 void PreOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 {
@@ -376,8 +376,8 @@ void PreOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 
 
 
-/** RECORRIDO DE ¡RBOL EN POSTORDEN,
-	APLICAMOS LA FUNCI”N FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
+/** RECORRIDO DE √ÅRBOL EN POSTORDEN,
+	APLICAMOS LA FUNCI√ìN FUNC, QUE TIENE EL PROTOTIPO: void func( int* );
 */
 void PostOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 {
@@ -388,7 +388,7 @@ void PostOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 
 
 
-/** BUSCAR UN VALOR EN EL ¡RBOL DE PERSONAS*/
+/** BUSCAR UN VALOR EN EL √ÅRBOL DE PERSONAS*/
 int BuscarPersona( ArbolPersonas arbol, int dni )
 {
    pNodoPersonas actual = arbol;
@@ -399,12 +399,12 @@ int BuscarPersona( ArbolPersonas arbol, int dni )
       else if( dni < actual->dni ) actual = actual->izquierdo; // Seguir
       else if( dni > actual->dni ) actual = actual->derecho;
    }
-   return FALSE; // No est· en ·rbol
+   return FALSE; // No est√° en √°rbol
 }
 
 
 
-/** BUSCA EL DNI EN EL ¡RBOL ABB */
+/** BUSCA EL DNI EN EL √ÅRBOL ABB */
 Persona obtenerPersonaDNI( ArbolPersonas arbol, int dni )
 {
    pNodoPersonas actual = arbol;
@@ -416,12 +416,12 @@ Persona obtenerPersonaDNI( ArbolPersonas arbol, int dni )
       else if( dni > actual->dni ) actual = actual->derecho; // Seguir por la derecha
       else if( dni < actual->dni ) actual = actual->izquierdo; // Seguir por la izquierda
    }
-   return persona; // No est· en ·rbol
+   return persona; // No est√° en √°rbol
 }
 
 
 
-/** COMPROBAR SI UN ¡RBOL ESTA VACÕO */
+/** COMPROBAR SI UN √ÅRBOL ESTA VAC√çO */
 int VacioPersonas( ArbolPersonas arbol )
 {
    return arbol==NULL;
@@ -437,18 +437,18 @@ int EsHojaPersona( pNodoPersonas nodo )
 
 
 
-/** FUNCI”N PARA MOSTRAR LA INFO EN RECORRIDOS DEL ¡RBOL */
+/** FUNCI√ìN PARA MOSTRAR LA INFO EN RECORRIDOS DEL √ÅRBOL */
 void MostrarPersona( int *d, char *c )
 {
    printf( "%d (%s), ", *d, c );
 }
 
 
-/** FUNCI”N PARA MOSTRAR LA INFO EN RECORRIDOS DEL ¡RBOL */
+/** FUNCI√ìN PARA MOSTRAR LA INFO EN RECORRIDOS DEL √ÅRBOL */
 void MostrarPersonasTabuladas( int *dni, char *nom, char *ape, int *edad, int *ing, char *amigo )
 {
 /* PERSONAS:
-	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CR…DITOS, REFERIDOS, ESTADO
+	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CR√âDITOS, REFERIDOS, ESTADO
 */
    printf( "\n\t%d\t%s\t%s\t%d\t%d\t%s", *dni, nom, ape, *edad, *ing, amigo );
 }
@@ -459,7 +459,7 @@ int countInOrderEdad=0;
 void obtenerPersonasEnRango( ArbolPersonas arbol, int edadMenor, int edadMayor, void ( *func )( int*, char*, char*, int*, int*, int*, int* ) )
 {
 /* PERSONAS:
-	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CR…DITOS, REFERIDOS, ESTADO
+	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CR√âDITOS, REFERIDOS, ESTADO
 */
    if( arbol->izquierdo ) obtenerPersonasEnRango( arbol->izquierdo, edadMenor, edadMayor, func );
    if ( countInOrderEdad == 20 )
@@ -478,15 +478,14 @@ void obtenerPersonasEnRango( ArbolPersonas arbol, int edadMenor, int edadMayor, 
 
 
 
-/** FUNCI”N PARA MOSTRAR LA INFO EN RECORRIDOS DEL ¡RBOL DE EDADES*/
+/** FUNCI√ìN PARA MOSTRAR LA INFO EN RECORRIDOS DEL √ÅRBOL DE EDADES*/
 void MostrarEdadesPersonasTabuladas( int *dni, char *nom, char *ape, int *edad, int *ing, int *edadMenor, int *edadMayor )
 {
 /* PERSONAS:
-	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CR…DITOS, REFERIDOS, ESTADO
+	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CR√âDITOS, REFERIDOS, ESTADO
 */
    if ( *edad >= *edadMenor && *edad <= *edadMayor ) { printf( "\n\t%d\t%s\t%s\t%d\t%d", *dni, nom, ape, *edad, *ing ); countInOrderEdad++;}
 }
-
 
 
 
@@ -501,7 +500,7 @@ void verificarAmigos ( ArbolPersonas arbol )
 
 	int amigo = obtenerAmigo( arbol->dni );
 
-	if ( isIn( arrayDNIClientesActivos, amigo, LEN_ARR( arrayDNIClientesActivos )))//VERIFICA SI EL AMIGO EST¡ ACTIVO
+	if ( isIn( arrayDNIClientesActivos, amigo, LEN_ARR( arrayDNIClientesActivos )))//VERIFICA SI EL AMIGO EST√Å ACTIVO
 	{
 		persona = obtenerPersonaDNI( ArbolClientes, amigo );				//CARGA AL CLIENTE UN AMIGO ACTIVO
 	}
@@ -512,7 +511,7 @@ void verificarAmigos ( ArbolPersonas arbol )
 
 	arbol->persona.amigo = &persona;
 
-	//printf("\nPersona: %s - Amigo: %s", arbol->persona.nombre, arbol->persona.amigo->nombre );
+	printf("\nPersona: %s - Amigo: %s", arbol->persona.nombre, arbol->persona.amigo->nombre );
 
 	if( arbol->derecho ) verificarAmigos( arbol->derecho );
 }
