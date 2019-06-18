@@ -1,8 +1,8 @@
 /*
- * MATERIA: ALGORITMOS Y PROGRAMACI√ìN 3
+ * MATERIA: ALGORITMOS Y PROGRAMACI”N 3
  * UNTREF 2019.
  *
- * TRABAJO PR√ÅCTICO FINAL INTEGRADOR: SISTEMA DE CR√âDITOS.
+ * TRABAJO PR¡CTICO FINAL INTEGRADOR: SISTEMA DE CR…DITOS.
  * FILE: definiciones_archivo.h
  *
  *  CREATED ON: 3 jun. 2019
@@ -10,17 +10,7 @@
  */
 
 
-typedef struct NodoDoble {
-	unsigned int valor;
-	struct NodoDoble *siguiente;
-	struct NodoDoble *anterior;
-}ListaDoble;
-
-
-typedef struct Nodo {
-	unsigned int valor;
-	struct Nodo *siguiente;
-}Lista;
+// NOMBRE DE LOS ARCHIVOS UTILIZADOS
 
 const char *archivoPersonas = "clientes.csv";
 const char *tempClientesActivos = "temp_clientes_activos.csv";
@@ -28,8 +18,4 @@ const char *tempClientesInactivos = "temp_clientes_inactivos.csv";
 const char *archivoCreditos = "creditos.csv";
 const char *archivoPagos = "pagos.csv";
 
-/*
-	PUNTEROS
-	* devuelve el valor de la variable
-	& devuelve la direcci√≥n de memoria
-*/
+

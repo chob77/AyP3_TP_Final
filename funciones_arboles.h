@@ -160,7 +160,8 @@ void Equilibrar( Arbol *arbol, pNodo nodo, int rama, int nuevo )
       }
 
 	  if( nodo->padre )
-         if( nodo->padre->derecho == nodo ) rama = DERECHO; else rama = IZQUIERDO;
+         if( nodo->padre->derecho == nodo ) rama = DERECHO;
+         else rama = IZQUIERDO;
 
 	  nodo = nodo->padre; //Calcular Fac_equ, siguiente nodo del camino.
    }

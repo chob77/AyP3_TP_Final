@@ -73,7 +73,7 @@ void guardarArchivo( Lista *miLista, FILE *p )
 {
 	while( miLista->siguiente != NULL )
 	{
-		fprintf( p, "%d\n", miLista->valor );
+		fprintf( p, "%d\n", miLista->cliente );
 		miLista = miLista->siguiente;
 	}
 }

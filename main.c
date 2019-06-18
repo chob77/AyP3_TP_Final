@@ -21,11 +21,13 @@
 #include "definiciones_arboles.h"
 #include "definiciones_archivo.h"
 #include "definiciones_creditos.h"
+#include "definiciones_lista_simple.h"
 
 #include "funciones_archivo.h"
 #include "funciones_arbol_personas.h"
 #include "funciones_arboles.h"
 #include "funciones_persona.h"
+#include "funciones_lista_simple.h"
 #include "funciones_main.h"
 
 
@@ -70,8 +72,6 @@
 		estadísticas de los clientes y créditos, etc.
 */
 
-void clrscr();
-void pause();
 
 int main(){
     SetColores( COLOR_PRINCIPAL );

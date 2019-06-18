@@ -339,8 +339,10 @@ void InOrdenPersona( ArbolPersonas arbol, void ( *func )( int*, char* ) )
    if( arbol->derecho ) InOrdenPersona( arbol->derecho, func );
 }
 
+
+
 int countInOrder=0;
-void InOrdenPersonaTabulada( ArbolPersonas arbol, void ( *func )( int*, char*, char*, int*, int* ) )
+void InOrdenPersonaTabulada( ArbolPersonas arbol, void ( *func )( int*, char*, char*, int*, int*, char* ) )
 {
 /* PERSONAS:
 	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CRÉDITOS, REFERIDOS, ESTADO
@@ -353,9 +355,9 @@ void InOrdenPersonaTabulada( ArbolPersonas arbol, void ( *func )( int*, char*, c
        countInOrder = 0;
        clrscr();
        printf( "\n\n\t\tLISTA DE CLIENTES ALMACENADOS.\n" );
-       printf( "\n\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS." );
+       printf( "\n\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS\tREFERIDO." );
    }
-   func( &( arbol->dni ), arbol->persona.nombre, arbol->persona.apellido, &( arbol->persona.edad ), &( arbol->persona.ingresos ));
+   func( &( arbol->dni ), arbol->persona.nombre, arbol->persona.apellido, &( arbol->persona.edad ), &( arbol->persona.ingresos ), arbol->persona.amigo->nombre );
    countInOrder++;
    if( arbol->derecho ) InOrdenPersonaTabulada( arbol->derecho, func );
 }
@@ -368,8 +370,8 @@ void InOrdenPersonaTabulada( ArbolPersonas arbol, void ( *func )( int*, char*, c
 void PreOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 {
    func( &arbol->dni );
-   if( arbol->izquierdo ) PreOrden( arbol->izquierdo, func );
-   if( arbol->derecho ) PreOrden( arbol->derecho, func );
+   if( arbol->izquierdo ) PreOrdenPersona( arbol->izquierdo, func );
+   if( arbol->derecho ) PreOrdenPersona( arbol->derecho, func );
 }
 
 
@@ -379,19 +381,18 @@ void PreOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 */
 void PostOrdenPersona( ArbolPersonas arbol, void ( *func )( int* ) )
 {
-   if( arbol->izquierdo ) PostOrden( arbol->izquierdo, func );
-   if( arbol->derecho ) PostOrden( arbol->derecho, func );
+   if( arbol->izquierdo ) PostOrdenPersona( arbol->izquierdo, func );
+   if( arbol->derecho ) PostOrdenPersona( arbol->derecho, func );
    func( &arbol->dni );
 }
 
 
 
 /** BUSCAR UN VALOR EN EL ÁRBOL DE PERSONAS*/
-int BuscarPersona( ArbolPersonas *arbol, int dni )
+int BuscarPersona( ArbolPersonas arbol, int dni )
 {
-   pNodoPersonas actual = *arbol;
+   pNodoPersonas actual = arbol;
 
-   // Todavía puede aparecer, ya que quedan nodos por mirar
    while( !VacioPersonas( actual ) )
    {
       if( dni == actual->dni ) return TRUE; // dni encontrado
@@ -399,6 +400,23 @@ int BuscarPersona( ArbolPersonas *arbol, int dni )
       else if( dni > actual->dni ) actual = actual->derecho;
    }
    return FALSE; // No está en árbol
+}
+
+
+
+/** BUSCA EL DNI EN EL ÁRBOL ABB */
+Persona obtenerPersonaDNI( ArbolPersonas arbol, int dni )
+{
+   pNodoPersonas actual = arbol;
+   Persona persona = inicializarPersona();
+
+   while( !VacioPersonas( actual ) )
+   {
+      if( dni == actual->dni ) return actual->persona; // Seguir
+      else if( dni > actual->dni ) actual = actual->derecho; // Seguir por la derecha
+      else if( dni < actual->dni ) actual = actual->izquierdo; // Seguir por la izquierda
+   }
+   return persona; // No está en árbol
 }
 
 
@@ -427,10 +445,100 @@ void MostrarPersona( int *d, char *c )
 
 
 /** FUNCIÓN PARA MOSTRAR LA INFO EN RECORRIDOS DEL ÁRBOL */
-void MostrarPersonasTabuladas( int *dni, char *nom, char *ape, int *edad, int *ing )
+void MostrarPersonasTabuladas( int *dni, char *nom, char *ape, int *edad, int *ing, char *amigo )
 {
 /* PERSONAS:
 	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CRÉDITOS, REFERIDOS, ESTADO
 */
-   printf( "\n\t%d\t%s\t%s\t%d\t%d", *dni, nom, ape, *edad, *ing );
+   printf( "\n\t%d\t%s\t%s\t%d\t%d\t%s", *dni, nom, ape, *edad, *ing, amigo );
+}
+
+
+
+int countInOrderEdad=0;
+void obtenerPersonasEnRango( ArbolPersonas arbol, int edadMenor, int edadMayor, void ( *func )( int*, char*, char*, int*, int*, int*, int* ) )
+{
+/* PERSONAS:
+	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CRÉDITOS, REFERIDOS, ESTADO
+*/
+   if( arbol->izquierdo ) obtenerPersonasEnRango( arbol->izquierdo, edadMenor, edadMayor, func );
+   if ( countInOrderEdad == 20 )
+   {
+       printf( "\n(contin%ca.....) ", acento_u );
+       pause();
+       countInOrderEdad = 0;
+       clrscr();
+       printf( "\n\n\t\tLISTA DE CLIENTES ALMACENADOS EN EL RANGO DE EDADES (%d - %d).\n", edadMenor, edadMayor );
+       printf( "\n\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS." );
+   }
+   func( &( arbol->dni ), arbol->persona.nombre, arbol->persona.apellido, &( arbol->persona.edad ), &( arbol->persona.ingresos ), &( edadMenor ), &( edadMayor ));
+   //countInOrderEdad++;
+   if( arbol->derecho ) obtenerPersonasEnRango( arbol->derecho, edadMenor, edadMayor, func );
+}
+
+
+
+/** FUNCIÓN PARA MOSTRAR LA INFO EN RECORRIDOS DEL ÁRBOL DE EDADES*/
+void MostrarEdadesPersonasTabuladas( int *dni, char *nom, char *ape, int *edad, int *ing, int *edadMenor, int *edadMayor )
+{
+/* PERSONAS:
+	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CRÉDITOS, REFERIDOS, ESTADO
+*/
+   if ( *edad >= *edadMenor && *edad <= *edadMayor ) { printf( "\n\t%d\t%s\t%s\t%d\t%d", *dni, nom, ape, *edad, *ing ); countInOrderEdad++;}
+}
+
+
+
+
+
+/** CREA LAS RELACIONES DE CLIENTES Y REFERIDOS */
+void verificarAmigos ( ArbolPersonas arbol )
+{
+
+	Persona persona;
+
+	if( arbol->izquierdo ) verificarAmigos( arbol->izquierdo );
+
+	int amigo = obtenerAmigo( arbol->dni );
+
+	if ( isIn( arrayDNIClientesActivos, amigo, LEN_ARR( arrayDNIClientesActivos )))//VERIFICA SI EL AMIGO ESTÁ ACTIVO
+	{
+		persona = obtenerPersonaDNI( ArbolClientes, amigo );				//CARGA AL CLIENTE UN AMIGO ACTIVO
+	}
+	else
+	{
+		persona = obtenerPersonaDNI( ArbolClientesInactivos, amigo );		//CARGA AL CLIENTE UN AMIGO INACTIVO
+	}
+
+	arbol->persona.amigo = &persona;
+
+	//printf("\nPersona: %s - Amigo: %s", arbol->persona.nombre, arbol->persona.amigo->nombre );
+
+	if( arbol->derecho ) verificarAmigos( arbol->derecho );
+}
+
+
+
+
+/** DEVUELVE EL DNI DEL AMIGO DEL CLIENTE */
+int obtenerAmigo ( int elemento )
+{
+    Lista *miLista = &listaClienteAmigo;
+	int i=0, retorno = 0;
+    int tamanioLista = obtenerTamanioLista( miLista );
+    if ( elemento <= tamanioLista )
+    {
+        while( miLista != NULL && miLista->siguiente != NULL  )
+        {
+            i++;
+            if ( miLista->cliente == elemento )
+            {
+                //printf("\n%d %d", miLista->cliente, miLista->amigo);
+            	retorno = miLista->amigo;
+            }
+            miLista = miLista->siguiente;
+        }
+    }
+
+	return retorno;
 }

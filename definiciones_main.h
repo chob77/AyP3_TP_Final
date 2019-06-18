@@ -26,11 +26,29 @@ const int Enie     = 165; //Ñ: 165
 # define COLOR_PERSONAS 244
 # define COLOR_CREDITOS 241
 
+#define LEN_ARR(x)  (sizeof(x) / sizeof((x)[0]))
+
 int gTotalClientes = 0;
 
 enum {PESOS, DOLARES};
 enum {INACTIVO, ACTIVO, CANCELADO, MORA, INCOBRABLE};
 enum {EFECTIVO, TARJETA, CHEQUE};
+
+void clrscr();
+void pause();
+void SetColores( int color );
+int existenPersonasAlmacenadas();
+int OpcionElegida();
+void mostrar_menu_creditos( );
+
+
+
+/*
+	PUNTEROS
+	* devuelve el valor de la variable
+	& devuelve la dirección de memoria
+*/
+
 
 /*
 #include <windows.h>

@@ -181,7 +181,7 @@ void generar_creditos_al_azar( )
 	fclose( file );
 	clrscr();
 	printf( "\n***********************************************************************" );
-	printf( "\n\n\t\tLISTA DE CR%cDITOS AL AZAR GENERADO CON %cXITO", acento_E );
+	printf( "\n\n\t\tLISTA DE CR%cDITOS AL AZAR GENERADO CON %cXITO", acento_E, acento_E );
 	printf( "\n\n***********************************************************************" );
 }
 

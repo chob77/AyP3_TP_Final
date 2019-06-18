@@ -47,13 +47,31 @@ typedef struct structPersonaArbol
 
 typedef nodoArbolPersona *pNodoPersonas;
 typedef nodoArbolPersona *ArbolPersonas;
+
 ArbolPersonas ArbolClientes = NULL;
 ArbolPersonas ArbolClientesInactivos = NULL;
+ArbolPersonas ArbolEdadClientes = NULL;
 
-int arrayDNIClientes[ 1000 ];//INTENTA SER UNA ESTRUCTURA DE BUSQUEDA RÁPIDA DE LA EXISTENCIA DE UN CLIENTE
+int arrayDNIClientesActivos[ 800 ];		//INTENTA SER UNA ESTRUCTURA DE BUSQUEDA RÁPIDA DE LA EXISTENCIA DE UN CLIENTE
+int arrayDNIClientesInactivos[ 800 ];	//INTENTA SER UNA ESTRUCTURA DE BUSQUEDA RÁPIDA DE LA EXISTENCIA DE UN CLIENTE
 
 int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona );
 int VacioPersonas( ArbolPersonas arbol );
+
+Persona inicializarPersona();
+Persona ingresarDatosPersona();
+int obtenerTotalPersonas();
+
+void parcerarDNIArchivo( char linea[1024], ArbolPersonas *arbol );
+void parcerarEDADArchivo( char linea[1024], ArbolPersonas *arbol );
+
+void cargarArchivoTemporalClientesActivos( char *linea );
+void parcerarLineaArchivoPorAmigo( char *linea, Persona *listaPersonas, int pos_persona );
+void concatenarClientes();
+Persona obtenerPersonaDNI( ArbolPersonas arbol, int dni );
+
+void cargarArbolClientes( ArbolPersonas *arbol, const char *filename );
+void cargarArbolEDADClientes( ArbolPersonas *arbol, const char *filename );
 
 /*
 typedef struct
