@@ -46,6 +46,21 @@ int isIn( int arr[], int val, int len )
 }
 
 
+
+/** DETERMINA SI UN STRING ES NUMÉRICO */
+int isNumero( char * st )
+{
+	int len = strlen( st );//obtiene el largo del string
+    int i;
+    for ( i = 0; i < len; i++ ) {
+        if ( (( int ) st[i])< 48 || (( int ) st[i]) > 57 ) {//verifica si alguno de los caracteres del string no es un número de la tabla ASCII
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+
 /** DEVUELVE LA OPCIÓN ESCOGIDA POR EL USUARIO */
 int OpcionElegida()
 {

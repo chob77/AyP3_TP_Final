@@ -11,27 +11,6 @@
 
 
 
-/** ELIMINA UN ELEMENTO DEL ÁRBOL */
-void eliminarElementoPersona( ArbolPersonas *arbol )
-{
-	int dni;
-	clrscr();
-	printf("\nELIMINAR UN ELEMENTO DEL %cRBOL: ", acento_A );
-	printf( "\n---------------------------------------" );
-	printf("\nELEMENTOS DEL %cRBOL: ", acento_A );
-	InOrden( arbol, Mostrar );
-	printf("\n\nINGRESA EL ELEMENTO A ELIMINAR DEL %cRBOL: ", acento_A );
-	scanf( "%d", &dni );
-
-	printf("\nSE VA A ELIMINAR EL ELEMENTO %d: \n", dni );
-	Borrar( arbol, dni );
-
-	printf("\n%cRBOL RESULTANTE: ", acento_A );
-	InOrden( arbol, Mostrar );
-	printf("\n\n" );
-}
-
-
 
 /** INSERTAR UN DATO EN EL ÁRBOL ABB */
 int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona )
@@ -289,8 +268,8 @@ void BorrarPersona( ArbolPersonas *arbol, int dni )
                padre = actual->padre;
             }
             if( padre )
-               if( padre->derecho == actual ) 	Equilibrar( arbol, padre, DERECHO, FALSE );
-               else                         	Equilibrar( arbol, padre, IZQUIERDO, FALSE );
+               if( padre->derecho == actual ) 	EquilibrarArbolPersona( arbol, padre, DERECHO, FALSE );
+               else                         	EquilibrarArbolPersona( arbol, padre, IZQUIERDO, FALSE );
             return;
          }
          else { // Si el valor está en el nodo actual, pero no es hoja
