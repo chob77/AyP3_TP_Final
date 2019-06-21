@@ -18,4 +18,6 @@ const char *tempClientesInactivos = "temp_clientes_inactivos.csv";
 const char *archivoCreditos = "creditos.csv";
 const char *archivoPagos = "pagos.csv";
 
+int nroLineaArchivo; //SIRVE DE CONTADOR DE LA LINEA DEL ARCHIVO (TEMPORAL) EN LA QUE ESTÁ ALMACENADO UN CLIENTE.
+
 

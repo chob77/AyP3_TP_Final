@@ -14,12 +14,22 @@ typedef struct Nodo {
 	unsigned int cliente;
 	unsigned int amigo;
 	struct Nodo *siguiente;
-}Lista;
+}	Lista;
 
-typedef Lista *ListaClienteAmigo;
 
-ListaClienteAmigo listaClienteAmigo;
-ListaClienteAmigo *lista = &listaClienteAmigo;
+typedef struct NodoArchivo {
+	unsigned int cliente;
+	unsigned int linea;
+	struct NodoArchivo *siguiente;
+}	ListaClienteLineaArchivo;
+
+
+Lista listaCliAmi;
+Lista *listaClienteAmigo = &listaCliAmi;
+
+
+ListaClienteLineaArchivo listaCliLinArchi;
+ListaClienteLineaArchivo *listaClienteLineaArchivo = &listaCliLinArchi ;
 
 
 Lista aux_temp;

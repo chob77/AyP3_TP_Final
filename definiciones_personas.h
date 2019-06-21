@@ -31,7 +31,7 @@ typedef struct structPersona
 	struct structCredito *creditosActivos[ LIMITE_CREDITO_POR_PERSONA_SIMULTANEOS ];
 	struct structPersona *amigo;
 	unsigned int estado;
-}Persona;
+}	Persona;
 
 
 typedef struct structPersonaArbol
@@ -54,6 +54,13 @@ ArbolPersonas ArbolEdadClientes = NULL;
 
 int arrayDNIClientesActivos[ 800 ];		//INTENTA SER UNA ESTRUCTURA DE BUSQUEDA RÁPIDA DE LA EXISTENCIA DE UN CLIENTE
 int arrayDNIClientesInactivos[ 800 ];	//INTENTA SER UNA ESTRUCTURA DE BUSQUEDA RÁPIDA DE LA EXISTENCIA DE UN CLIENTE
+
+int countInOrderEdad = 0;
+int countInOrder = 0;
+int clientesCargados = FALSE;
+int dniAmigo = 0;
+int hayClienteInactivoNuevo = FALSE;
+int hayClienteActivoNuevo = FALSE;
 
 int InsertarPersonaArbol( ArbolPersonas *arbol, int dni, Persona persona );
 int VacioPersonas( ArbolPersonas arbol );

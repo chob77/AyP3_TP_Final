@@ -30,6 +30,26 @@ void inicializarSiguienteNodo( Lista *miLista, int cliente, int amigo )
 
 
 
+
+/** CREA UN NUEVO ELEMENTO DE LA LISTA */
+void inicializarSiguienteNodoLineaClienteArchivo( ListaClienteLineaArchivo *miLista, int cliente, int linea )
+{
+	miLista->siguiente = malloc(sizeof( struct NodoArchivo ));
+
+	if ( miLista->siguiente == NULL ){
+
+		printf( "\nNo hay memoria disponible!\n");
+	}
+	else
+	{
+		miLista->siguiente->cliente = cliente;
+		miLista->siguiente->linea = linea;
+		miLista->siguiente->siguiente = NULL;
+		//printf("Se agrego elemento: %d\n", valor);
+	}
+}
+
+
 /** AGREGA LOS ELEMENTOS A LA LISTA SIMPLE */
 void agregarElementoLista( Lista *miLista, int cliente, int amigo )
 {
@@ -52,17 +72,57 @@ void agregarElementoLista( Lista *miLista, int cliente, int amigo )
 
 
 
+
+/** AGREGA LOS ELEMENTOS A LA LISTA SIMPLE */
+void agregarElementoListaLineaClienteArchivo( ListaClienteLineaArchivo *miLista, int cliente, int linea )
+{
+	if ( miLista->cliente == NULL )
+	{
+		miLista->cliente = cliente;
+		miLista->linea = linea;
+		miLista->siguiente = NULL;
+	}
+	else
+	{
+		while( miLista->siguiente != NULL )
+		{
+			miLista = miLista->siguiente;
+		}
+
+		inicializarSiguienteNodoLineaClienteArchivo( miLista, cliente, linea );
+	}
+}
+
+
+
 /** RECORRE LA LISTA MOSTRANDO EL CONTENIDO */
 void recorrerLista ( Lista *miLista)
 {
+	printf( "\nCONTENIDO DE LA LISTA:");
+
 	while( miLista != NULL )
 	{
-		printf( "\n%d %d", miLista->cliente, miLista->amigo);
+		printf( "\nCliente %d Amigo %d", miLista->cliente, miLista->amigo);
 		miLista = miLista->siguiente;
 	}
 	printf("\n");
 }
 
+
+
+
+/** RECORRE LA LISTA MOSTRANDO EL CONTENIDO */
+void recorrerListaLineaArchivo ( ListaClienteLineaArchivo *miLista )
+{
+	printf( "\nCONTENIDO DE LA LISTA:");
+
+	while( miLista != NULL )
+	{
+		printf( "\nCliente %d L%cnea %d", miLista->cliente, acento_i, miLista->linea);
+		miLista = miLista->siguiente;
+	}
+	printf("\n");
+}
 
 
 
@@ -98,7 +158,6 @@ void obtenerElementoLista ( Lista *miLista, int elemento)
             miLista = miLista->siguiente;
         }
     }
-
 }
 
 
