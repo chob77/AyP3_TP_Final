@@ -25,8 +25,9 @@
 
 #include "funciones_archivo.h"
 #include "funciones_arbol_personas.h"
-#include "funciones_persona.h"
 #include "funciones_lista_simple.h"
+#include "funciones_persona.h"
+#include "funciones_creditos.h"
 #include "funciones_main.h"
 
 
