@@ -1,8 +1,8 @@
 /*
- * MATERIA: ALGORITMOS Y PROGRAMACI√ìN 3
+ * MATERIA: ALGORITMOS Y PROGRAMACI”N 3
  * UNTREF 2019.
  *
- * TRABAJO PR√ÅCTICO FINAL INTEGRADOR: SISTEMA DE CR√âDITOS.
+ * TRABAJO PR¡CTICO FINAL INTEGRADOR: SISTEMA DE CR…DITOS.
  * FILE: definiciones_empresa.h
  *
  *  CREATED ON: 3 jun. 2019
@@ -14,19 +14,19 @@
 
 #define	LIMITE_CREDITO_PESOS  1000000
 #define	LIMITE_CREDITO_DOLARES  50000
-#define	LIMITE_CREDITO_POR_PERSONA_SIMULTANEOS  1 //DOS CR√âDITOS PERMITIDOS
+#define	LIMITE_CREDITO_POR_PERSONA_SIMULTANEOS  2 //DOS CR…DITOS PERMITIDOS
 #define	LIMITE_CREDITO_POR_PERSONA_POR_DIA  2
 
-#define	MONTO_CREDITO_PESOS
-#define	MONTO_CREDITO_DOLARES
+// #define	MONTO_CREDITO_PESOS
+// #define	MONTO_CREDITO_DOLARES
 
 #define	PLAZO_MINIMO_CREDITO  3  			//meses
-#define	PLAZO_MAXIMO_CREDITO  60 			//meses ( 5 a√±os )
+#define	PLAZO_MAXIMO_CREDITO  60 			//meses ( 5 aÒos )
 
-#define TNA     12
-#define	INTERES_POR_CUOTA  7	 			//%
-#define	INTERES_POR_MORA  20% 	 			//est√° en mora cuando se supera el plazo de pago estipulado
-#define	INTERES_POR_REFINANCIONACION  15	//%
+//#define TNA     12
+#define	INTERES_POR_CUOTA  1.07	 			//7%
+#define	INTERES_POR_MORA  20% 	 			//est· en mora cuando se supera el plazo de pago estipulado
+#define	INTERES_POR_REFINANCIONACION  15	//15%
 
-#define	PORCENTAJE_DE_INGRESOS_A_CEDER  70	//%
+#define	PORCENTAJE_DE_INGRESOS_A_CEDER  0.7	//70%
 #define	PLUS_POR_REFERIDOS  				//pesos o cuotas?

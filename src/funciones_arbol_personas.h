@@ -327,14 +327,14 @@ void InOrdenPersonaTabulada( ArbolPersonas arbol, void ( *func )( int*, char*, c
 	DNI	(clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CRÉDITOS, REFERIDOS, ESTADO
 */
    if( arbol->izquierdo ) InOrdenPersonaTabulada( arbol->izquierdo, func );
-   if ( countInOrder == 20 )
+   if ( countInOrder == 24 )
    {
        printf( "\n(contin%ca.....) ", acento_u );
        pause();
        countInOrder = 0;
        clrscr();
-       printf( "\n\n\t\tLISTA DE CLIENTES ALMACENADOS.\n" );
-       printf( "\n\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS\tREFERIDO" );
+       printf( "\n\t\tLISTA DE CLIENTES ALMACENADOS.\n" );
+       printf( "\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS\tREFERIDO\tDEUDA $\tDEUDA U$S" );
    }
 
    func( &( arbol->dni ), arbol->persona.nombre, arbol->persona.apellido, &( arbol->persona.edad ), &( arbol->persona.ingresos ), arbol->persona.amigo->nombre );
@@ -450,7 +450,10 @@ void MostrarPersonasTabuladas( int *dni, char *nom, char *ape, int *edad, int *i
 {
 	/* PERSONAS: DNI (clave), NOMBRE, APELLIDO, EDAD, INGRESOS, CRÉDITOS, REFERIDOS, ESTADO */
 
-   printf( "\n\t%d\t%-9s\t%-9s\t%d\t%-5d\t\t%-9s", *dni, nom, ape, *edad, *ing, amigo );
+	double p = obtenerDeudaPesos( *dni );
+	double d = obtenerDeudaDolares( *dni );
+
+	printf( "\n\t%d\t%-9s\t%-9s\t%d\t%-5d\t\t%-9s\t%-9.2f\t%-9.2f", *dni, nom, ape, *edad, *ing, amigo, p, d );
 }
 
 

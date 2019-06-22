@@ -22,13 +22,23 @@ const int acento_U = 23;  //Ú: 23
 const int enie     = 164; //ñ: 164
 const int Enie     = 165; //Ñ: 165
 
-# define COLOR_PRINCIPAL 242
-# define COLOR_PERSONAS 244
 # define COLOR_CREDITOS 241
+# define COLOR_PRINCIPAL 242
+# define COLOR_SPLASH 243
+# define COLOR_PERSONAS 244
+
+#define TRUE 1
+#define FALSE 0
 
 #define LEN_ARR(x)  (sizeof(x) / sizeof((x)[0]))
 
 int gTotalClientes = 0;
+int gTotalCreditos = 0;
+double gTotalPrestamoPesos = 0;
+double gTotalPrestamoDolares = 0;
+double gTotalDeudaPesos = 0;
+double gTotalDeudaDolares = 0;
+
 
 enum {PESOS, DOLARES};
 enum {INACTIVO, ACTIVO, CANCELADO, MORA, INCOBRABLE};
@@ -40,7 +50,7 @@ void SetColores( int color );
 int existenPersonasAlmacenadas();
 int OpcionElegida();
 void mostrar_menu_creditos( );
-
+void obtenerFecha( char fecha[10] );
 
 
 /*

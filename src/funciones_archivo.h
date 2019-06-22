@@ -10,22 +10,18 @@
  */
 
 
- FILE *abrirArchivoLectura( const char *filename )
+FILE *abrirArchivoLectura( const char *filename )
 {
 	FILE *f = fopen( filename, "r" );
 	return f;
 }
 
 
-
-
- FILE *abrirArchivoEscritura( const char *filename )
+FILE *abrirArchivoEscritura( const char *filename )
 {
 	FILE *f = fopen( filename, "w" );
 	return f;
 }
-
-
 
 
 FILE *abrirArchivoEscrituraContinua( const char *filename )
@@ -33,7 +29,6 @@ FILE *abrirArchivoEscrituraContinua( const char *filename )
 	FILE *f = fopen( filename, "a" );
 	return f;
 }
-
 
 
 void leerArchivo( FILE *f )
@@ -46,7 +41,6 @@ void leerArchivo( FILE *f )
 	}
 	fclose( f );
 }
-
 
 
 /** OBTIENE EL TOTAL DE LÍNEAS DE UN ARCHIVO DE TEXTO*/
@@ -72,8 +66,6 @@ int obtenerTotalLineasArchivo( const char *filename )
 }
 
 
-
-
 void guardarArchivo( Lista *miLista, FILE *f )
 {
 	while( miLista->siguiente != NULL )
@@ -85,8 +77,6 @@ void guardarArchivo( Lista *miLista, FILE *f )
 }
 
 
-
-
 /** ALMACENA LOS CLIENTES ACTIVOS EN UN ARCHIVO DE ACCESO RÁPIDO */
 void cargarArchivoTemporalClientes( char *linea, const char *filename )
 {
@@ -96,8 +86,7 @@ void cargarArchivoTemporalClientes( char *linea, const char *filename )
 }
 
 
-
-
+/** ACTUALIZA LA LÍNEA EN LA QUE ESTÁ ALMACENADO UN CLIENTE */
 void actualizarLineaArchivo( const char *filename, int nlinea, Persona *persona, int dniAmigo )
 {
 
@@ -109,9 +98,7 @@ void actualizarLineaArchivo( const char *filename, int nlinea, Persona *persona,
 	strcpy( linea, filename );
 	strcat( linea, ".tmp"); //CREA UN TEMPORAL
 
-
 	if ( persona->amigo ) dniAmigo = persona->amigo->dni;
-
 
 	FILE *f = abrirArchivoLectura( filename );//LEER CADA LINEA
 	FILE *fileOut = abrirArchivoEscritura( linea );//CREA UN TEMPORAL
@@ -129,7 +116,7 @@ void actualizarLineaArchivo( const char *filename, int nlinea, Persona *persona,
     fclose( f );
     fclose( fileOut );
 
-    printf("\nEDICION FINALIZADA.");
+    printf( "\nEDICI%cN FINALIZADA.", acento_O );
 
     remove( filename );
     strcpy( linea, "@move ");
@@ -142,8 +129,6 @@ void actualizarLineaArchivo( const char *filename, int nlinea, Persona *persona,
     pause();
     clrscr();
 }
-
-
 
 
 void borrarLinea( int nlinea, const char *filename )
@@ -167,7 +152,6 @@ void borrarLinea( int nlinea, const char *filename )
     fclose( f );
     fclose( ff );
 
-
     remove( filename );
     strcpy( linea, "@move ");
     strcat( linea, filename );
@@ -176,7 +160,30 @@ void borrarLinea( int nlinea, const char *filename )
     strcat( linea, ">nul" );
     system( linea );			//CREA UNA COPIA TEMPORAL DEL ARCHIVO A EDITAR
 
-    printf("\nELIMINACION FINALIZADA.");
+    printf("\nEDICI%cN FINALIZADA.", acento_O);
     pause();
     clrscr();
+}
+
+
+
+/** VERIFICA LA EXISTENCIA DEL ARCHIVO DE CRÉDITOS */
+int existenCreditosAlmacenados()
+{
+	int retorno = FALSE;
+	FILE *f = abrirArchivoLectura( archivoCreditos );
+	if  ( f ) retorno = TRUE;
+	fclose( f );
+	return retorno;
+}
+
+
+/** VERIFICA LA EXISTENCIA DEL ARCHIVO DE CLIENTES */
+int existenPersonasAlmacenadas()
+{
+	int retorno = FALSE;
+	FILE *file = abrirArchivoLectura( archivoPersonas );
+	if  ( file ) retorno = TRUE;
+	fclose( file );
+	return retorno;
 }

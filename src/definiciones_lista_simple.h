@@ -10,11 +10,13 @@
  */
 
 
-typedef struct Nodo {
+
+ typedef struct Nodo {
 	unsigned int cliente;
 	unsigned int amigo;
 	struct Nodo *siguiente;
 }	Lista;
+
 
 
 typedef struct NodoArchivo {
@@ -24,13 +26,26 @@ typedef struct NodoArchivo {
 }	ListaClienteLineaArchivo;
 
 
+
+typedef struct NodoCredito {
+	unsigned int cliente;
+	// unsigned int credito;
+	struct structCredito credito;
+	struct NodoCredito *siguiente;
+}	ListaCreditoCliente;
+
+
 Lista listaCliAmi;
 Lista *listaClienteAmigo = &listaCliAmi;
-
 
 ListaClienteLineaArchivo listaCliLinArchi;
 ListaClienteLineaArchivo *listaClienteLineaArchivo = &listaCliLinArchi ;
 
+ListaClienteLineaArchivo listaCreLinArchi;
+ListaClienteLineaArchivo *listaCreditoLineaArchivo = &listaCreLinArchi ;
+
+ListaCreditoCliente listaCreCli;
+ListaCreditoCliente *listaCreditoCliente = &listaCreCli;
 
 Lista aux_temp;
 Lista *aux = &aux_temp;

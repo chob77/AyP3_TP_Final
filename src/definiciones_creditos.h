@@ -9,18 +9,20 @@
  *      AUTHOR: chob
  */
 
+
 typedef struct structCredito
 {
 	unsigned int id;
 	unsigned int dni;
 	unsigned int estado;
-	char *fechalta[ 10 ]; // dd/mm/yyyy
+	char fechalta[ 10 ]; // dd/mm/yyyy
 	double monto;
 	unsigned int moneda;
 	double saldo;
 	unsigned int cuotas;
 	struct structPagos *pagos; //LISTA ENLAZADA DE PAGOS REALIZADOS
 }	Credito;
+
 
 typedef struct structPagos
 {
@@ -34,21 +36,19 @@ typedef struct structPagos
 }	Pago;
 
 
-/* CRÉDITOS:
-	DNI	(clave)	//IDENTIFICACIÓN DEL PROPIETARIO. UN CLIENTE PUEDE TENER MÁS DE UN CRÉDITO
-	FECHALTA	//FECHA DE CREACIÓN
+/*	CRÉDITOS:
 	ID			//AUTOINCREMENTAL
+	DNI	(clave)	//IDENTIFICACIÓN DEL PROPIETARIO. UN CLIENTE PUEDE TENER MÁS DE UN CRÉDITO
+	ESTADO		//ACTIVO-CANCELADO
+	FECHALTA	//FECHA DE CREACIÓN
 	MONTO		//MONTO PRESTADO
 	MONEDA		//PESOS-DOLARES
-	PAGOS		//ARRAY DE PAGOS REALIZADOS
-	SALDO		//MONTO ADEUDADO
-	ESTADO		//ACTIVO-CANCELADO
 	CUOTAS		//MESES PARA CANCELAR LA DEUDA
-	TNA			//TASA NOMINAL ANUAL
-
+	SALDO		//MONTO ADEUDADO
+	PAGOS		//ARRAY DE PAGOS REALIZADOS
 */
 
-/* PAGOS:       //ALMACENA LOS PAGOS REALIZADOS POR UN CLIENTE
+/*	PAGOS:		//ALMACENA LOS PAGOS REALIZADOS POR UN CLIENTE
  *  ID_PAGO     //CORRELATIVO
  *  DNI         //PERSONA
  *  ID_CREDITO  //IDENTIFOCADOR DE CRÉDITO
@@ -57,3 +57,12 @@ typedef struct structPagos
  *  TIPO_PAGO   //EFECTIVO-TARJETA-CHEQUE
  *  MONEDA      //PESOS-DOLARES
 */
+
+
+
+void parcerarLineaArchivoCredito( char linea[1024] );
+Credito inicializarCredito();
+Credito IngresarDatosCredito();
+double obtenerDeudaPesos( int dni );
+double obtenerDeudaDolares( int dni );
+

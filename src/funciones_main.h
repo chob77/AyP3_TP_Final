@@ -10,11 +10,13 @@
  */
 
 
- /** LIMPA TODA LA PANTALLA DE LA CONSOLA*/
+
+/** LIMPA TODA LA PANTALLA DE LA CONSOLA*/
 void clrscr( )
 {
     system( "@cls||clear" );
 }
+
 
 
 /** GENERA UNA PAUSA EN LA EJECUCIÓN DEL PROGRAMA*/
@@ -26,11 +28,13 @@ void pause( )
 }
 
 
+
 /** MODIFICA LOS COLORES DE LA CONSOLA */
 void SetColores( int color )
 {
 	SetConsoleTextAttribute(GetStdHandle (STD_OUTPUT_HANDLE), color );
 }
+
 
 
 /** DETERMINA SI UN ELEMENTO EXISTE EN UN ARRAY */
@@ -61,6 +65,7 @@ int isNumero( char * st )
 }
 
 
+
 /** DEVUELVE LA OPCIÓN ESCOGIDA POR EL USUARIO */
 int OpcionElegida()
 {
@@ -69,6 +74,67 @@ int OpcionElegida()
     scanf("%d", &opcion);
     return opcion;
 }
+
+
+
+/** DEVUEVE LA FECHA ACTUAL */
+void obtenerFecha( char fecha[10] )
+{
+	time_t t;
+	struct tm *tm;
+	t=time(NULL);
+	tm=localtime(&t);
+	strftime( fecha, 100, "%d/%m/%Y", tm );
+}
+
+
+
+/**
+*	MUESTRA EL MANÚ SPLAS DEL PROGRAMA
+*	MUESTRA UN RESUMEN DEL SISTEMA PARA HACER TIEMPO AL ABRIR TODA LA INFO
+*/
+void mostrar_menu_splash( )
+{
+    SetColores( COLOR_SPLASH );
+	printf( "\n\n\nSISTEMA DE GESTI%cN DE CR%cDITOS",acento_O ,acento_E );
+    printf( "\n\nAGUARDE MIENTRAS SE CARGA LA INFORMACI%cN.", acento_O );
+
+    gTotalClientes = 0;
+    gTotalCreditos = 0;
+	gTotalPrestamoPesos = 0;
+	gTotalPrestamoDolares = 0;
+	gTotalDeudaPesos = 0;
+	gTotalDeudaDolares = 0;
+
+	cargarCreditos();	//CARGA LOS CRÉDITOS DESDE EL ARCHIVO
+
+    gTotalClientes = obtenerTotalPersonas( ); //CARGA LOS CLIENTES DESDE EL ARCHIVO
+	if ( gTotalClientes > 0 )
+    {
+		ArbolClientes = NULL;
+		ArbolClientesInactivos = NULL;
+		if ( obtenerTotalLineasArchivo( tempClientesActivos ) > 0 ) 	cargarArbolClientes( &ArbolClientes, tempClientesActivos );
+        if ( obtenerTotalLineasArchivo( tempClientesInactivos ) > 0 ) 	cargarArbolClientes( &ArbolClientesInactivos, tempClientesInactivos );
+
+// NO SE PUEDE VERIFICAR LOS AMIGOS REFERIDOS SIN ANTES TENER CARGADOS LOS ÁRBOLES DE CLIENTES ACTIVOS E INACTIVOS
+        if ( obtenerTotalLineasArchivo( tempClientesActivos ) > 0 ) 	verificarAmigos( &ArbolClientes );
+        if ( obtenerTotalLineasArchivo( tempClientesInactivos ) > 0 ) 	verificarAmigos( &ArbolClientesInactivos );
+
+        //if ( gTotalCreditos > 0 ) verificarCreditos();
+
+    }
+
+    printf( "\n\n\tTOTAL DE CR%cDITOS: %d", acento_E, gTotalCreditos );
+    printf( "\n\n\tTOTAL DE CLIENTES: %d", gTotalClientes );
+    printf( "\n\n\tMONTO TOTAL PRESTADO EN PESOS: $%.2f", gTotalPrestamoPesos );
+    printf( "\n\n\tMONTO TOTAL PRESTADO EN DOLARES: $%.2f", gTotalPrestamoDolares );
+    printf( "\n\n\tMONTO TOTAL DEUDAS EN PESOS: $%.2f", gTotalDeudaPesos );
+    printf( "\n\n\tMONTO TOTAL DEUDAS EN DOLARES: $%.2f", gTotalDeudaDolares );
+
+    pause();
+    clrscr();
+}
+
 
 
 /**
@@ -85,6 +151,8 @@ void mostrar_menu_principal( )
     if ( existenPersonasAlmacenadas() == 0 ) printf( "\n\n\t3.GENERAR 1000 CLIENTES AL AZAR" );//EL SISTEMA ESTÁ VACÍO Y PROPONE GENERAR CLIENTES DE PRUEBA
 
     if ( existenCreditosAlmacenados() == 0 ) printf( "\n\n\t4.GENERAR 100 CR%cDITOS AL AZAR", acento_E );
+
+    printf( "\n\n\t5.MOSTRAR RES%cMEN", acento_U );
 
     printf( "\n\n\t0.SALIR\n" );
 }

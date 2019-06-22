@@ -21,11 +21,11 @@ void mostrar_menu_personas()
 	printf( "\n\nSISTEMA DE GESTI%cN DE CR%cDITOS.",acento_O ,acento_E );
     printf( "\n\nOPCIONES DISPONIBLES PARA EL LA GESTI%cN DE CLIENTES:", acento_O );
 
-    if ( existenPersonasAlmacenadas() == 1 && !clientesCargados )
+    /*if ( existenPersonasAlmacenadas() == 1 && !clientesCargados )
     {
         printf( "\n\n\t1.CARGAR CLIENTES ALMACENADOS");
         clientesCargados = TRUE;
-    }
+    }*/
 
     if (  gTotalClientes >= 1000 )
     {
@@ -113,11 +113,11 @@ void opcionesMenuPersonas()
 
             case 3: //OPCION 3 LISTAR CLIENTES EXISTENTES
                 clrscr();
-				printf( "\n\n\t\tLISTA DE CLIENTES ALMACENADOS (ACTIVOS).\n" );
+				printf( "\n\t\tLISTA DE CLIENTES ALMACENADOS (ACTIVOS).\n" );
 
 				if ( obtenerTotalLineasArchivo( tempClientesActivos ) > 0 )
                 {
-					printf( "\n\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS\tREFERIDO" );
+					printf( "\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS\tREFERIDO\tDEUDA($)\tDEUDA(U$S)" );
 					countInOrder=0;
 					InOrdenPersonaTabulada( ArbolClientes, MostrarPersonasTabuladas );
                 }
@@ -215,8 +215,6 @@ void opcionesMenuPersonas()
                 {
                     printf("\nEL DNI INGRESADO NO EXISTE EN LA BASE DE DATOS DE CLIENTES");
                 }
-
-
             	break;
 
             case 8: //OPCION 6 ASIGNAR REFERIDO A CLIENTE
@@ -232,7 +230,6 @@ void opcionesMenuPersonas()
         }
     }while( opcion !=0 );
 }
-
 
 
 
@@ -286,7 +283,6 @@ int cargarNuevoCliente( ArbolPersonas *arbol )
 	printf( "\nFINALIZO LA CARGA DE PERSONAS. SE CARGARON %d PERSONA/S\n", i);
 	return i;
 }
-
 
 
 
@@ -394,7 +390,6 @@ void almacenarPersonas( Persona *persona, const char *filename )
 
 
 
-
 /** CARGA EL ÁRBOL DE CLIENTES CON LOS DEL ARCHIVO DE CLIENTES */
 void cargarArbolClientes( ArbolPersonas *arbol, const char *filename )
 {
@@ -410,7 +405,6 @@ void cargarArbolClientes( ArbolPersonas *arbol, const char *filename )
 	}
 	fclose( file );
 }
-
 
 
 
@@ -460,33 +454,6 @@ void parcerarDNIArchivo( char linea[1024], ArbolPersonas *arbol )
 			strcpy( dato, "" );
 		}
 	}
-}
-
-
-
-/** VERIFICA LA EXISTENCIA DEL ARCHIVO DE CLIENTES */
-int existenPersonasAlmacenadas()
-{
-	int retorno = 0;
-	FILE *file = abrirArchivoLectura( archivoPersonas );
-
-	if  ( file ) retorno = 1;
-
-	fclose( file );
-
-	return retorno;
-}
-
-
-
-/** VERIFICA LA EXISTENCIA DEL ARCHIVO DE CRÉDITOS */
-int existenCreditosAlmacenados()
-{
-	int retorno = 0;
-	FILE *f = abrirArchivoLectura( archivoCreditos );
-	if  ( f ) retorno = 1;
-	fclose( f );
-	return retorno;
 }
 
 
@@ -657,7 +624,6 @@ void parcerarEDADArchivo( char linea[1024], ArbolPersonas *arbol )
 
 
 
-
 /** DEVUELVE EL DNI DEL AMIGO DEL CLIENTE */
 int obtenerAmigo ( int elemento )
 {
@@ -677,7 +643,6 @@ int obtenerAmigo ( int elemento )
 
 
 
-
 /** DEVUELVE EL DNI DEL AMIGO DEL CLIENTE */
 int obtenerLineaArchivoCliente ( int elemento )
 {
@@ -694,7 +659,6 @@ int obtenerLineaArchivoCliente ( int elemento )
 	}
 	return retorno;
 }
-
 
 
 

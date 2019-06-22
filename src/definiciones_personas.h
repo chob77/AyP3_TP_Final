@@ -21,6 +21,8 @@
 	ESTADO
 */
 
+enum {IZQUIERDO, DERECHO};
+
 typedef struct structPersona
 {
 	unsigned int dni;
@@ -79,6 +81,9 @@ Persona obtenerPersonaDNI( ArbolPersonas arbol, int dni );
 
 void cargarArbolClientes( ArbolPersonas *arbol, const char *filename );
 void cargarArbolEDADClientes( ArbolPersonas *arbol, const char *filename );
+
+void InOrdenPersona( ArbolPersonas arbol , void (*func)(int*, char*));
+void EquilibrarArbolPersonas( ArbolPersonas *arbol, pNodoPersonas nodo, int, int );
 
 /*
 typedef struct

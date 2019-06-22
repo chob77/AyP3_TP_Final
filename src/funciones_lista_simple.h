@@ -30,6 +30,26 @@ void inicializarSiguienteNodo( Lista *miLista, int cliente, int amigo )
 
 
 
+/** CREA UN NUEVO ELEMENTO DE LA LISTA */
+//void inicializarSiguienteNodoCredito( ListaCreditoCliente *miLista, int cliente, int credito )
+void inicializarSiguienteNodoCredito( ListaCreditoCliente *miLista, int cliente, Credito credito )
+{
+	miLista->siguiente = malloc(sizeof( struct NodoCredito ));
+
+	if ( miLista->siguiente == NULL ){
+
+		printf( "\nNo hay memoria disponible!\n");
+	}
+	else
+	{
+		miLista->siguiente->cliente = cliente;
+		miLista->siguiente->credito = credito;
+		miLista->siguiente->siguiente = NULL;
+		//printf("Se agrego elemento: %d\n", valor);
+	}
+}
+
+
 
 /** CREA UN NUEVO ELEMENTO DE LA LISTA */
 void inicializarSiguienteNodoLineaClienteArchivo( ListaClienteLineaArchivo *miLista, int cliente, int linea )
@@ -48,6 +68,30 @@ void inicializarSiguienteNodoLineaClienteArchivo( ListaClienteLineaArchivo *miLi
 		//printf("Se agrego elemento: %d\n", valor);
 	}
 }
+
+
+
+/** AGREGA LOS ELEMENTOS A LA LISTA SIMPLE */
+//void agregarElementoListaCredito( ListaCreditoCliente *miLista, int cliente, int credito )
+void agregarElementoListaCredito( ListaCreditoCliente *miLista, int cliente, Credito credito )
+{
+	if ( miLista->cliente == NULL )
+	{
+		miLista->cliente = cliente;
+		miLista->credito = credito;
+		miLista->siguiente = NULL;
+	}
+	else
+	{
+		while( miLista->siguiente != NULL )
+		{
+			miLista = miLista->siguiente;
+		}
+
+		inicializarSiguienteNodoCredito( miLista, cliente, credito );
+	}
+}
+
 
 
 /** AGREGA LOS ELEMENTOS A LA LISTA SIMPLE */
@@ -69,7 +113,6 @@ void agregarElementoLista( Lista *miLista, int cliente, int amigo )
 		inicializarSiguienteNodo( miLista, cliente, amigo );
 	}
 }
-
 
 
 
@@ -110,6 +153,91 @@ void recorrerLista ( Lista *miLista)
 
 
 
+/** RECORRE LA LISTA MOSTRANDO EL CONTENIDO */
+void listarCreditos ( ListaCreditoCliente *miLista )
+{
+
+PaginarCreditos:
+	countInOrder = 0;
+	clrscr();
+	printf( "\nCR%cDITOS EXISTENTES\n", acento_E );
+
+/* CRÉDITOS: ID;DNI;ESTADO;FECHALTA;MONTO;MONEDA;CUOTAS;SALDO */
+
+	printf( "\n\tCR%cDITO\tCLIENTE\tESTADO\tFECHA\t\tMONTO\t\tMONEDA\tCUOTAS\tSALDO", acento_E );
+
+	while( miLista != NULL )
+	{
+		printf( "\n\t%d\t%d\t%s\t%s\t%8.2f\t%s\t%d\t%8.2f", miLista->credito.id, miLista->cliente, (miLista->credito.estado==ACTIVO?"ACTIVO":"INACTIVO"), &miLista->credito.fechalta, miLista->credito.monto, (miLista->credito.moneda==0?"PESOS":"DOLARES"), miLista->credito.cuotas, miLista->credito.saldo );
+		miLista = miLista->siguiente;
+		countInOrder++;
+		if ( countInOrder == 24 ) { printf("\ncontin%ca.... ", acento_u ); pause(); goto PaginarCreditos; }
+	}
+}
+
+
+
+/** RECORRE LA LISTA MOSTRANDO EL CONTENIDO */
+int listarCreditosDNI ( ListaCreditoCliente *miLista, int dni )
+{
+	printf("\nEL CLIENTE POSEE LOS SIGUIENTES CR%cDITOS:\n", acento_E );
+
+/* CRÉDITOS: ID;DNI;ESTADO;FECHALTA;MONTO;MONEDA;CUOTAS;SALDO */
+
+	printf( "\n\tCR%cDITO\tCLIENTE\tESTADO\tFECHA\t\tMONTO\t\tMONEDA\tCUOTAS\tSALDO", acento_E );
+
+	countInOrder = 0;
+	while( miLista != NULL )
+	{
+		if ( miLista->cliente == dni )
+		{
+			printf( "\n\t%d\t%d\t%s\t%s\t%8.2f\t%s\t%d\t%8.2f", miLista->credito.id, miLista->cliente, (miLista->credito.estado==ACTIVO?"ACTIVO":"INACTIVO"), &miLista->credito.fechalta, miLista->credito.monto, (miLista->credito.moneda==0?"PESOS":"DOLARES"), miLista->credito.cuotas, miLista->credito.saldo );
+			countInOrder++;
+		}
+		miLista = miLista->siguiente;
+	}
+
+	return countInOrder;
+}
+
+
+
+/** DEVUELVE EL ID DE UN CRÉDITO */
+int obtenerIDCreditoCliente( ListaCreditoCliente *miLista, int dni )
+{
+	int id = 0;
+	while( miLista != NULL )
+	{
+		if ( miLista->cliente == dni )
+		{
+			id = miLista->credito.id;
+		}
+		miLista = miLista->siguiente;
+	}
+
+	return id;
+}
+
+
+
+/**  */
+Credito *obtenerDireccionCredito( ListaCreditoCliente *miLista, int idCredito )
+{
+	Credito *credito;
+
+	while( miLista != NULL )
+	{
+		if ( miLista->credito.id == idCredito )
+		{
+			credito = &miLista->credito;
+		}
+		miLista = miLista->siguiente;
+	}
+
+	return credito;
+}
+
+
 
 /** RECORRE LA LISTA MOSTRANDO EL CONTENIDO */
 void recorrerListaLineaArchivo ( ListaClienteLineaArchivo *miLista )
@@ -128,6 +256,20 @@ void recorrerListaLineaArchivo ( ListaClienteLineaArchivo *miLista )
 
 /** DEVUELVE EL TAMAÑO DE LA LISTA */
 int obtenerTamanioLista ( Lista *miLista )
+{
+	int tamanioLista = 0;
+	while( miLista != NULL )
+	{
+		tamanioLista++;
+		miLista = miLista->siguiente;
+	}
+	return tamanioLista;
+}
+
+
+
+/** DEVUELVE EL TAMAÑO DE LA LISTA */
+int obtenerTamanioListaCredito ( ListaCreditoCliente *miLista )
 {
 	int tamanioLista = 0;
 	while( miLista != NULL )

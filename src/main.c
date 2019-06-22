@@ -14,11 +14,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <time.h>
 
 #include "definiciones_main.h"
 #include "definiciones_empresa.h"
 #include "definiciones_personas.h"
-#include "definiciones_arboles.h"
 #include "definiciones_archivo.h"
 #include "definiciones_creditos.h"
 #include "definiciones_lista_simple.h"
@@ -73,13 +73,18 @@
 */
 
 
+
 int main(){
-    SetColores( COLOR_PRINCIPAL );
+	SetColores( COLOR_PRINCIPAL );
 	clrscr();
     int opcion;
 
+	mostrar_menu_splash();
+
+
 	do
 	{
+		SetColores( COLOR_PRINCIPAL );
 		mostrar_menu_principal();
         opcion = OpcionElegida();
 
@@ -90,7 +95,7 @@ int main(){
             	break;
 
             case 2: //OPCION 2 GESTIÓN DE CRÉDITOS
-            	opcionesMenuCreditos( );
+            	opcionesMenuCreditos();
             	break;
 
             case 3: //OPCION 3 GENERAR 1000 CLIENTES AL AZAR
@@ -99,6 +104,11 @@ int main(){
 
             case 4: //OPCION 4 GENERAR 100 CRÉDITOS AL AZAR
             	generar_creditos_al_azar( );
+            	break;
+
+            case 5: //OPCION 5 MUESTRA LA ESTADÍSTICA DEL SPLASH
+                clrscr();
+            	mostrar_menu_splash();
             	break;
 
             default:
