@@ -387,6 +387,7 @@ void procesarPagoParcial()
 		{
 			printf("\n\tINGRESA EL MONTO DEL PAGO A REALIZAR: ");
 			scanf("%d", &pago.monto );
+
 		}	while( pago.monto==0 );
 
 		credito->saldo -= pago.monto;	//ACTUALIZO EL SALDO DE LA DEUDA
