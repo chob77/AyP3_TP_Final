@@ -11,15 +11,13 @@
 
 
 
-
-
 /** MUESTRA EL MANÚ PARA MANEJAR LAS UTILIDADES CON LAS PERSONAS */
 void mostrar_menu_personas()
 {
     clrscr();
     SetColores( COLOR_PERSONAS );
-	printf( "\n\nSISTEMA DE GESTI%cN DE CR%cDITOS.",acento_O ,acento_E );
-    printf( "\n\nOPCIONES DISPONIBLES PARA EL LA GESTI%cN DE CLIENTES:", acento_O );
+	printf( "\n\n\tSISTEMA DE GESTI%cN DE CR%cDITOS.",acento_O ,acento_E );
+    printf( "\n\n\tOPCIONES DISPONIBLES PARA EL LA GESTI%cN DE CLIENTES:", acento_O );
 
     /*if ( existenPersonasAlmacenadas() == 1 && !clientesCargados )
     {
@@ -37,26 +35,21 @@ void mostrar_menu_personas()
         printf( "\n\n\t*** SE DEBE CARGRAR LOS CLIENTES ALMACENADOS ANTES DE AGREGAR UNO NUEVO ****" );
     }
 
-    //if (  existenPersonasAlmacenadas() && gTotalClientes < 1000 )
     else
     {
-        printf( "\n\n\t2.CARGAR NUEVO CLIENTE");
+        printf( "\n\n\t\t2.CARGAR NUEVO CLIENTE");
     }
-    /*else
-    {
-        printf( "\n\n\t2.CARGAR NUEVO CLIENTE");
-    }*/
 
     if ( gTotalClientes >= 1 )
 	{
-		printf( "\n\n\t3.LISTAR CLIENTES ACTIVOS" );
-		printf( "\n\n\t4.LISTAR CLIENTES INACTIVOS" );
-		printf( "\n\n\t5.BUSCAR CLIENTE POR DNI");
-		printf( "\n\n\t6.LISTAR CLIENTES POR RANGO DE EDAD" );
-		printf( "\n\n\t7.EDITAR DATOS DE CLIENTE");
+		printf( "\n\n\t\t3.LISTAR CLIENTES ACTIVOS" );
+		printf( "\n\n\t\t4.LISTAR CLIENTES INACTIVOS" );
+		printf( "\n\n\t\t5.BUSCAR CLIENTE POR DNI");
+		printf( "\n\n\t\t6.LISTAR CLIENTES POR RANGO DE EDAD" );
+		printf( "\n\n\t\t7.EDITAR DATOS DE CLIENTE");
 	}
 
-    printf( "\n\n\t0.VOLVER\n" );
+    printf( "\n\n\t\t0.VOLVER\n" );
 }
 
 
@@ -113,11 +106,12 @@ void opcionesMenuPersonas()
 
             case 3: //OPCION 3 LISTAR CLIENTES EXISTENTES
                 clrscr();
-				printf( "\n\t\tLISTA DE CLIENTES ALMACENADOS (ACTIVOS).\n" );
+				printf( "\n\tLISTA DE CLIENTES ALMACENADOS (ACTIVOS).\n" );
 
 				if ( obtenerTotalLineasArchivo( tempClientesActivos ) > 0 )
                 {
-					printf( "\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS\tREFERIDO\tDEUDA($)\tDEUDA(U$S)" );
+					printf( "\n   DNI\tNOMBRE\t\t\tAPELLIDO\t\tEDAD\tINGRESOS\tREFERIDO\tDEUDA($)\tDEUDA(U$S)" );
+					printf( "\n   ----------------------------------------------------------------------------------------------------------------------" );
 					countInOrder=0;
 					InOrdenPersonaTabulada( ArbolClientes, MostrarPersonasTabuladas );
                 }
@@ -128,12 +122,13 @@ void opcionesMenuPersonas()
 				pause();
                 break;
 
-            case 4: //OPCION 3 LISTAR CLIENTES EXISTENTES
+            case 4: //OPCION 4 LISTAR CLIENTES EXISTENTES
                 clrscr();
                 printf( "\n\n\t\tLISTA DE CLIENTES ALMACENADOS (INACTIVOS).\n" );
 				if ( obtenerTotalLineasArchivo( tempClientesInactivos ) > 0 )
                 {
-					printf( "\n\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS\tREFERIDO." );
+					printf( "\n   DNI\tNOMBRE\t\t\tAPELLIDO\t\tEDAD\tINGRESOS\tREFERIDO\tDEUDA($)\tDEUDA(U$S)" );
+					printf( "\n   ----------------------------------------------------------------------------------------------------------------------" );
 					countInOrder=0;
 					InOrdenPersonaTabulada( ArbolClientesInactivos, MostrarPersonasTabuladas );
                 }
@@ -152,16 +147,18 @@ void opcionesMenuPersonas()
 
                 if ( isIn( arrayDNIClientesActivos, dni, LEN_ARR( arrayDNIClientesActivos )))
                 {
-                    printf("\n\tEL DNI EST%c ACTIVO: ", acento_A );
+                    printf("\n\tEL CLIENTE EST%c ACTIVO.\n\n", acento_A );
                     persona = obtenerPersonaDNI( ArbolClientes, dni ); //SE BUSCA UNA PERSONA ENTRE LOS ACTIVOS
-                    printf( "\t%d, %s, %s\n", persona.dni, persona.nombre, persona.apellido );
+                    printf( "\tDNI: %d\n\tNOBRE APELLIDO: %s, %s\n\tEDAD: %d\n\tINGRESOS: %d\n\tREFERIDO: %s, %s\n",
+                    		persona.dni, persona.nombre, persona.apellido, persona.edad, persona.ingresos, persona.amigo->nombre, persona.amigo->apellido );
                 }
 
                 else if ( isIn( arrayDNIClientesInactivos, dni, LEN_ARR( arrayDNIClientesInactivos )))
                 {
-                    printf("\n\tEL DNI EST%c INACTIVO:", acento_A );
+                    printf("\n\tEL CLIENTE EST%c INACTIVO:", acento_A );
                     persona = obtenerPersonaDNI( ArbolClientesInactivos, dni ); //SE BUSCA UNA PERSONA ENTRE LOS ACTIVOS
-                    printf( "\t%d, %s, %s\n", persona.dni, persona.nombre, persona.apellido );
+                    printf( "\tDNI: %d\n\tNOBRE APELLIDO: %s, %s\n\tEDAD: %d\n\tINGRESOS: %d\n\tREFERIDO: %s, %s\n",
+                    		persona.dni, persona.nombre, persona.apellido, persona.edad, persona.ingresos, persona.amigo->nombre, persona.amigo->apellido );
                 }
 
                 else
@@ -179,13 +176,15 @@ void opcionesMenuPersonas()
 
                 cargarArbolEDADClientes( &ArbolEdadClientes, tempClientesActivos );
 
-                printf( "\n\nINGRESA EL RANGO DE EDADES A BUSCAR (xx xx): ");
-
                 int edadMenor = 0, edadMayor = 0;
+                do
+                {
+					printf( "\n\nINGRESA EL RANGO DE EDADES A BUSCAR (xx yy): ");
+					scanf( "%d %d", &edadMenor, &edadMayor );
+                }	while( edadMayor <= edadMenor || edadMenor == 0 || edadMayor == 0 || edadMenor < MOYORIA_DE_EDAD );
 
-                scanf( "%d %d", &edadMenor, &edadMayor );
-
-				printf( "\n\n\tDNI\tNOMBRE\t\tAPELLIDO\tEDAD\tINGRESOS." );
+                printf( "\n\n\tDNI\tNOMBRE\t\t\tAPELLIDO\t  EDAD\tINGRESOS." );
+				printf( "\n\t------------------------------------------------------------------" );
 
 				obtenerPersonasEnRango( ArbolEdadClientes, edadMenor, edadMayor, MostrarEdadesPersonasTabuladas );
 				pause();
@@ -650,7 +649,7 @@ int obtenerLineaArchivoCliente ( int elemento )
 	int retorno = 0;
 	while( miLista != NULL  )
 	{
-		if ( miLista->cliente == elemento )
+		if ( miLista->dniCliente == elemento )
 		{
 			//printf("\nCliente: %d linea: %d", miLista->cliente, miLista->linea);
 			retorno = miLista->linea;

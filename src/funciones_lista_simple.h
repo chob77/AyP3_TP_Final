@@ -10,6 +10,7 @@
  */
 
 
+
 /** CREA UN NUEVO ELEMENTO DE LA LISTA */
 void inicializarSiguienteNodo( Lista *miLista, int cliente, int amigo )
 {
@@ -24,15 +25,13 @@ void inicializarSiguienteNodo( Lista *miLista, int cliente, int amigo )
 		miLista->siguiente->cliente = cliente;
 		miLista->siguiente->amigo = amigo;
 		miLista->siguiente->siguiente = NULL;
-		//printf("Se agrego elemento: %d\n", valor);
 	}
 }
 
 
 
 /** CREA UN NUEVO ELEMENTO DE LA LISTA */
-//void inicializarSiguienteNodoCredito( ListaCreditoCliente *miLista, int cliente, int credito )
-void inicializarSiguienteNodoCredito( ListaCreditoCliente *miLista, int cliente, Credito credito )
+void inicializarSiguienteNodoCredito( ListaCreditosClientes *miLista, int cliente, Credito credito )
 {
 	miLista->siguiente = malloc(sizeof( struct NodoCredito ));
 
@@ -42,10 +41,9 @@ void inicializarSiguienteNodoCredito( ListaCreditoCliente *miLista, int cliente,
 	}
 	else
 	{
-		miLista->siguiente->cliente = cliente;
+		miLista->siguiente->dniCliente = cliente;
 		miLista->siguiente->credito = credito;
 		miLista->siguiente->siguiente = NULL;
-		//printf("Se agrego elemento: %d\n", valor);
 	}
 }
 
@@ -62,33 +60,9 @@ void inicializarSiguienteNodoLineaClienteArchivo( ListaClienteLineaArchivo *miLi
 	}
 	else
 	{
-		miLista->siguiente->cliente = cliente;
+		miLista->siguiente->dniCliente = cliente;
 		miLista->siguiente->linea = linea;
 		miLista->siguiente->siguiente = NULL;
-		//printf("Se agrego elemento: %d\n", valor);
-	}
-}
-
-
-
-/** AGREGA LOS ELEMENTOS A LA LISTA SIMPLE */
-//void agregarElementoListaCredito( ListaCreditoCliente *miLista, int cliente, int credito )
-void agregarElementoListaCredito( ListaCreditoCliente *miLista, int cliente, Credito credito )
-{
-	if ( miLista->cliente == NULL )
-	{
-		miLista->cliente = cliente;
-		miLista->credito = credito;
-		miLista->siguiente = NULL;
-	}
-	else
-	{
-		while( miLista->siguiente != NULL )
-		{
-			miLista = miLista->siguiente;
-		}
-
-		inicializarSiguienteNodoCredito( miLista, cliente, credito );
 	}
 }
 
@@ -117,11 +91,33 @@ void agregarElementoLista( Lista *miLista, int cliente, int amigo )
 
 
 /** AGREGA LOS ELEMENTOS A LA LISTA SIMPLE */
+void agregarElementoListaCredito( ListaCreditosClientes *miLista, int cliente, Credito credito )
+{
+	if ( miLista->dniCliente == NULL )
+	{
+		miLista->dniCliente = cliente;
+		miLista->credito = credito;
+		miLista->siguiente = NULL;
+	}
+	else
+	{
+		while( miLista->siguiente != NULL )
+		{
+			miLista = miLista->siguiente;
+		}
+
+		inicializarSiguienteNodoCredito( miLista, cliente, credito );
+	}
+}
+
+
+
+/** AGREGA LOS ELEMENTOS A LA LISTA SIMPLE */
 void agregarElementoListaLineaClienteArchivo( ListaClienteLineaArchivo *miLista, int cliente, int linea )
 {
-	if ( miLista->cliente == NULL )
+	if ( miLista->dniCliente == NULL )
 	{
-		miLista->cliente = cliente;
+		miLista->dniCliente = cliente;
 		miLista->linea = linea;
 		miLista->siguiente = NULL;
 	}
@@ -154,47 +150,90 @@ void recorrerLista ( Lista *miLista)
 
 
 /** RECORRE LA LISTA MOSTRANDO EL CONTENIDO */
-void listarCreditos ( ListaCreditoCliente *miLista )
+void listarCreditos ( ListaCreditosClientes *miLista )
 {
 
 PaginarCreditos:
 	countInOrder = 0;
 	clrscr();
-	printf( "\nCR%cDITOS EXISTENTES\n", acento_E );
+	printf( "\n\nCR%cDITOS ACTIVOS EXISTENTES\n", acento_E );
 
 /* CRÉDITOS: ID;DNI;ESTADO;FECHALTA;MONTO;MONEDA;CUOTAS;SALDO */
 
-	printf( "\n\tCR%cDITO\tCLIENTE\tESTADO\tFECHA\t\tMONTO\t\tMONEDA\tCUOTAS\tSALDO", acento_E );
+	printf("\n\t------------------------------------------------------------------------------------------");
+	printf( "\n\tCR%cDITO\tCLIENTE\tFECHA\t\tMONTO\t   MONEDA    CUOTAS\tSALDO\t\tCUOTA", acento_E );
+	printf("\n\t------------------------------------------------------------------------------------------");
 
 	while( miLista != NULL )
 	{
-		printf( "\n\t%d\t%d\t%s\t%s\t%8.2f\t%s\t%d\t%8.2f", miLista->credito.id, miLista->cliente, (miLista->credito.estado==ACTIVO?"ACTIVO":"INACTIVO"), &miLista->credito.fechalta, miLista->credito.monto, (miLista->credito.moneda==0?"PESOS":"DOLARES"), miLista->credito.cuotas, miLista->credito.saldo );
+		if ( miLista->credito.estado==ACTIVO )
+		{
+			printf( "\n\t%d\t%d\t%s   $%10.2f  %7s      %-3d   $%10.2f   $%10.2f",
+								miLista->credito.idCredito, miLista->dniCliente,
+								&miLista->credito.fechalta, miLista->credito.monto, (miLista->credito.moneda==0?"PESOS":"DOLARES"),
+								miLista->credito.cuotas, miLista->credito.saldo, ( miLista->credito.saldo/miLista->credito.cuotas) );
+			printf("\n\t------------------------------------------------------------------------------------------");
+			countInOrder++;
+		}
 		miLista = miLista->siguiente;
-		countInOrder++;
-		if ( countInOrder == 24 ) { printf("\ncontin%ca.... ", acento_u ); pause(); goto PaginarCreditos; }
+		if ( countInOrder == 17 ) { printf("\ncontin%ca.... ", acento_u ); pause(); goto PaginarCreditos; }
 	}
 }
 
 
 
 /** RECORRE LA LISTA MOSTRANDO EL CONTENIDO */
-int listarCreditosDNI ( ListaCreditoCliente *miLista, int dni )
+int listarCreditosDNI ( ListaCreditosClientes *miLista, int dni )
 {
-	printf("\nEL CLIENTE POSEE LOS SIGUIENTES CR%cDITOS:\n", acento_E );
+	ListaCreditosClientes * aux = miLista;
+
+	printf("\nEL CLIENTE POSEE LOS SIGUIENTES CR%cDITOS PENDIENTES:\n", acento_E );
 
 /* CRÉDITOS: ID;DNI;ESTADO;FECHALTA;MONTO;MONEDA;CUOTAS;SALDO */
 
-	printf( "\n\tCR%cDITO\tCLIENTE\tESTADO\tFECHA\t\tMONTO\t\tMONEDA\tCUOTAS\tSALDO", acento_E );
+	printf("\n\t------------------------------------------------------------------------------------------");
+	printf( "\n\tCR%cDITO\tCLIENTE\tFECHA\t\tMONTO\t   MONEDA    CUOTAS\tSALDO\t\tCUOTA", acento_E );
+	printf("\n\t------------------------------------------------------------------------------------------");
 
 	countInOrder = 0;
-	while( miLista != NULL )
+	double pagosRealizados = 0;
+
+	double deuda = 0;
+	while( aux != NULL )
 	{
-		if ( miLista->cliente == dni )
+		if ( aux->dniCliente == dni )
 		{
-			printf( "\n\t%d\t%d\t%s\t%s\t%8.2f\t%s\t%d\t%8.2f", miLista->credito.id, miLista->cliente, (miLista->credito.estado==ACTIVO?"ACTIVO":"INACTIVO"), &miLista->credito.fechalta, miLista->credito.monto, (miLista->credito.moneda==0?"PESOS":"DOLARES"), miLista->credito.cuotas, miLista->credito.saldo );
-			countInOrder++;
+			if ( aux->credito.estado==ACTIVO )
+			{
+				printf( "\n\t%d\t%d\t%s   $%10.2f    %7s    %-3d   $%10.2f   $%10.2f",
+					aux->credito.idCredito, aux->dniCliente,
+					&aux->credito.fechalta, aux->credito.monto, (aux->credito.moneda==0?"PESOS":"DOLARES"),
+					aux->credito.cuotas, aux->credito.saldo, ( aux->credito.saldo/aux->credito.cuotas) );
+
+				printf("\n\t------------------------------------------------------------------------------------------");
+				deuda += aux->credito.saldo;
+
+				if ( isInArrayCreditosPagos( arrayCreditoPagos, aux->credito.idCredito ) )		//SI POSEE PAGOS REGISTRADOS LOS LISTO
+				{
+					printf("\n\nPAGOS ASOCIADOS AL CR%cDITO: ", acento_E );
+					mostrarListaPagosCliente( aux->credito.idCredito );
+				}
+				else
+				{
+					printf( "\nEL CREDITO %d NO POSEE PAGOS ASOCIADOS.", aux->credito.idCredito );
+				}
+
+				if ( pagosRealizados > 0 )
+				{
+					printf("\n\t\t-----------------------------------------");
+					printf("\nTOTAL DE PAGOS REALIZADOS: \t$%10.2f\n", pagosRealizados );
+					pagosRealizados = 0;
+				}
+
+				countInOrder++;
+			}
 		}
-		miLista = miLista->siguiente;
+		aux = aux->siguiente;
 	}
 
 	return countInOrder;
@@ -203,31 +242,31 @@ int listarCreditosDNI ( ListaCreditoCliente *miLista, int dni )
 
 
 /** DEVUELVE EL ID DE UN CRÉDITO */
-int obtenerIDCreditoCliente( ListaCreditoCliente *miLista, int dni )
+int obtenerIDCreditoCliente( ListaCreditosClientes *miLista, int dni )
 {
-	int id = 0;
+	int idCredito = 0;
 	while( miLista != NULL )
 	{
-		if ( miLista->cliente == dni )
+		if ( miLista->dniCliente == dni )
 		{
-			id = miLista->credito.id;
+			idCredito = miLista->credito.idCredito;
 		}
 		miLista = miLista->siguiente;
 	}
 
-	return id;
+	return idCredito;
 }
 
 
 
-/**  */
-Credito *obtenerDireccionCredito( ListaCreditoCliente *miLista, int idCredito )
+/** DEVUELVE LA DIRECCIÓN DE UN CRÉDITO */
+Credito *obtenerDireccionCredito( ListaCreditosClientes *miLista, int idCredito )
 {
 	Credito *credito;
 
 	while( miLista != NULL )
 	{
-		if ( miLista->credito.id == idCredito )
+		if ( miLista->credito.idCredito == idCredito )
 		{
 			credito = &miLista->credito;
 		}
@@ -246,7 +285,7 @@ void recorrerListaLineaArchivo ( ListaClienteLineaArchivo *miLista )
 
 	while( miLista != NULL )
 	{
-		printf( "\nCliente %d L%cnea %d", miLista->cliente, acento_i, miLista->linea);
+		printf( "\nCliente %d L%cnea %d", miLista->dniCliente, acento_i, miLista->linea);
 		miLista = miLista->siguiente;
 	}
 	printf("\n");
@@ -269,7 +308,7 @@ int obtenerTamanioLista ( Lista *miLista )
 
 
 /** DEVUELVE EL TAMAÑO DE LA LISTA */
-int obtenerTamanioListaCredito ( ListaCreditoCliente *miLista )
+int obtenerTamanioListaCredito ( ListaCreditosClientes *miLista )
 {
 	int tamanioLista = 0;
 	while( miLista != NULL )
@@ -554,4 +593,155 @@ void ordenarLista ( Lista *miLista )
 
 		/*printf("\nLISTA ORDENADA: " );
 		recorrerLista( miLista );*/
+}
+
+
+
+/** VERIFICA SI UN CRÉDITO POSEE PAGOS */
+int isInArrayCreditosPagos( ArrayCreditos *arrayCred, int idCredito )
+{
+	ArrayCreditos *aux = arrayCred;
+	int retorno = FALSE;
+
+	while( aux != NULL )
+	{
+		if ( aux->idCredito == idCredito ) retorno = TRUE;
+		aux = aux->siguiente;
+	}
+
+    return retorno;
+}
+
+
+
+ListaPagoCliente *obtenerNodoLista( int idCredito )
+{
+	ListaPagoCliente *aux = listaPagoCliente;
+
+	while( aux->siguiente != NULL )
+	{
+		if ( aux->idCredito == idCredito ) return aux;
+		aux = aux->siguiente;
+	}
+
+	return aux;
+}
+
+
+
+SubListaPagos *agregrarSubLista( SubListaPagos *pagos, Pago pago )
+{
+	SubListaPagos *nodo = ( SubListaPagos * ) malloc( sizeof( struct nodoSubPagos ));
+	nodo->pago = pago;
+	nodo->siguiente = NULL;
+
+	if ( pagos == NULL )
+	{
+		return nodo;
+	}
+
+	SubListaPagos *ultimoPago = pagos;
+
+	while( ultimoPago->siguiente != NULL )
+	{
+		ultimoPago = ultimoPago->siguiente;
+	}
+
+	ultimoPago->siguiente = nodo;
+	return pagos;
+}
+
+
+
+/** VINCULA CLIENTES Y SUS PAGOS */
+ListaPagoCliente *agregarPagoCredito( int id_credito )
+{
+	ListaPagoCliente *nodo = ( ListaPagoCliente * ) malloc( sizeof( struct NodoPago ));
+	nodo->idCredito = id_credito;
+	nodo->pagos = NULL;
+	nodo->siguiente = NULL;
+
+	if ( listaPagoCliente == NULL )
+	{
+		return nodo;
+	}
+
+	ListaPagoCliente *ultimoNodo = listaPagoCliente;
+
+	while( ultimoNodo->siguiente != NULL  )
+	{
+		ultimoNodo = ultimoNodo->siguiente;
+	}
+
+	ultimoNodo->siguiente = nodo;
+	return listaPagoCliente;
+
+}
+
+
+
+/** AGREGA UN NODO AL A LISTA ENLAZADA DE CRÉDITOS CON PAGOS ASOCIADOS */
+ArrayCreditos *agregraArrayCreditoPagos( int id_credito )
+{
+	ArrayCreditos *nodo = ( ArrayCreditos * ) malloc( sizeof( struct arrayCredito ));
+	nodo->idCredito = id_credito;
+	nodo->siguiente = NULL;
+
+
+	if ( arrayCreditoPagos == NULL )
+	{
+		return nodo;
+	}
+
+	ArrayCreditos *ultimoNodo = arrayCreditoPagos;
+
+	while( ultimoNodo->siguiente != NULL  )
+	{
+		ultimoNodo = ultimoNodo->siguiente;
+	}
+
+	ultimoNodo->siguiente = nodo;
+	return arrayCreditoPagos;
+}
+
+
+
+/** MUESTRA LOS PAGOS ASOCIADOS A UN CRÉDITO */
+void mostrarListaPagosCliente( int idCredito )
+{
+	ListaPagoCliente *ultimoNodo = listaPagoCliente;
+
+	while( ultimoNodo != NULL  )
+	{
+		if ( ultimoNodo->idCredito == idCredito )
+		{
+			printf(" %d:", ultimoNodo->idCredito );
+
+			SubListaPagos * subaux = ultimoNodo->pagos;
+			while( subaux != NULL )
+			{
+				printf("\n\tPAGO: %d - FECHA: %s - MONTO: %.2f", subaux->pago.idPago, subaux->pago.fechalta, subaux->pago.monto );
+				subaux = subaux->siguiente;
+			}
+			printf("\n");
+		}
+		ultimoNodo = ultimoNodo->siguiente;
+	}
+
+}
+
+
+
+void mostrarArrayCreditoPagos()
+{
+	ArrayCreditos *ultimoNodo = arrayCreditoPagos;
+
+	printf("\nCONTENIDO DE LA LISTA: arrayCreditoPagos: ");
+	while( ultimoNodo != NULL  )
+	{
+		printf("%d, ", ultimoNodo->idCredito );
+		ultimoNodo = ultimoNodo->siguiente;
+	}
+
+	printf("\n");
 }

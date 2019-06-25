@@ -10,7 +10,6 @@
  */
 
 
-
  typedef struct Nodo {
 	unsigned int cliente;
 	unsigned int amigo;
@@ -18,21 +17,40 @@
 }	Lista;
 
 
-
 typedef struct NodoArchivo {
-	unsigned int cliente;
+	unsigned int dniCliente;
 	unsigned int linea;
 	struct NodoArchivo *siguiente;
 }	ListaClienteLineaArchivo;
 
 
-
 typedef struct NodoCredito {
-	unsigned int cliente;
-	// unsigned int credito;
+	unsigned int dniCliente;
 	struct structCredito credito;
 	struct NodoCredito *siguiente;
-}	ListaCreditoCliente;
+}	ListaCreditosClientes;
+
+
+typedef struct nodoSubPagos
+{
+	struct structPago pago;
+	struct nodoSubPagos *siguiente;
+}	SubListaPagos;
+
+
+typedef struct NodoPago {
+	unsigned int idCredito;
+	struct NodoPago *siguiente;
+	struct nodoSubPagos *pagos;
+}	ListaPagoCliente;
+
+
+/** LISTA ENLAZADA PARA ALMACENAR LOS CRÉDITOS QUE POSEEN PAGOS*/
+typedef struct arrayCredito {
+	unsigned int idCredito;
+	struct arrayCredito *siguiente;
+}	ArrayCreditos;
+
 
 
 Lista listaCliAmi;
@@ -44,8 +62,16 @@ ListaClienteLineaArchivo *listaClienteLineaArchivo = &listaCliLinArchi ;
 ListaClienteLineaArchivo listaCreLinArchi;
 ListaClienteLineaArchivo *listaCreditoLineaArchivo = &listaCreLinArchi ;
 
-ListaCreditoCliente listaCreCli;
-ListaCreditoCliente *listaCreditoCliente = &listaCreCli;
+ListaCreditosClientes listaCreCli;
+ListaCreditosClientes *listaCreditoCliente = &listaCreCli;
+
+ListaPagoCliente listaPagCli;
+ListaPagoCliente *listaPagoCliente = &listaPagCli;
+
+ArrayCreditos arrayCredPag;
+ArrayCreditos *arrayCreditoPagos = &arrayCredPag;
 
 Lista aux_temp;
 Lista *aux = &aux_temp;
+
+Credito *obtenerDireccionCredito( ListaCreditosClientes *miLista, int idCredito );

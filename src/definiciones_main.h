@@ -9,28 +9,28 @@
  *      AUTHOR: chob
  */
 
-const int acento_a = 160; //á: 160
-const int acento_e = 130; //é: 130
-const int acento_i = 161; //í: 161
-const int acento_o = 162; //ó: 162
-const int acento_u = 163; //ú: 163
-const int acento_A = 181; //Á: 181
-const int acento_E = 144; //É: 144
-const int acento_I = 214; //Í: 214
-const int acento_O = 224; //Ó: 224
-const int acento_U = 23;  //Ú: 23
-const int enie     = 164; //ñ: 164
-const int Enie     = 165; //Ñ: 165
+# define acento_a  160 //á: 160
+# define acento_e  130 //é: 130
+# define acento_i  161 //í: 161
+# define acento_o  162 //ó: 162
+# define acento_u  163 //ú: 163
+# define acento_A  181 //Á: 181
+# define acento_E  144 //É: 144
+# define acento_I  214 //Í: 214
+# define acento_O  224 //Ó: 224
+# define acento_U  23  //Ú: 23
+# define enie      164 //ñ: 164
+# define Enie      165 //Ñ: 165
 
 # define COLOR_CREDITOS 241
 # define COLOR_PRINCIPAL 242
 # define COLOR_SPLASH 243
 # define COLOR_PERSONAS 244
 
-#define TRUE 1
-#define FALSE 0
+# define TRUE 1
+# define FALSE 0
 
-#define LEN_ARR(x)  (sizeof(x) / sizeof((x)[0]))
+# define LEN_ARR(x)  (sizeof(x) / sizeof((x)[0]))
 
 int gTotalClientes = 0;
 int gTotalCreditos = 0;
@@ -38,7 +38,8 @@ double gTotalPrestamoPesos = 0;
 double gTotalPrestamoDolares = 0;
 double gTotalDeudaPesos = 0;
 double gTotalDeudaDolares = 0;
-
+double gTotalDeudaPesosIncobrable = 0;
+double gTotalDeudaDolaresIncobrable = 0;
 
 enum {PESOS, DOLARES};
 enum {INACTIVO, ACTIVO, CANCELADO, MORA, INCOBRABLE};

@@ -91,9 +91,9 @@ void actualizarLineaArchivo( const char *filename, int nlinea, Persona *persona,
 {
 
 	char linea[ 1024 ];
-	int i = 0;//, dniAmigo = dniReferido;
+	int i = 0;
 
-	printf( "\nPERSONA RECIBIDA PARA ALMACENAR: %d, %s, %s, %d, %d (%d)\n", persona->dni, persona->nombre, persona->apellido, persona->estado, dniAmigo, nlinea );
+	//printf( "\nPERSONA RECIBIDA PARA ALMACENAR: %d, %s, %s, %d, %d (%d)\n", persona->dni, persona->nombre, persona->apellido, persona->estado, dniAmigo, nlinea );
 
 	strcpy( linea, filename );
 	strcat( linea, ".tmp"); //CREA UN TEMPORAL
@@ -116,7 +116,6 @@ void actualizarLineaArchivo( const char *filename, int nlinea, Persona *persona,
     fclose( f );
     fclose( fileOut );
 
-    printf( "\nEDICI%cN FINALIZADA.", acento_O );
 
     remove( filename );
     strcpy( linea, "@move ");
@@ -124,13 +123,56 @@ void actualizarLineaArchivo( const char *filename, int nlinea, Persona *persona,
     strcat( linea, ".tmp " );
     strcat( linea, filename );
     strcat( linea, ">nul" );
-    system( linea );			//CREA UNA COPIA TEMPORAL DEL ARCHIVO A EDITAR
+    system( linea );			//CONVIERTE EL TEMPORAL EN PRINCIPAL
 
+    printf( "\nEDICI%cN FINALIZADA CON %cXITO.", acento_O, acento_E );
     pause();
     clrscr();
 }
 
 
+
+/**  */
+void actualizarLineaArchivoCreditos( Credito *credito )
+{
+	int nlinea = credito->idCredito;
+	char linea[ 1024 ];
+	int i = 0;
+
+	strcpy( linea, archivoCreditos );
+	strcat( linea, ".tmp"); //CREA UN TEMPORAL
+
+	FILE *f = abrirArchivoLectura( archivoCreditos );//LEER CADA LINEA
+	FILE *fileOut = abrirArchivoEscritura( linea );//CREA UN TEMPORAL
+
+    while( fgets( linea, 1024, f ) )
+    {
+        if ( i != nlinea ) fprintf( fileOut, "%s", linea );
+
+		else fprintf( fileOut, "%d;%d;%d;%s;%.2f;%d;%d;%.2f\n", credito->idCredito, credito->dniCliente, credito->estado, credito->fechalta, credito->monto, credito->moneda, credito->cuotas, credito->saldo);
+
+        i++;
+    }
+
+    fclose( f );
+    fclose( fileOut );
+
+    remove( archivoCreditos );
+    strcpy( linea, "@move ");
+    strcat( linea, archivoCreditos );
+    strcat( linea, ".tmp " );
+    strcat( linea, archivoCreditos );
+    strcat( linea, ">nul" );
+    system( linea );			//CONVIERTE EL TEMPORAL EN PRINCIPAL
+
+    printf( "\nEDICI%cN FINALIZADA CON %cXITO.", acento_O, acento_E );
+    //pause();
+    //clrscr();
+}
+
+
+
+/** BORRA UNA LÍNEA DEL ARCHIVO DADO */
 void borrarLinea( int nlinea, const char *filename )
 {
 	char linea[ 1024 ];
@@ -138,7 +180,7 @@ void borrarLinea( int nlinea, const char *filename )
 	strcpy( linea, filename );
 	strcat( linea, ".tmp");
 
-	printf("\se debe borrar la linea %d del archivo %s", nlinea, filename);
+	//printf("\se debe borrar la linea %d del archivo %s", nlinea, filename);
 
 	FILE *f = abrirArchivoLectura( filename );//LEER CADA LINEA
 	FILE *ff = abrirArchivoEscritura( linea );//CREA UN TEMPORAL
@@ -160,9 +202,21 @@ void borrarLinea( int nlinea, const char *filename )
     strcat( linea, ">nul" );
     system( linea );			//CREA UNA COPIA TEMPORAL DEL ARCHIVO A EDITAR
 
-    printf("\nEDICI%cN FINALIZADA.", acento_O);
+    printf( "\nEDICI%cN FINALIZADA CON %cXITO.", acento_O, acento_E );
     pause();
     clrscr();
+}
+
+
+
+/** VERIFICA LA EXISTENCIA DEL ARCHIVO DE PAGOS */
+int existenPagosAlmacenados()
+{
+	int retorno = FALSE;
+	FILE *f = abrirArchivoLectura( archivoPagos );
+	if  ( f ) retorno = TRUE;
+	fclose( f );
+	return retorno;
 }
 
 
@@ -187,3 +241,6 @@ int existenPersonasAlmacenadas()
 	fclose( file );
 	return retorno;
 }
+
+
+

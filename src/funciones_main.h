@@ -22,7 +22,6 @@ void clrscr( )
 /** GENERA UNA PAUSA EN LA EJECUCIÓN DEL PROGRAMA*/
 void pause( )
 {
-    //printf( "\n\n" );
     printf( "\n\nPresiona una tecla para continuar!" );
 	system( "@pause>nul" );
 }
@@ -41,8 +40,6 @@ void SetColores( int color )
 int isIn( int arr[], int val, int len )
 {
     int retorno = 0, i=0;
-
-	//int len = sizeof( array ) / sizeof( array[0] );
 
     for( i=0; i<len; i++) if ( arr[i] == val ) retorno = 1;
 
@@ -96,8 +93,7 @@ void obtenerFecha( char fecha[10] )
 void mostrar_menu_splash( )
 {
     SetColores( COLOR_SPLASH );
-	printf( "\n\n\nSISTEMA DE GESTI%cN DE CR%cDITOS",acento_O ,acento_E );
-    printf( "\n\nAGUARDE MIENTRAS SE CARGA LA INFORMACI%cN.", acento_O );
+    printf( "\n\n\tAGUARDA UN MOMENTO MIENTRAS SE CARGA LA INFORMACI%cN.", acento_O );
 
     gTotalClientes = 0;
     gTotalCreditos = 0;
@@ -105,8 +101,12 @@ void mostrar_menu_splash( )
 	gTotalPrestamoDolares = 0;
 	gTotalDeudaPesos = 0;
 	gTotalDeudaDolares = 0;
+	gTotalDeudaDolaresIncobrable = 0;
+	gTotalDeudaDolaresIncobrable = 0;
+	listaCreditoCliente = NULL;
 
-	cargarCreditos();	//CARGA LOS CRÉDITOS DESDE EL ARCHIVO
+	cargarArchivoCreditos();	//CARGA LOS CRÉDITOS DESDE EL ARCHIVO
+	cargarArchivoPagos();		//CARGA LOS PAGOS DESDE EL ARCHIVO
 
     gTotalClientes = obtenerTotalPersonas( ); //CARGA LOS CLIENTES DESDE EL ARCHIVO
 	if ( gTotalClientes > 0 )
@@ -120,16 +120,28 @@ void mostrar_menu_splash( )
         if ( obtenerTotalLineasArchivo( tempClientesActivos ) > 0 ) 	verificarAmigos( &ArbolClientes );
         if ( obtenerTotalLineasArchivo( tempClientesInactivos ) > 0 ) 	verificarAmigos( &ArbolClientesInactivos );
 
-        //if ( gTotalCreditos > 0 ) verificarCreditos();
 
     }
 
-    printf( "\n\n\tTOTAL DE CR%cDITOS: %d", acento_E, gTotalCreditos );
-    printf( "\n\n\tTOTAL DE CLIENTES: %d", gTotalClientes );
-    printf( "\n\n\tMONTO TOTAL PRESTADO EN PESOS: $%.2f", gTotalPrestamoPesos );
-    printf( "\n\n\tMONTO TOTAL PRESTADO EN DOLARES: $%.2f", gTotalPrestamoDolares );
-    printf( "\n\n\tMONTO TOTAL DEUDAS EN PESOS: $%.2f", gTotalDeudaPesos );
-    printf( "\n\n\tMONTO TOTAL DEUDAS EN DOLARES: $%.2f", gTotalDeudaDolares );
+	clrscr();
+    printf( "\n\n\t******************************************************" );
+	printf( "\n\n\t********** SISTEMA DE GESTI%cN DE CR%cDITOS ************",acento_O ,acento_E );
+    printf( "\n\n\t******************************************************" );
+    printf( "\n\n\t**************** RESUMEN DEL SISTEMA *****************" );
+    printf( "\n\n\t******************************************************" );
+    printf( "\n\n\t\tTOTAL DE CR%cDITOS: %d", acento_E, gTotalCreditos );
+    printf( "\n\t\tTOTAL DE CLIENTES: %d", gTotalClientes );
+
+    printf( "\n\n\t\tMONTO TOTAL PRESTADO EN PESOS: $%.2f", gTotalPrestamoPesos );
+    printf( "\n\t\tMONTO TOTAL DEUDAS   EN PESOS: $%.2f", gTotalDeudaPesos );
+
+    printf( "\n\n\t\tMONTO TOTAL PRESTADO EN DOLARES: $%.2f", gTotalPrestamoDolares );
+    printf( "\n\t\tMONTO TOTAL DEUDAS   EN DOLARES: $%.2f", gTotalDeudaDolares );
+
+    printf( "\n\n\t\tMONTO TOTAL INCOBRABLE EN PESOS: $%.2f", gTotalDeudaDolaresIncobrable );
+    printf( "\n\t\tMONTO TOTAL INCOBRABLE EN DOLARES: $%.2f", gTotalDeudaDolaresIncobrable );
+
+    printf( "\n\n\t******************************************************" );
 
     pause();
     clrscr();
@@ -144,17 +156,17 @@ void mostrar_menu_splash( )
 void mostrar_menu_principal( )
 {
     SetColores( COLOR_PRINCIPAL );
-	printf( "\n\n\nSISTEMA DE GESTI%cN DE CR%cDITOS",acento_O ,acento_E );
-    printf( "\n\nOPCIONES DISPONIBLES. ELIJA UNO PARA COMENZAR." );
-    printf( "\n\n\t1.PERSONAS" );
-    printf( "\n\n\t2.CR%cDITOS", acento_E );
-    if ( existenPersonasAlmacenadas() == 0 ) printf( "\n\n\t3.GENERAR 1000 CLIENTES AL AZAR" );//EL SISTEMA ESTÁ VACÍO Y PROPONE GENERAR CLIENTES DE PRUEBA
+	printf( "\n\n\n\t\tSISTEMA DE GESTI%cN DE CR%cDITOS",acento_O ,acento_E );
+    printf( "\n\n\t\tOPCIONES DISPONIBLES. ELIJA UNO PARA COMENZAR." );
+    printf( "\n\n\t\t\t1.PERSONAS" );
+    printf( "\n\n\t\t\t2.CR%cDITOS", acento_E );
+    if ( existenPersonasAlmacenadas() == 0 ) printf( "\n\n\t\t\t3.GENERAR 1000 CLIENTES AL AZAR" );//EL SISTEMA ESTÁ VACÍO Y PROPONE GENERAR CLIENTES DE PRUEBA
 
-    if ( existenCreditosAlmacenados() == 0 ) printf( "\n\n\t4.GENERAR 100 CR%cDITOS AL AZAR", acento_E );
+    if ( existenCreditosAlmacenados() == 0 ) printf( "\n\n\t\t\t4.GENERAR 500 CR%cDITOS AL AZAR", acento_E );
 
-    printf( "\n\n\t5.MOSTRAR RES%cMEN", acento_U );
+    printf( "\n\n\t\t\t5.MOSTRAR RES%cMEN", acento_U );
 
-    printf( "\n\n\t0.SALIR\n" );
+    printf( "\n\n\t\t\t0.SALIR\n" );
 }
 
 
@@ -171,52 +183,53 @@ void generar_clientes_al_azar( )
 
 	for ( i = 0; i <= 999; i++)
 	{
-		edad = rand () % ( 0-56+1 ) + 18;
-		ingresos = rand () % ( 0-170000+1 ) + 10000;
+		edad = rand () % ( 0-56+1 ) + MOYORIA_DE_EDAD;
+		ingresos = rand () % ( 0-17000+1 ) + 1000;
 		cero_uno = rand () % ( 0-3+1 ) ;			//ENTRE 0 Y 1
-		referido = rand () % ( 0-1002+1 ) + 1;			//ENTRE 0 Y 999
+		referido = rand () % ( 0-1002+1 ) + 1;		//ENTRE 0 Y 999
 		fprintf( file, "%03d;NOMBRE_CLTE%d;APELLIDO_CLTE%d;%d;%d;%d;%03d;%d\n", i+1, i+1, i+1, edad, ingresos, cero_uno, referido, cero_uno );
 	}
 
 	fclose( file );
 	clrscr();
-	printf( "\n***********************************************************************" );
-	printf( "\n\n\t\tLISTA DE CLIENTES AL AZAR GENERADA CON %cXITO", acento_E );
-	printf( "\n\n***********************************************************************" );
+	printf( "\n\t\t***********************************************************************" );
+	printf( "\n\n\t\t\t\tLISTA DE CLIENTES AL AZAR GENERADA CON %cXITO", acento_E );
+	printf( "\n\n\t\t***********************************************************************" );
 }
 
 
 
-/** FUNCIÓN QUE GENERA 100 CRÉDITOS AL AZAR */
+/** FUNCIÓN QUE GENERA 500 CRÉDITOS AL AZAR */
 void generar_creditos_al_azar( )
 {
-	int i = 0, dia = 0, mes = 0, anio = 0, monto = 0, moneda = 0, cuotas = 0;
+	int i = 0, dia = 0, mes = 0, anio = 0, monto = 0, moneda = 0, cuotas = 0, cero_uno = 0;
 
 	FILE *file = abrirArchivoEscritura( archivoCreditos );
 
 	//fprintf( file, "ID;DNI;ESTADO;FECHALTA;MONTO;MONEDA;CUOTAS;SALDO");
 
-	for ( i = 0; i <= 99; i++)
+	for ( i = 0; i <= 499; i++)
 	{
 		dia = rand () % ( 0-32+1 ) + 1;
 		mes = rand () % ( 0-14+1 ) + 1;
 		anio = rand () % ( 0-4+1 ) + 2017;
-		monto = rand () % ( 0-100000+1 ) + 5000;
+		monto = rand () % ( 0-10070+1 ) + 500;
 		moneda = rand () % ( 0-3+1 );
-		cuotas = rand () % ( 0-4+1 ) + 1;
-		fprintf( file, "%d;%03d;%d;%02d/%02d/%04d;%d;%d;%d;%d\n",i, i+1, moneda, dia, mes, anio, monto, moneda, cuotas, monto );
+		cero_uno = rand () % ( 0-3+1 ) ;			//ENTRE 0 Y 1
+		cuotas = rand () % ( 0-4+1 ) + 57;
+		fprintf( file, "%d;%03d;%d;%02d/%02d/%04d;%d;%d;%d;%.2f\n",i, i+1, cero_uno, dia, mes, anio, monto, moneda, cuotas, ((monto/cuotas)*INTERES_POR_CUOTA * cuotas) );
 	}
 
 	fclose( file );
 	clrscr();
-	printf( "\n***********************************************************************" );
-	printf( "\n\n\t\tLISTA DE CR%cDITOS AL AZAR GENERADO CON %cXITO", acento_E, acento_E );
-	printf( "\n\n***********************************************************************" );
+	printf( "\n\t\t***********************************************************************" );
+	printf( "\n\n\t\t\t\tLISTA DE CR%cDITOS AL AZAR GENERADO CON %cXITO", acento_E, acento_E );
+	printf( "\n\n\t\t***********************************************************************" );
 }
 
 
 
-
+/** DEVUELVE EL LARGO DE UN INTEGER */
 int get_int_len (int value){
   int l=!value;
   while(value){ l++; value/=10; }

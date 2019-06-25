@@ -85,29 +85,5 @@ void cargarArbolEDADClientes( ArbolPersonas *arbol, const char *filename );
 void InOrdenPersona( ArbolPersonas arbol , void (*func)(int*, char*));
 void EquilibrarArbolPersonas( ArbolPersonas *arbol, pNodoPersonas nodo, int, int );
 
-/*
-typedef struct
-{
-    // base members
-
-} Base;
-
-typedef struct
-{
-    Base base;
-
-    // derived members
-
-} Derived;
-
-Como Derivado comienza con una copia de Base, puede hacer esto:
-Base *b = (Base *)d;
-
-*/
-
-
-
-// struct st *mySt = malloc(sizeof(struct st) + len * sizeof(mySt->arr[0]));
-// struct st *mySt = malloc(sizeof(struct structPersona) + len * sizeof(mySt->creditosActivos[0]));
 
 
