@@ -680,6 +680,22 @@ ListaPagoCliente *agregarPagoCredito( int id_credito )
 
 
 
+/** ELIMINA UN NODO DE LA LISTA ENLAZADA DE CRÉDITOS */
+ArrayCreditos *eliminarArrayCreditoPagos( ArrayCreditos *array, int id_credito )
+{
+	ArrayCreditos *ultimoNodo = array;
+
+	while( ultimoNodo->siguiente != NULL  )
+	{
+		if ( ultimoNodo->idCredito == id_credito ) ultimoNodo->idCredito = 0;
+		ultimoNodo = ultimoNodo->siguiente;
+	}
+
+	return 	ultimoNodo;
+}
+
+
+
 /** AGREGA UN NODO AL A LISTA ENLAZADA DE CRÉDITOS CON PAGOS ASOCIADOS */
 ArrayCreditos *agregraArrayCreditoPagos( ArrayCreditos *array, int id_credito )
 {

@@ -30,7 +30,6 @@ typedef struct structPersona
 	char apellido[20];
 	unsigned int edad;
 	unsigned int ingresos;
-	struct structCredito *creditosActivos[ LIMITE_CREDITO_POR_PERSONA_SIMULTANEOS ];
 	struct structPersona *amigo;
 	unsigned int estado;
 }	Persona;

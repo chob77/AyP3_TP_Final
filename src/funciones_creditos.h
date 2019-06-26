@@ -565,6 +565,9 @@ void procesarPagoParcial()
 		printf("\n\n\t\t***************** FELICITACIONES!! *******************");
 		printf("\n\t\t\tEL CLIENTE FINALIZ%c DE PAGAR SU CR%cDITO!!!", acento_O, acento_E);
 		printf("\n\n\t\t******************************************************");
+
+		arrayCreditos = eliminarArrayCreditoPagos( arrayCreditos, credito->idCredito );
+		arrayCreditoPagos = eliminarArrayCreditoPagos( arrayCreditoPagos, credito->idCredito );
 	}
 
 	if ( credito->cuotas > 1 )
@@ -658,6 +661,8 @@ void cancelarCredito()
 	if ( opcion == 7 )
 	{
 		actualizarLineaArchivoCreditos( credito );	 //ACTUALIZA EL ESTADO DEL CLIENTE EN EL ARCHIVO
+		arrayCreditos = eliminarArrayCreditoPagos( arrayCreditos, credito->idCredito );
+		arrayCreditoPagos = eliminarArrayCreditoPagos( arrayCreditoPagos, credito->idCredito );
 		opcion = 5;
 	}
 
