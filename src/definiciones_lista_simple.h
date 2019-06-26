@@ -47,7 +47,7 @@ typedef struct NodoPago {
 
 
 /** LISTA ENLAZADA PARA ALMACENAR LOS CRÉDITOS QUE POSEEN PAGOS*/
-typedef struct arrayPagosCredito {
+typedef struct arrayCredito {
 	unsigned int idCredito;
 	struct arrayCredito *siguiente;
 }	ArrayCreditos;

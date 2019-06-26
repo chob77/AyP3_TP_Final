@@ -390,7 +390,7 @@ void crearNuevoCredito()
 
 		if ( credito.monto > ingresos )
 		{
-			printf("\n*** EL MONTO DEBE SER MENOR AL 70\% DE LOS INGRESOS DECLARADOS POR EL CLIENTE. ***");
+			printf("\n*** EL MONTO DEBE SER MENOR AL 70 POR CIENTO DE LOS INGRESOS DECLARADOS POR EL CLIENTE. ***");
 			correcto= 0;
 		}
 
@@ -534,7 +534,7 @@ void procesarPagoParcial()
 	else
 	{
 		clrscr();
-		printf("\n\n\n\tEL CLIENTE NO POSEE CR%cDITOS ACTIVOS.", acento_A, acento_E );
+		printf("\n\n\n\tEL CLIENTE NO POSEE CR%cDITOS ACTIVOS.", acento_E );
 		pause();
 		return;
 	}
@@ -627,7 +627,7 @@ void cancelarCredito()
 	else
 	{
 		clrscr();
-		printf("\n\n\n\tEL CLIENTE NO POSEE CR%cDITOS ACTIVOS.", acento_A, acento_E );
+		printf("\n\n\n\tEL CLIENTE NO POSEE CR%cDITOS ACTIVOS.", acento_E );
 		pause();
 		return;
 	}

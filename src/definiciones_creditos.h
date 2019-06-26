@@ -63,6 +63,11 @@ double obtenerDeudaPesos( int dni );
 double obtenerDeudaDolares( int dni );
 
 void parcerarLineaArchivoCredito( char linea[1024] );
-void CancelarCredito();
+void parcerarLineaArchivoPagos( char linea[1024] );
 void cargarListaPagos( Pago pago );
+void cancelarCredito();
+void procesarPagoParcial();
+void crearNuevoCredito();
 
+int obtenerSiguienteIDPago();
+int obtenerCreditosCliente( int dni );
