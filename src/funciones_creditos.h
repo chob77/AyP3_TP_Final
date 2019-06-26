@@ -550,6 +550,9 @@ void procesarPagoParcial()
 	credito->saldo -= pago.monto;	//ACTUALIZO EL SALDO DE LA DEUDA
 	printf("\n\tEL NUEVO SALDO ES: %.2f", credito->saldo );
 
+	if ( credito->moneda == PESOS )		gTotalDeudaPesos -= pago.monto;
+	if ( credito->moneda == DOLARES )	gTotalDeudaDolares -= pago.monto;
+
 	almacenarPago( pago );						//SIEMPRE HABRÁ UN NUEVO PAGO PARA AGREGAR AL ARCHIVO
 
 //SE ACTUALIZA LA LISTA ENLAZADA DE PAGOS
@@ -658,6 +661,8 @@ void cancelarCredito()
 		default: break;
 	}
 
+	if ( credito->estado == INCOBRABLE && credito->moneda == PESOS ) gTotalDeudaPesosIncobrable += credito->saldo;
+	if ( credito->estado == INCOBRABLE && credito->moneda == DOLARES ) gTotalDeudaDolaresIncobrable += credito->saldo;
 	if ( opcion == 7 )
 	{
 		actualizarLineaArchivoCreditos( credito );	 //ACTUALIZA EL ESTADO DEL CLIENTE EN EL ARCHIVO
