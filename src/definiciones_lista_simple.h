@@ -45,8 +45,9 @@ typedef struct NodoPago {
 }	ListaPagoCliente;
 
 
+
 /** LISTA ENLAZADA PARA ALMACENAR LOS CRÉDITOS QUE POSEEN PAGOS*/
-typedef struct arrayCredito {
+typedef struct arrayPagosCredito {
 	unsigned int idCredito;
 	struct arrayCredito *siguiente;
 }	ArrayCreditos;
@@ -67,6 +68,9 @@ ListaCreditosClientes *listaCreditoCliente = &listaCreCli;
 
 ListaPagoCliente listaPagCli;
 ListaPagoCliente *listaPagoCliente = &listaPagCli;
+
+ArrayCreditos arrayCred;
+ArrayCreditos *arrayCreditos = &arrayCred;
 
 ArrayCreditos arrayCredPag;
 ArrayCreditos *arrayCreditoPagos = &arrayCredPag;

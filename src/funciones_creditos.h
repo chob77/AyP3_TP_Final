@@ -229,7 +229,11 @@ void parcerarLineaArchivoCredito( char linea[1024] )
 					if ( credito.estado == INCOBRABLE && credito.moneda == PESOS ) gTotalDeudaPesosIncobrable += credito.saldo;
 					if ( credito.estado == INCOBRABLE && credito.moneda == DOLARES ) gTotalDeudaDolaresIncobrable += credito.saldo;
 
-					if ( credito.estado == ACTIVO ) agregarElementoListaCredito( listaCreditoCliente, credito.dniCliente, credito ); //CREA LA LISTA SIMPLE DE CLIENTES Y CREDITOS
+					if ( credito.estado == ACTIVO )
+					{
+						arrayCreditos = agregraArrayCreditoPagos( arrayCreditos, credito.idCredito );
+						agregarElementoListaCredito( listaCreditoCliente, credito.dniCliente, credito ); //CREA LA LISTA SIMPLE DE CLIENTES Y CREDITOS
+					}
 
 					cuentaDato = 0;
 					break;
@@ -667,16 +671,19 @@ void cargarListaPagos( Pago pago )
 {
 	ListaPagoCliente *aux;
 
-	if ( isInArrayCreditosPagos( arrayCreditoPagos, pago.idCredito ) ) //VERIFICA SI EL CRÉDITO YA FUE PROCESADO
+	if ( isInArrayCreditosPagos( arrayCreditos, pago.idCredito ) ) //VERIFICA SI EL CRÉDITO ESTÁ ACTIVO
 	{
-		aux = obtenerNodoLista( pago.idCredito );
-		aux->pagos = agregrarSubLista( aux->pagos, pago );
-	}
-	else
-	{
-		arrayCreditoPagos = agregraArrayCreditoPagos( pago.idCredito );
-		listaPagoCliente = agregarPagoCredito( pago.idCredito ); //VINCULA CLIENTES Y SUS PAGOS
-		aux = obtenerNodoLista( pago.idCredito );
-		aux->pagos = agregrarSubLista( aux->pagos, pago );
+		if ( isInArrayCreditosPagos( arrayCreditoPagos, pago.idCredito ) ) //VERIFICA SI EL CRÉDITO YA FUE PROCESADO
+		{
+			aux = obtenerNodoLista( pago.idCredito );
+			aux->pagos = agregrarSubLista( aux->pagos, pago );
+		}
+		else
+		{
+			arrayCreditoPagos = agregraArrayCreditoPagos( arrayCreditoPagos, pago.idCredito );
+			listaPagoCliente = agregarPagoCredito( pago.idCredito ); //VINCULA CLIENTES Y SUS PAGOS
+			aux = obtenerNodoLista( pago.idCredito );
+			aux->pagos = agregrarSubLista( aux->pagos, pago );
+		}
 	}
 }

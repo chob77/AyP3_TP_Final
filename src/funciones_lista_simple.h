@@ -681,19 +681,20 @@ ListaPagoCliente *agregarPagoCredito( int id_credito )
 
 
 /** AGREGA UN NODO AL A LISTA ENLAZADA DE CRÉDITOS CON PAGOS ASOCIADOS */
-ArrayCreditos *agregraArrayCreditoPagos( int id_credito )
+ArrayCreditos *agregraArrayCreditoPagos( ArrayCreditos *array, int id_credito )
 {
+	ArrayCreditos *arrayAux = array;
 	ArrayCreditos *nodo = ( ArrayCreditos * ) malloc( sizeof( struct arrayCredito ));
 	nodo->idCredito = id_credito;
 	nodo->siguiente = NULL;
 
 
-	if ( arrayCreditoPagos == NULL )
+	if ( arrayAux == NULL )
 	{
 		return nodo;
 	}
 
-	ArrayCreditos *ultimoNodo = arrayCreditoPagos;
+	ArrayCreditos *ultimoNodo = array;
 
 	while( ultimoNodo->siguiente != NULL  )
 	{
@@ -701,7 +702,7 @@ ArrayCreditos *agregraArrayCreditoPagos( int id_credito )
 	}
 
 	ultimoNodo->siguiente = nodo;
-	return arrayCreditoPagos;
+	return arrayAux;
 }
 
 
