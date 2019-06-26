@@ -663,6 +663,7 @@ void cancelarCredito()
 
 	if ( credito->estado == INCOBRABLE && credito->moneda == PESOS ) gTotalDeudaPesosIncobrable += credito->saldo;
 	if ( credito->estado == INCOBRABLE && credito->moneda == DOLARES ) gTotalDeudaDolaresIncobrable += credito->saldo;
+
 	if ( opcion == 7 )
 	{
 		actualizarLineaArchivoCreditos( credito );	 //ACTUALIZA EL ESTADO DEL CLIENTE EN EL ARCHIVO
