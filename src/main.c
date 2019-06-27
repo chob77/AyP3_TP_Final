@@ -99,11 +99,11 @@ int main(){
             	break;
 
             case 3: //OPCION 3 GENERAR 1000 CLIENTES AL AZAR
-            	generar_clientes_al_azar( );
+            	if ( existenPersonasAlmacenadas() == 0 ) generar_clientes_al_azar( );
             	break;
 
             case 4: //OPCION 4 GENERAR 100 CRÉDITOS AL AZAR
-            	generar_creditos_al_azar( );
+            	if ( existenCreditosAlmacenados() == 0 ) generar_creditos_al_azar( );
             	break;
 
             case 5: //OPCION 5 MUESTRA LA ESTADÍSTICA DEL SPLASH
