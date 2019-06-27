@@ -67,7 +67,7 @@ int isNumero( char * st )
 int OpcionElegida()
 {
     int opcion;
-    printf("\nElija una Opcion: ");
+    printf("\n\t\tElija una Opci%cn: ", acento_o);
     scanf("%d", &opcion);
     return opcion;
 }

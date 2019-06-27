@@ -18,15 +18,15 @@ void mostrar_menu_creditos( )
 {
     clrscr();
     SetColores( COLOR_CREDITOS );
-	printf( "\n\n\tSISTEMA DE GESTI%cN DE CR%cDITOS",acento_O ,acento_E );
-    printf( "\n\n\tOPCIONES DISPONIBLES PARA LA GESTI%cN DE CR%cDITOS:", acento_O, acento_E );
+	printf( "\n\n\n\t\tSISTEMA DE GESTI%cN DE CR%cDITOS",acento_O ,acento_E );
+    printf( "\n\n\t\tOPCIONES DISPONIBLES PARA LA GESTI%cN DE CR%cDITOS:", acento_O, acento_E );
 
-    printf( "\n\n\t\t1.CREAR CR%cDITO", acento_E );
-    printf( "\n\n\t\t2.LISTAR CR%cDITOS EXISTENTES", acento_E );
-    printf( "\n\n\t\t3.LISTAR CR%cDITOS DE UN CLIENTE", acento_E );
-	printf( "\n\n\t\t4.INGRESAR PAGO CUOTA" );
-	printf( "\n\n\t\t5.CANCELAR CR%cDITO", acento_E );
-    printf( "\n\n\t\t0.VOLVER\n" );
+    printf( "\n\n\t\t\t1.CREAR CR%cDITO", acento_E );
+    printf( "\n\n\t\t\t2.LISTAR CR%cDITOS EXISTENTES", acento_E );
+    printf( "\n\n\t\t\t3.LISTAR CR%cDITOS DE UN CLIENTE", acento_E );
+	printf( "\n\n\t\t\t4.INGRESAR PAGO CUOTA" );
+	printf( "\n\n\t\t\t5.CANCELAR CR%cDITO", acento_E );
+    printf( "\n\n\t\t\t0.VOLVER\n" );
 }
 
 

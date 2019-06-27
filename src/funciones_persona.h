@@ -16,8 +16,8 @@ void mostrar_menu_personas()
 {
     clrscr();
     SetColores( COLOR_PERSONAS );
-	printf( "\n\n\tSISTEMA DE GESTI%cN DE CR%cDITOS.",acento_O ,acento_E );
-    printf( "\n\n\tOPCIONES DISPONIBLES PARA EL LA GESTI%cN DE CLIENTES:", acento_O );
+	printf( "\n\n\n\t\tSISTEMA DE GESTI%cN DE CR%cDITOS.",acento_O ,acento_E );
+    printf( "\n\n\t\tOPCIONES DISPONIBLES PARA EL LA GESTI%cN DE CLIENTES:", acento_O );
 
     /*if ( existenPersonasAlmacenadas() == 1 && !clientesCargados )
     {
@@ -27,29 +27,29 @@ void mostrar_menu_personas()
 
     if (  gTotalClientes >= 1000 )
     {
-        printf("\t\n\nNO SE PUEDE CARGAR NUEVOS CLIENTES PORQUE SE LLEG%c AL L%cMITE DE 1000 CLIENTES ACTIVOS.", acento_O, acento_I);
+        printf("\n\n\t\tNO SE PUEDE CARGAR NUEVOS CLIENTES PORQUE SE LLEG%c AL L%cMITE DE 1000 CLIENTES ACTIVOS.", acento_O, acento_I);
     }
 
     if (  existenPersonasAlmacenadas() && gTotalClientes == 0 )
     {
-        printf( "\n\n\t*** SE DEBE CARGRAR LOS CLIENTES ALMACENADOS ANTES DE AGREGAR UNO NUEVO ****" );
+        printf( "\n\n\t\t*** SE DEBE CARGRAR LOS CLIENTES ALMACENADOS ANTES DE AGREGAR UNO NUEVO ****" );
     }
 
     else
     {
-        printf( "\n\n\t\t2.CARGAR NUEVO CLIENTE");
+        printf( "\n\n\t\t\t2.CARGAR NUEVO CLIENTE");
     }
 
     if ( gTotalClientes >= 1 )
 	{
-		printf( "\n\n\t\t3.LISTAR CLIENTES ACTIVOS" );
-		printf( "\n\n\t\t4.LISTAR CLIENTES INACTIVOS" );
-		printf( "\n\n\t\t5.BUSCAR CLIENTE POR DNI");
-		printf( "\n\n\t\t6.LISTAR CLIENTES POR RANGO DE EDAD" );
-		printf( "\n\n\t\t7.EDITAR DATOS DE CLIENTE");
+		printf( "\n\n\t\t\t3.LISTAR CLIENTES ACTIVOS" );
+		printf( "\n\n\t\t\t4.LISTAR CLIENTES INACTIVOS" );
+		printf( "\n\n\t\t\t5.BUSCAR CLIENTE POR DNI");
+		printf( "\n\n\t\t\t6.LISTAR CLIENTES POR RANGO DE EDAD" );
+		printf( "\n\n\t\t\t7.EDITAR DATOS DE CLIENTE");
 	}
 
-    printf( "\n\n\t\t0.VOLVER\n" );
+    printf( "\n\n\t\t\t0.VOLVER\n" );
 }
 
 
@@ -69,8 +69,8 @@ void opcionesMenuPersonas()
         {
             case 1: //OPCION 2 CARGAR CLIENTES ALMACENADOS
                 clrscr();
-                printf( "\n\nCARGANDO CLIENTES ACTIVOS.");
-                printf( "\n\nESTO PUEDE TOMAR UNOS MINUTOS.  ");
+                printf( "\n\n\t\tCARGANDO CLIENTES ACTIVOS.");
+                printf( "\n\n\t\tESTO PUEDE TOMAR UNOS MINUTOS.  ");
 				i = obtenerTotalPersonas( );
 				if ( i > 0 )
                 {
@@ -86,12 +86,12 @@ void opcionesMenuPersonas()
                     if ( obtenerTotalLineasArchivo( tempClientesInactivos ) > 0 ) 	verificarAmigos( &ArbolClientesInactivos );
 
                     printf( "%c", 8 ); //CORRIGE BORRANDO LA ÚLTIMA BARRITA QUE QUEDA DESPUES DE LA ANMACIÓN
-                    printf( "\nSE CARGARON %d CLIENTES ACTIVOS.", gTotalClientes );
+                    printf( "\n\t\tSE CARGARON %d CLIENTES ACTIVOS.", gTotalClientes );
 
                 }
                 else
                 {
-                    printf( "\nNO SE DETECTARON CLIENTES ALMACENADOS." );
+                    printf( "\n\t\tNO SE DETECTARON CLIENTES ALMACENADOS." );
                 }
 				pause();
                 break;
@@ -356,8 +356,6 @@ Persona inicializarPersona()
     strcpy( persona.apellido, "-------" );
 	persona.edad = 0;
 	persona.ingresos = 0;
-	persona.creditosActivos[0] = 0;
-	persona.creditosActivos[1] = 0;
     persona.amigo = NULL;
     persona.estado = INACTIVO;
     return persona;
