@@ -161,8 +161,24 @@ void mostrar_menu_principal( )
     printf( "\n\n\t\t\t1.PERSONAS" );
     printf( "\n\n\t\t\t2.CR%cDITOS", acento_E );
     if ( existenPersonasAlmacenadas() == 0 ) printf( "\n\n\t\t\t3.GENERAR 1000 CLIENTES AL AZAR" );//EL SISTEMA ESTÁ VACÍO Y PROPONE GENERAR CLIENTES DE PRUEBA
+    else
+    {
+    	clrscr();
+    	printf( "\n\n\n\t\tSISTEMA DE GESTI%cN DE CR%cDITOS",acento_O ,acento_E );
+		printf( "\n\n\t\tOPCIONES DISPONIBLES. ELIJA UNO PARA COMENZAR." );
+		printf( "\n\n\t\t\t1.PERSONAS" );
+		printf( "\n\n\t\t\t2.CR%cDITOS", acento_E );
+    }
 
     if ( existenCreditosAlmacenados() == 0 ) printf( "\n\n\t\t\t4.GENERAR 500 CR%cDITOS AL AZAR", acento_E );
+    else
+    {
+    	clrscr();
+    	printf( "\n\n\n\t\tSISTEMA DE GESTI%cN DE CR%cDITOS",acento_O ,acento_E );
+		printf( "\n\n\t\tOPCIONES DISPONIBLES. ELIJA UNO PARA COMENZAR." );
+		printf( "\n\n\t\t\t1.PERSONAS" );
+		printf( "\n\n\t\t\t2.CR%cDITOS", acento_E );
+    }
 
     printf( "\n\n\t\t\t5.MOSTRAR RES%cMEN", acento_U );
 
@@ -195,6 +211,7 @@ void generar_clientes_al_azar( )
 	printf( "\n\t\t***********************************************************************" );
 	printf( "\n\n\t\t\t\tLISTA DE CLIENTES AL AZAR GENERADA CON %cXITO", acento_E );
 	printf( "\n\n\t\t***********************************************************************" );
+	pause();
 }
 
 
@@ -225,6 +242,7 @@ void generar_creditos_al_azar( )
 	printf( "\n\t\t***********************************************************************" );
 	printf( "\n\n\t\t\t\tLISTA DE CR%cDITOS AL AZAR GENERADO CON %cXITO", acento_E, acento_E );
 	printf( "\n\n\t\t***********************************************************************" );
+	pause();
 }
 
 
