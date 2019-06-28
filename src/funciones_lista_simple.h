@@ -233,7 +233,14 @@ int listarCreditosDNI ( ListaCreditosClientes *miLista, int dni )
 				countInOrder++;
 			}
 		}
+
 		aux = aux->siguiente;
+	}
+
+	if ( countInOrder == 0 )
+	{
+		clrscr();
+		printf("\n\n\tEL CLIENTE NO POSEE CR%cDITOS PENDIENTES.\n", acento_E );
 	}
 
 	return countInOrder;

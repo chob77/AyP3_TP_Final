@@ -149,16 +149,28 @@ void opcionesMenuPersonas()
                 {
                     printf("\n\tEL CLIENTE EST%c ACTIVO.\n\n", acento_A );
                     persona = obtenerPersonaDNI( ArbolClientes, dni ); //SE BUSCA UNA PERSONA ENTRE LOS ACTIVOS
-                    printf( "\tDNI: %d\n\tNOBRE APELLIDO: %s, %s\n\tEDAD: %d\n\tINGRESOS: %d\n\tREFERIDO: %s, %s\n",
+                    printf( "\tDNI: %d\n\tNOBRE APELLIDO: %s, %s\n\tEDAD: %d\n\tINGRESOS: $%d\n\tREFERIDO: %s, %s",
                     		persona.dni, persona.nombre, persona.apellido, persona.edad, persona.ingresos, persona.amigo->nombre, persona.amigo->apellido );
+
+                    double p = obtenerDeudaPesos( dni );
+                    if ( p > 0 ) printf("\n\tDEUDA PESOS: $%.2f", p);
+
+					double d = obtenerDeudaDolares( dni );
+                    if ( d > 0 ) printf("\n\tDEUDA DOLARES: $%.2f", d);
                 }
 
                 else if ( isIn( arrayDNIClientesInactivos, dni, LEN_ARR( arrayDNIClientesInactivos )))
                 {
-                    printf("\n\tEL CLIENTE EST%c INACTIVO:", acento_A );
+                    printf("\n\tEL CLIENTE EST%c INACTIVO.\n\n", acento_A );
                     persona = obtenerPersonaDNI( ArbolClientesInactivos, dni ); //SE BUSCA UNA PERSONA ENTRE LOS ACTIVOS
-                    printf( "\tDNI: %d\n\tNOBRE APELLIDO: %s, %s\n\tEDAD: %d\n\tINGRESOS: %d\n\tREFERIDO: %s, %s\n",
+                    printf( "\tDNI: %d\n\tNOBRE APELLIDO: %s, %s\n\tEDAD: %d\n\tINGRESOS: $%d\n\tREFERIDO: %s, %s",
                     		persona.dni, persona.nombre, persona.apellido, persona.edad, persona.ingresos, persona.amigo->nombre, persona.amigo->apellido );
+
+                    double p = obtenerDeudaPesos( dni );
+					if ( p > 0 ) printf("\n\tDEUDA PESOS: $%.2f", p);
+
+					double d = obtenerDeudaDolares( dni );
+					if ( d > 0 ) printf("\n\tDEUDA DOLARES: $%.2f", d);
                 }
 
                 else
