@@ -340,6 +340,9 @@ Persona ingresarDatosPersona( )
     {
 		printf( "Ingrese NOMBRE y APELLIDO: " );
 		scanf( "%s %s", persona.nombre, persona.apellido );
+		strcpy( persona.nombre, strupr( persona.nombre ));
+		strcpy( persona.apellido, strupr( persona.apellido ));
+
 		printf( "Ingrese la EDAD (>18 a%cos): ", enie );
 		scanf( "%d", &persona.edad );
 		printf( "Ingrese el monto de INGRESOS: " );
@@ -706,12 +709,14 @@ void editarDatosCliente( Persona *persona, int estado )
 		case 1: //OPCION 1 EDITAR NOMBRE
 			printf( "\nIngresa el nuevo NOMBRE: " );
 			scanf( "%s", persona->nombre );
+			strcpy( persona->nombre, strupr( persona->nombre ));
 			editar=1;
 			break;
 
 		case 2: //OPCION 2 EDITAR APELLIDO
 			printf( "\nIngresa el nuevo APELLIDO: " );
 			scanf( "%s", persona->apellido );
+			strcpy( persona->apellido, strupr( persona->apellido ));
 			editar=1;
 			break;
 
